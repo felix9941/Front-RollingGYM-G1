@@ -3,9 +3,11 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "../css/NavbarPage.css";
+import axios from "axios";
 
 const NavbarPage = () => {
   const [isResponsive, setIsResponsive] = useState(false);
+  const [weather, setWeather] = useState(null);
 
   const handleResponsiveChange = () => {
     setIsResponsive(window.innerWidth <= 999);
@@ -18,15 +20,15 @@ const NavbarPage = () => {
     };
   }, []);
 
-  const [weather, setWeather] = useState(null);
-
   useEffect(() => {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=-26.82414&lon=-65.2226&appid=984736f4c05669e08d798a96a7ede52e&units=metric`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setWeather(data);
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=-26.82414&lon=-65.2226&appid=${
+          import.meta.env.VITE_WEATHER_API_KEY
+        }&units=metric`
+      )
+      .then((response) => {
+        setWeather(response.data);
       })
       .catch((error) => console.error("Error fetching weather data:", error));
   }, []);
@@ -84,4 +86,5 @@ const NavbarPage = () => {
     </>
   );
 };
+
 export default NavbarPage;
