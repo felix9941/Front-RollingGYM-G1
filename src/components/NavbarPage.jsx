@@ -8,7 +8,26 @@ import axios from "axios";
 const NavbarPage = () => {
   const [isResponsive, setIsResponsive] = useState(false);
   const [weather, setWeather] = useState(null);
+  //SCroll
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [isTop, setIsTop] = useState(true);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolling(true);
+        setIsTop(false);
+      } else {
+        setIsScrolling(false);
+        setIsTop(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  //Fin scroll
   const handleResponsiveChange = () => {
     setIsResponsive(window.innerWidth <= 999);
   };
@@ -40,10 +59,8 @@ const NavbarPage = () => {
   return (
     <>
       <Navbar
-        bg="dark"
-        data-bs-theme="dark"
         expand="lg"
-        className="w-100 sticky-top"
+        className={`sticky-top ${isScrolling ? "navbar-scrolling" : ""}`}
       >
         <Container fluid>
           <Navbar.Brand href="#home">
