@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: #fff;
+  padding: 1px 0;
+}
+
+.fsfooter {
+  font-size: 15px;
+}
+
+.informacion-pag a {
+  color: white;
+  text-decoration: none;
+}
+.footer-inf {
+  background-color: orange;
+  height: 7vh;
+}
+.footer-link:hover {
+  color: orange !important;
+}
+.icono-redes {
+  font-size: 25px;
+}
