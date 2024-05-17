@@ -28,27 +28,22 @@ const Footer = () => {
                 <a href="#error404" className="text-white fs-6 p-2 footer-link">
                   <FaInstagram className="icono-redes" />
                 </a>
-                <a
-                  href="https://twitter.com/rollingcodeok"
-                  className="text-white fs-6 p-2 footer-link"
-                >
+                <a href="#error404" className="text-white fs-6 p-2 footer-link">
                   <FaTwitter className="icono-redes" />
                 </a>
               </div>
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-4 text-center mt-2 mb-2">
-            <div className="informacion-pag">
-              <div className="informacion-pag text-center mt-4 mb-3">
-                <a href="#">Inicio</a>
-                <br />
-                <a href="#">Sobre nosotros</a>
-                <br />
-                <a href="#">Contacto</a>
-                <br />
-                <a href="#">Preguntas Frecuentes</a>
-                <br />
-              </div>
+            <div className="informacion-pag text-center mt-4 mb-3">
+              <a href="#Inicio">Inicio</a>
+              <br />
+              <a href="#SN">Sobre nosotros</a>
+              <br />
+              <a href="#C">Contacto</a>
+              <br />
+              <a href="#PF">Preguntas Frecuentes</a>
+              <br />
             </div>
           </div>
         </div>
