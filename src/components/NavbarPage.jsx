@@ -84,7 +84,7 @@ const NavbarPage = () => {
               {!isResponsive && <span className="navbar-text">|</span>}
               <Nav.Link href="#Login">INICIAR SESIÓN</Nav.Link>
               {!isResponsive && <span className="navbar-text">|</span>}
-              <Nav.Link href="#Socio">¡HASTE SOCIO!</Nav.Link>
+              <Nav.Link href="#Socio">¡HACETE SOCIO!</Nav.Link>
               {weather && weather.weather && weather.weather.length > 0 && (
                 <span className="navbar-text">
                   <img
