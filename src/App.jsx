@@ -7,7 +7,7 @@ import "./App.css";
 const App = () => {
   return (
     <>
-      <NavbarPage />
+      {/* <NavbarPage /> */}
       <main>
         <Router>
           <RoutesViews />

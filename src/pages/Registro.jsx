@@ -5,7 +5,6 @@ import Swal from "sweetalert2"; // para instalar la libreria poner npm install s
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
-    user: "",
     nombre: "",
     apellido: "",
     email: "",
@@ -15,7 +14,6 @@ const RegisterPage = () => {
   });
 
   const [errors, setErrors] = useState({
-    user: "",
     nombre: "",
     apellido: "",
     email: "",
@@ -69,25 +67,26 @@ const RegisterPage = () => {
     const { user, nombre, apellido, celular, email, pass, rpass } = formData;
     let newErrors = {};
     const passExpReg = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
-    const nombreApellidoExpReg = /^(?=.*[a-zA-Z])[A-Za-z]{3,}$/;
+    const nombreApellidoExpReg = /^(?=.*[a-zA-Z\s])[A-Za-z]{3,}$/;
     const emailExpReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const celularExpReg = /^\d{10}$/;
 
-    if (!user) {
-      newErrors = { ...newErrors, user: "errorUser" };
-    }
     if (!nombreApellidoExpReg.test(nombre)) {
       newErrors = { ...newErrors, nombre: "nombreInvalido" };
     }
+
     if (!nombreApellidoExpReg.test(apellido)) {
       newErrors = { ...newErrors, apellido: "apellidoInvalido" };
     }
+
     if (!celularExpReg.test(celular)) {
       newErrors = { ...newErrors, celular: "celularInvalido" };
     }
+
     if (!emailExpReg.test(email)) {
       newErrors = { ...newErrors, email: "mailInvalido" };
     }
+
     if (!pass) {
       newErrors = { ...newErrors, pass: "passVacio" };
     } else if (!passExpReg.test(pass)) {
@@ -102,6 +101,7 @@ const RegisterPage = () => {
         newErrors = { ...newErrors, rpass: "passNoCoincide" };
       }
     }
+
     // const userExist = usersLocalStorage.find(
     //   (userLS) => userLS.userName === user
     // );
@@ -168,22 +168,6 @@ const RegisterPage = () => {
       {/* Muy importante el h-100 que es equivalente a poner height de 100% para centrar verticalmente
       "d-flex justify-content-center align-items-center h-100"*/}
       <Form>
-        {/* <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Usuario</Form.Label>
-          <Form.Control
-            className={
-              errors.user === "errorUser" || errors.user === "noCumple"
-                ? "is-invalid"
-                : ""
-            }
-            type="text"
-            placeholder="Ej: Usuario123"
-            onChange={cambioDatosUsuario}
-            name="user"
-            value={formData.user}
-          />
-        </Form.Group> */}
-
         <div className="row">
           <Form.Group
             className="mb-3 col-md-6 col-sm-12"
