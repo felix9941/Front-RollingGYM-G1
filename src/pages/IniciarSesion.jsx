@@ -137,12 +137,12 @@ const IniciarSesion = () => {
 
   return (
     <div className="background d-flex justify-content-center align-items-center h-100">
-      <div className="form-container d-flex justify-content-center align-items-center">
+      <div className="form-container ">
         {/* Muy importante el h-100 que es equivalente a poner height de 100% para centrar verticalmente
       "d-flex justify-content-center align-items-center h-100"*/}
         <div className="">
-          <h1 className="text-center pb-4">Iniciar Sesion</h1>
-          <Form>
+          <h2 className="text-center pb-4 pt-5">Iniciar Sesion</h2>
+          <Form className="ancho-input mx-auto">
             <Form.Group className="" controlId="formBasicEmail">
               <Form.Control
                 className={errors.email && "is-invalid"}
@@ -180,14 +180,24 @@ const IniciarSesion = () => {
             </Form.Group>
 
             <Button
-              variant="success"
+              variant=""
               type="submit"
-              className="w-100"
+              className="w-100 square-button mt-2 custom-button"
               onClick={enviarFormulario}
             >
-              Enviar Formulario
+              Iniciar Sesion
             </Button>
           </Form>
+          <div className="text-center m-2 mt-4 ">
+            <a className="text-white" href="./registro">
+              ¿No tiene una cuenta?
+            </a>
+          </div>
+          <div className="text-center m-2">
+            <a className="text-white" href="">
+              Reestablecer contraseña
+            </a>
+          </div>
         </div>
       </div>
     </div>
