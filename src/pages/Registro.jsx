@@ -291,13 +291,18 @@ const RegisterPage = () => {
             </Form.Group>
 
             <Button
-              variant="success"
+              variant=""
               type="submit"
-              className="w-100"
+              className="w-100 square-button mt-5 custom-button"
               onClick={enviarFormulario}
             >
-              Enviar Formulario
+              Enviar Registro
             </Button>
+            <div className="text-center m-2 mt-4 ">
+              <a className="text-white" href="./iniciarSesion">
+                ¿Ya tiene una cuenta?
+              </a>
+            </div>
           </Form>
         </div>
       </div>
