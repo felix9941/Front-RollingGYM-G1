@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  margin-top: 60px;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+p {
+  font-size: 1em;
+  margin-bottom: 1em;
+}
+
+.telefono-mail {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.telefono-mail div {
+  width: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 300px;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.btn-block {
+  background-color: rgb(255, 102, 0);
+  color: rgb(255, 255, 255);
+  margin-left: 10%;
+  width: 80%;
+}
+.btn-block:hover {
+  background-color: rgb(255, 102, 0);
+}
