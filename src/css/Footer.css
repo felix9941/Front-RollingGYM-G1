@@ -4,11 +4,11 @@
   box-sizing: border-box;
 }
 .footer {
-  position: fixed;
   bottom: 0;
   width: 100%;
   background-color: black;
   color: #fff;
+  opacity: 10;
   padding: 1px 0;
 }
 
