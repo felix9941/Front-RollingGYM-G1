@@ -107,7 +107,7 @@ const RegisterPage = () => {
         Swal.fire({
           icon: "success",
           title: "Envío Exitoso",
-          text: "El formulario se ha enviado correctamente.",
+          text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
         });
       }
     }
