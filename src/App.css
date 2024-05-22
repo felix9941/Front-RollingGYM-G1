@@ -8,6 +8,9 @@ body {
   min-height: 100vh;
 }
 
+/* main {
+  height: 100vh;
+} */
 #root {
   flex: 1;
   display: flex;
