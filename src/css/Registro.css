@@ -1,16 +1,13 @@
-.background {
+.background_registro {
   background-image: url("/fondo_r.png");
   background-size: cover;
   background-position: center;
   background-repeat: repeat;
   height: 100vh;
   width: 100%;
-  /* position: absolute;
-  top: 0;
-  left: 0; */
 }
 
-.form-container {
+.form-container_registro {
   padding-top: 4em;
   padding-bottom: 4em;
   padding-left: 20px;
@@ -24,11 +21,11 @@
   height: 100%;
 }
 
-.error-message {
+.error-message_registro {
   min-height: 36px; /* Ajusta esto según la altura de tus mensajes de error */
 }
 
-.square-button {
+.square-button_registro {
   border-radius: 0; /* Elimina el borde redondeado */
   height: 40px; /* Altura del botón */
   width: 50px; /* Ancho del botón */
@@ -38,13 +35,13 @@
   border: 3px solid orange; /* Borde de 4px de color naranja */
   padding: 0; /* Elimina cualquier padding adicional */
   font-weight: 700;
-  color: white;
+  /* color: white; */
+  color: rgb(255, 255, 255);
 }
 
-.custom-button:hover,
-.custom-button:focus {
-  border-color: orange;
-  color: rgb(255, 166, 0); /* Texto naranja en hover y focus */
-  background-color: rgb(0, 0, 0);
-  box-shadow: 0 0 10px white;
+.custom-button_registro:hover,
+.custom-button_registro:focus {
+  border-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  background-color: orange;
 }

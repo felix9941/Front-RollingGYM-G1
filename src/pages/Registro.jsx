@@ -136,8 +136,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="background d-flex justify-content-center align-items-center h-100">
-      <div className="form-container d-flex justify-content-center align-items-center">
+    <div className="background_registro d-flex justify-content-center align-items-center h-100">
+      <div className="form-container_registro d-flex justify-content-center align-items-center">
         {/* Muy importante el h-100 que es equivalente a poner height de 100% para centrar verticalmente
       "d-flex justify-content-center align-items-center h-100"*/}
         <div className="">
@@ -156,7 +156,7 @@ const RegisterPage = () => {
                   name="nombre"
                   value={formData.nombre}
                 />
-                <div className="error-message">
+                <div className="error-message_registro">
                   {mostrarMensajeErrorNombre && (
                     <p className="text-danger m-0">
                       {mostrarMensajeErrorNombre}
@@ -176,7 +176,7 @@ const RegisterPage = () => {
                   name="apellido"
                   value={formData.apellido}
                 />
-                <div className="error-message">
+                <div className="error-message_registro">
                   {mostrarMensajeErrorApellido && (
                     <p className="text-danger m-0">
                       {mostrarMensajeErrorApellido}
@@ -198,7 +198,7 @@ const RegisterPage = () => {
                   name="celular"
                   value={formData.celular}
                 />
-                <div className="error-message">
+                <div className="error-message_registro">
                   {mostrarMensajeErrorCelular && (
                     <p className="text-danger m-0">
                       {mostrarMensajeErrorCelular}
@@ -218,7 +218,7 @@ const RegisterPage = () => {
                   name="email"
                   value={formData.email}
                 />
-                <div className="error-message">
+                <div className="error-message_registro">
                   {mostrarMensajeErrorMail && (
                     <p className="text-danger m-0">{mostrarMensajeErrorMail}</p>
                   )}
@@ -243,7 +243,7 @@ const RegisterPage = () => {
                   name="pass"
                   value={formData.pass}
                 />
-                <div className="error-message">
+                <div className="error-message_registro">
                   {mostrarMensajeErrorPass && (
                     <p className="text-danger m-0">{mostrarMensajeErrorPass}</p>
                   )}
@@ -266,7 +266,7 @@ const RegisterPage = () => {
                   name="rpass"
                   value={formData.rpass}
                 />
-                <div className="error-message">
+                <div className="error-message_registro">
                   {mostrarMensajeErrorRpass && (
                     <p className="text-danger m-0">
                       {mostrarMensajeErrorRpass}
@@ -293,7 +293,7 @@ const RegisterPage = () => {
             <Button
               variant=""
               type="submit"
-              className="w-100 square-button mt-5 custom-button"
+              className="w-100 square-button_registro mt-5 custom-button_registro"
               onClick={enviarFormulario}
             >
               Enviar Registro
