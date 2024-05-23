@@ -136,13 +136,13 @@ const IniciarSesion = () => {
   };
 
   return (
-    <div className="background d-flex justify-content-center align-items-center h-100">
-      <div className="form-container ">
+    <div className="background_i d-flex justify-content-center align-items-center h-100">
+      <div className="form-container_i centrado_vertical_i">
         {/* Muy importante el h-100 que es equivalente a poner height de 100% para centrar verticalmente
       "d-flex justify-content-center align-items-center h-100"*/}
         <div className="">
           <h2 className="text-center pb-4 pt-5">Iniciar Sesion</h2>
-          <Form className="ancho-input mx-auto">
+          <Form className="ancho-input_i mx-auto">
             <Form.Group className="" controlId="formBasicEmail">
               <Form.Control
                 className={errors.email && "is-invalid"}
@@ -152,7 +152,7 @@ const IniciarSesion = () => {
                 name="email"
                 value={formData.email}
               />
-              <div className="error-message">
+              <div className="error-message_i">
                 {mostrarMensajeErrorMail && (
                   <p className="text-danger m-0">{mostrarMensajeErrorMail}</p>
                 )}
@@ -172,7 +172,7 @@ const IniciarSesion = () => {
                 name="pass"
                 value={formData.pass}
               />
-              <div className="error-message">
+              <div className="error-message_i">
                 {mostrarMensajeErrorPass && (
                   <p className="text-danger m-0">{mostrarMensajeErrorPass}</p>
                 )}
@@ -182,7 +182,7 @@ const IniciarSesion = () => {
             <Button
               variant=""
               type="submit"
-              className="w-100 square-button mt-2 custom-button"
+              className="w-100 square-button_i mt-2 custom-button_i"
               onClick={enviarFormulario}
             >
               Iniciar Sesion
@@ -194,7 +194,7 @@ const IniciarSesion = () => {
             </a>
           </div>
           <div className="text-center m-2">
-            <a className="text-white" href="">
+            <a className="text-white" href="./reestablacerPass">
               Reestablecer contraseña
             </a>
           </div>
