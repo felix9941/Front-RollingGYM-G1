@@ -140,8 +140,8 @@ const IniciarSesion = () => {
       <div className="form-container_i centrado_vertical_i">
         {/* Muy importante el h-100 que es equivalente a poner height de 100% para centrar verticalmente
       "d-flex justify-content-center align-items-center h-100"*/}
-        <div className="">
-          <h2 className="text-center pb-4 pt-5">Iniciar Sesion</h2>
+        <div className="mt-5">
+          <h2 className="text-center pb-4 pt-5 mt-5">Iniciar Sesion</h2>
           <Form className="ancho-input_i mx-auto">
             <Form.Group className="" controlId="formBasicEmail">
               <Form.Control
