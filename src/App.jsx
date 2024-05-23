@@ -8,9 +8,11 @@ const App = () => {
   return (
     <>
       <NavbarPage />
+      {/* <main> */}
       <Router>
         <RoutesViews />
       </Router>
+      {/* </main> */}
       <Footer />
     </>
   );
