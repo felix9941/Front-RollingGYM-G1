@@ -24,15 +24,12 @@ const HeroPage = () => {
           <Image src="../../public/musculacion1.jpg" fluid />
           <Carousel.Caption className={styles.customCaption}>
             <div className={styles.heroTextBox}>
-              <h3 className="fs-1">MUSCULACION</h3>
-              <p>
+              <h3 className={`fs-1 mb-2 ${styles.h3HP}`}>MUSCULACION</h3>
+              <p className={`mb-4 ${styles.pHP}`}>
                 Accede a nuestra completa gama de equipos de musculación para
                 potenciar tu entrenamiento de fuerza y resistencia
               </p>
-              <a
-                className={`${styles.btnHero} fw-lighter`}
-                href="https://www.google.com/?authuser=0"
-              >
+              <a className={`${styles.btnHero} fw-lighter`} href="/registro">
                 HAZTE SOCIO!
               </a>
             </div>
@@ -42,13 +39,15 @@ const HeroPage = () => {
           <Image src="../../public/planClases.jpg" fluid />
           <Carousel.Caption className={styles.customCaption}>
             <div className={styles.heroTextBox}>
-              <h3 className="fs-1">CLASES</h3>
-              <p>
+              <h3 className={`fs-1 mb-2 ${styles.h3HP}`}>CLASES</h3>
+              <p className={`mb-4 ${styles.pHP}`}>
                 Participa en todas nuestras clases dirigidas por instructores
                 expertos para diversificar tu rutina de ejercicio y alcanzar tus
                 objetivos
               </p>
-              <a className={`${styles.btnHero} fw-lighter`}>HAZTE SOCIO!</a>
+              <a className={`${styles.btnHero} fw-lighter`} href="/registro">
+                HAZTE SOCIO!
+              </a>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
@@ -56,13 +55,15 @@ const HeroPage = () => {
           <Image src="../../public/full.jpg" fluid />
           <Carousel.Caption className={styles.customCaption}>
             <div className={styles.heroTextBox}>
-              <h3 className="fs-1">PLAN FULL</h3>
-              <p>
+              <h3 className={`fs-1 mb-2 ${styles.h3HP}`}>PLAN FULL</h3>
+              <p className={`mb-4 ${styles.pHP}`}>
                 Disfruta de lo mejor de ambos mundos con acceso ilimitado a
                 todos los equipos y clases para maximizar tu experiencia de
                 fitness
               </p>
-              <a className={`${styles.btnHero} fw-lighter`}>HAZTE SOCIO!</a>
+              <a className={`${styles.btnHero} fw-lighter`} href="/registro">
+                HAZTE SOCIO!
+              </a>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
@@ -84,15 +85,12 @@ const HeroPage = () => {
           />
           <Carousel.Caption className={styles.customCaption}>
             <div className={styles.heroTextBox}>
-              <h3 className="fs-1">MUSCULACION</h3>
-              <p>
+              <h3 className={`fs-1 mb-2 ${styles.h3HP}`}>MUSCULACION</h3>
+              <p className={`mb-4 ${styles.pHP}`}>
                 Accede a nuestra completa gama de equipos de musculación para
                 potenciar tu entrenamiento de fuerza y resistencia
               </p>
-              <a
-                className={`${styles.btnHero} fw-lighter`}
-                href="https://www.google.com/?authuser=0"
-              >
+              <a className={`${styles.btnHero} fw-lighter`} href="/registro">
                 HAZTE SOCIO!
               </a>
             </div>
@@ -106,13 +104,15 @@ const HeroPage = () => {
           />
           <Carousel.Caption className={styles.customCaption}>
             <div className={styles.heroTextBox}>
-              <h3 className="fs-1">CLASES</h3>
-              <p>
+              <h3 className={`fs-1 mb-2 ${styles.h3HP}`}>CLASES</h3>
+              <p className={`mb-4 ${styles.pHP}`}>
                 Participa en todas nuestras clases dirigidas por instructores
                 expertos para diversificar tu rutina de ejercicio y alcanzar tus
                 objetivos
               </p>
-              <a className={`${styles.btnHero} fw-lighter`}>HAZTE SOCIO!</a>
+              <a className={`${styles.btnHero} fw-lighter`} href="/registro">
+                HAZTE SOCIO!
+              </a>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
@@ -124,13 +124,15 @@ const HeroPage = () => {
           />
           <Carousel.Caption className={styles.customCaption}>
             <div className={styles.heroTextBox}>
-              <h3 className="fs-1">PLAN FULL</h3>
-              <p>
+              <h3 className={`fs-1 mb-2 ${styles.h3HP}`}>PLAN FULL</h3>
+              <p className={`mb-4 ${styles.pHP}`}>
                 Disfruta de lo mejor de ambos mundos con acceso ilimitado a
                 todos los equipos y clases para maximizar tu experiencia de
                 fitness
               </p>
-              <a className={`${styles.btnHero} fw-lighter`}>HAZTE SOCIO!</a>
+              <a className={`${styles.btnHero} fw-lighter`} href="/registro">
+                HAZTE SOCIO!
+              </a>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
