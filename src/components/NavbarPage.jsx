@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import styles from "../css/NavbarPage.module.css";
 import axios from "axios";
 
@@ -74,7 +76,9 @@ const NavbarPage = () => {
               ? styles.navbarScrollingToggler
               : styles.navbarInitialToggler
           }
-        />
+        >
+          <FontAwesomeIcon icon={faBars} style={{ color: "#ff6600" }} />
+        </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav
             className={isResponsive ? "ms-auto" : "ms-auto align-items-center"}
@@ -101,7 +105,7 @@ const NavbarPage = () => {
               className={`${styles.navLink} ${
                 isScrolling ? styles.navbarScrollingNavLink : ""
               }`}
-              href="#Login"
+              href="/iniciarSesion"
             >
               INICIAR SESIÓN
             </Nav.Link>
@@ -119,8 +123,8 @@ const NavbarPage = () => {
                 <img
                   src={getWeatherIconUrl(weather.weather[0].icon)}
                   alt="weather icon"
-                  width="20"
-                  height="20"
+                  width="30"
+                  height="30"
                 />
                 {`${weather.name}: ${weather.main.temp}°C`}
               </span>
