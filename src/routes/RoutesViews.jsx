@@ -4,6 +4,7 @@ import RegisterPage from "../pages/Registro";
 import HeroPage from "../pages/HeroPage";
 import SobreNosotros from "../pages/SobreNosotros";
 import IniciarSesion from "../pages/IniciarSesion";
+import AdminAdministradores from "../pages/AdminAdministradores";
 
 const RoutesViews = () => {
   return (
@@ -13,6 +14,7 @@ const RoutesViews = () => {
         <Route path="/iniciarSesion" element={<IniciarSesion />} />
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/sobreNosotros" element={<SobreNosotros />} />
+        <Route path="/adminAdmins" element={<AdminAdministradores />} />
         <Route path="/" element={<HeroPage />} />
       </Routes>
     </>
