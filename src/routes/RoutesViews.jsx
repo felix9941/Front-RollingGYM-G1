@@ -8,6 +8,7 @@ import IniciarSesion from "../pages/IniciarSesion";
 import AdminAdministradores from "../pages/AdminAdministradores";
 
 import Error404 from "../pages/Error404";
+import AdminPlanes from "../pages/AdminPlanes";
 
 import AdminProductos from "../pages/AdminPorductos";
 
@@ -29,6 +30,9 @@ const RoutesViews = () => {
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/sobreNosotros" element={<SobreNosotros />} />
 
+        <Route path="/adminPlanes" element={<AdminPlanes />} />
+
+
         <Route path="/adminProductos" element={<AdminProductos />} />
 
 
@@ -41,6 +45,7 @@ const RoutesViews = () => {
         <Route path="/adminAdmins" element={<AdminAdministradores />} />
 
         <Route path="/misReservas" element={<MisReservas />} />
+
 
 
 
