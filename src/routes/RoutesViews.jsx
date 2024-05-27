@@ -8,7 +8,11 @@ import IniciarSesion from "../pages/IniciarSesion";
 import AdminAdministradores from "../pages/AdminAdministradores";
 
 import Error404 from "../pages/Error404";
+
+import AdminClientes from "../pages/AdminClientes";
+
 import MisReservas from "../pages/MisReservas";
+
 
 
 const RoutesViews = () => {
@@ -20,9 +24,13 @@ const RoutesViews = () => {
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/sobreNosotros" element={<SobreNosotros />} />
 
+        <Route path="/adminClientes" element={<AdminClientes />} />
+
+
         <Route path="/adminAdmins" element={<AdminAdministradores />} />
 
         <Route path="/misReservas" element={<MisReservas />} />
+
 
         <Route path="/" element={<HeroPage />} />
         <Route path="*" element={<Error404 />} />
