@@ -8,6 +8,9 @@ import IniciarSesion from "../pages/IniciarSesion";
 import AdminAdministradores from "../pages/AdminAdministradores";
 
 import Error404 from "../pages/Error404";
+
+import AdminClases from "../pages/AdminClases";
+
 import AdminPlanes from "../pages/AdminPlanes";
 
 import AdminProductos from "../pages/AdminPorductos";
@@ -21,6 +24,7 @@ import MisReservas from "../pages/MisReservas";
 
 
 
+
 const RoutesViews = () => {
   return (
     <>
@@ -29,6 +33,9 @@ const RoutesViews = () => {
         <Route path="/iniciarSesion" element={<IniciarSesion />} />
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/sobreNosotros" element={<SobreNosotros />} />
+
+        <Route path="/adminClases" element={<AdminClases />} />
+
 
         <Route path="/adminPlanes" element={<AdminPlanes />} />
 
@@ -45,6 +52,7 @@ const RoutesViews = () => {
         <Route path="/adminAdmins" element={<AdminAdministradores />} />
 
         <Route path="/misReservas" element={<MisReservas />} />
+
 
 
 
