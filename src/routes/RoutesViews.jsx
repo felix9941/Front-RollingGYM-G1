@@ -8,6 +8,7 @@ import IniciarSesion from "../pages/IniciarSesion";
 import AdminAdministradores from "../pages/AdminAdministradores";
 
 import Error404 from "../pages/Error404";
+import MisClases from "../pages/MisClases";
 
 import AdminClases from "../pages/AdminClases";
 
@@ -34,6 +35,9 @@ const RoutesViews = () => {
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/sobreNosotros" element={<SobreNosotros />} />
 
+        <Route path="/misClases" element={<MisClases />} />
+
+
         <Route path="/adminClases" element={<AdminClases />} />
 
 
@@ -52,6 +56,7 @@ const RoutesViews = () => {
         <Route path="/adminAdmins" element={<AdminAdministradores />} />
 
         <Route path="/misReservas" element={<MisReservas />} />
+
 
 
 
