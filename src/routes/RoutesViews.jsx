@@ -6,6 +6,7 @@ import SobreNosotros from "../pages/SobreNosotros";
 import IniciarSesion from "../pages/IniciarSesion";
 import Error404 from "../pages/Error404";
 import MisReservas from "../pages/MisReservas";
+import MisDatos from "../pages/MisDatos";
 
 const RoutesViews = () => {
   return (
@@ -16,6 +17,7 @@ const RoutesViews = () => {
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/sobreNosotros" element={<SobreNosotros />} />
         <Route path="/misReservas" element={<MisReservas />} />
+        <Route path="/misDatos" element={<MisDatos />} />
         <Route path="/" element={<HeroPage />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
