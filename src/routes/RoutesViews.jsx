@@ -8,13 +8,29 @@ import IniciarSesion from "../pages/IniciarSesion";
 import AdminAdministradores from "../pages/AdminAdministradores";
 
 import Error404 from "../pages/Error404";
+
 import AdminProductos from "../pages/AdminProductos";
+
+import MisClases from "../pages/MisClases";
+
+import AdminClases from "../pages/AdminClases";
+
+import AdminPlanes from "../pages/AdminPlanes";
+
+import AdminProductos from "../pages/AdminPorductos";
+
 
 import AdminProfesores from "../pages/AdminProfesores";
 
 import AdminClientes from "../pages/AdminClientes";
 
 import MisReservas from "../pages/MisReservas";
+
+
+
+
+
+
 
 const RoutesViews = () => {
   return (
@@ -25,6 +41,15 @@ const RoutesViews = () => {
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/sobreNosotros" element={<SobreNosotros />} />
 
+        <Route path="/misClases" element={<MisClases />} />
+
+
+        <Route path="/adminClases" element={<AdminClases />} />
+
+
+        <Route path="/adminPlanes" element={<AdminPlanes />} />
+
+
         <Route path="/adminProductos" element={<AdminProductos />} />
 
         <Route path="/adminProfesores" element={<AdminProfesores />} />
@@ -34,6 +59,15 @@ const RoutesViews = () => {
         <Route path="/adminAdmins" element={<AdminAdministradores />} />
 
         <Route path="/misReservas" element={<MisReservas />} />
+
+
+
+
+
+
+
+
+
 
         <Route path="/" element={<HeroPage />} />
         <Route path="*" element={<Error404 />} />
