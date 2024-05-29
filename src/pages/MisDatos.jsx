@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2"; // para instalar la libreria poner npm install sweetalert2
 import "../css/MisDatos.css";
+import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const MisDatos = () => {
   const [formData, setFormData] = useState({
@@ -136,10 +137,9 @@ const MisDatos = () => {
     });
   };
   return (
-    <div className="fondo-blanco">
-      <div className="tamanio my-5 d-flex flex-column">
-        <div>MIS DATOS</div>
-        <div>
+    <div className="fondo-mis-datos ">
+      <div className="tamanio row">
+        <div className="col-lg-6 col-md-12 col-sm-12">
           <Form>
             <div className="row">
               <Form.Group
@@ -251,6 +251,9 @@ const MisDatos = () => {
               Enviar Registro
             </Button>
           </Form>
+        </div>
+        <div className="tamanio col-lg-6 col-md-12 col-sm-12 ">
+          <img src="../../public/circulo.png" alt="" className="" />
         </div>
       </div>
     </div>
