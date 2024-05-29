@@ -1,0 +1,55 @@
+/* .fondo-blanco {
+  padding-top: 60px;
+  background-color: white !important;
+  height: 100vh;
+}
+
+.tamanio {
+  height: 40vh;
+} */
+
+.fondo-blanco {
+  padding-top: 60px;
+  background-color: white !important;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tamanio {
+  max-height: 35vh;
+  max-width: 90vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-tamanio {
+  width: 80%;
+  height: 80%;
+  /* object-fit: cover; */
+}
+
+.ancho-boton {
+  max-width: 30vw !important;
+}
+
+.square-button_e {
+  height: 40px; /* Altura del botón */
+  width: 130px; /* Ancho del botón */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid RGB(255, 102, 0); /* Borde de 4px de color naranja */
+  padding: 0; /* Elimina cualquier padding adicional */
+  font-weight: 700;
+  color: rgb(0, 0, 0);
+}
+
+.custom-button_e:hover,
+.custom-button_e:focus {
+  border-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  background-color: RGB(255, 102, 0);
+}
