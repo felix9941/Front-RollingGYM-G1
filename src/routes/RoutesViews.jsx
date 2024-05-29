@@ -5,7 +5,7 @@ import HeroPage from "../pages/HeroPage";
 import SobreNosotros from "../pages/SobreNosotros";
 import IniciarSesion from "../pages/IniciarSesion";
 import Error404 from "../pages/Error404";
-import AdminProductos from "../pages/AdminPorductos";
+import AdminProductos from "../pages/AdminProductos";
 
 const RoutesViews = () => {
   return (
