@@ -9,3 +9,20 @@
 .contenedorAdmins {
   background-color: rgb(255, 255, 255) !important;
 }
+
+.buttonAdmins {
+  color: #000000;
+  text-decoration: none;
+  border-radius: 5px;
+  background-color: rgb(255, 120, 0);
+  border: 1px solid #000000;
+  padding: 6px;
+  font-weight: bolder;
+  cursor: pointer;
+  transition-duration: 200ms;
+}
+
+.buttonAdmins:hover {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
