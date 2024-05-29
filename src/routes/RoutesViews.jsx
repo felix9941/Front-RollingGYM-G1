@@ -17,20 +17,11 @@ import AdminClases from "../pages/AdminClases";
 
 import AdminPlanes from "../pages/AdminPlanes";
 
-import AdminProductos from "../pages/AdminPorductos";
-
-
 import AdminProfesores from "../pages/AdminProfesores";
 
 import AdminClientes from "../pages/AdminClientes";
 
 import MisReservas from "../pages/MisReservas";
-
-
-
-
-
-
 
 const RoutesViews = () => {
   return (
@@ -43,12 +34,9 @@ const RoutesViews = () => {
 
         <Route path="/misClases" element={<MisClases />} />
 
-
         <Route path="/adminClases" element={<AdminClases />} />
 
-
         <Route path="/adminPlanes" element={<AdminPlanes />} />
-
 
         <Route path="/adminProductos" element={<AdminProductos />} />
 
@@ -59,15 +47,6 @@ const RoutesViews = () => {
         <Route path="/adminAdmins" element={<AdminAdministradores />} />
 
         <Route path="/misReservas" element={<MisReservas />} />
-
-
-
-
-
-
-
-
-
 
         <Route path="/" element={<HeroPage />} />
         <Route path="*" element={<Error404 />} />
