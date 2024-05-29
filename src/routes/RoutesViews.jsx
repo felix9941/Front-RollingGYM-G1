@@ -8,6 +8,9 @@ import IniciarSesion from "../pages/IniciarSesion";
 import AdminAdministradores from "../pages/AdminAdministradores";
 
 import Error404 from "../pages/Error404";
+
+import AdminProductos from "../pages/AdminProductos";
+
 import MisClases from "../pages/MisClases";
 
 import AdminClases from "../pages/AdminClases";
