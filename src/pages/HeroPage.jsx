@@ -21,7 +21,7 @@ const HeroPage = () => {
         prevIcon={false} */
       >
         <Carousel.Item>
-          <Image src="../../public/musculacion1.jpg" fluid />
+          <Image src="/public/musculacion1.jpg" fluid />
           <Carousel.Caption className={styles.customCaption}>
             <div className={styles.heroTextBox}>
               <h3 className={`fs-1 mb-2 ${styles.h3HP}`}>MUSCULACION</h3>
