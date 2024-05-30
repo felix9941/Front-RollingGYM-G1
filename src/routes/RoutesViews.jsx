@@ -17,7 +17,7 @@ import AdminClases from "../pages/AdminClases";
 
 import AdminPlanes from "../pages/AdminPlanes";
 
-import AdminProductos from "../pages/AdminPorductos";
+// import AdminProductos from "../pages/AdminPorductos";
 
 import AdminProfesores from "../pages/AdminProfesores";
 

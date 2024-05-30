@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Swal from "sweetalert2"; // para instalar la libreria poner npm install sweetalert2
+import Swal from "sweetalert2";
 import "../css/MisDatos.css";
 import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 
@@ -137,123 +137,131 @@ const MisDatos = () => {
     });
   };
   return (
-    <div className="fondo-mis-datos ">
-      <div className="tamanio row">
-        <div className="col-lg-6 col-md-12 col-sm-12">
-          <Form>
-            <div className="row">
-              <Form.Group
-                className=" col-md-6 col-sm-12"
-                controlId="formBasicNombre"
+    <div className="contenedor-md">
+      <div className="contenedor-hijo-md">
+        <div className="formulario">
+          <h3 className="pb-4">Mis Datos</h3>
+          <div>
+            {" "}
+            <Form>
+              <div className="row">
+                <Form.Group
+                  className=" col-md-6 col-sm-12"
+                  controlId="formBasicNombre"
+                >
+                  <Form.Control
+                    className={errors.nombre && "is-invalid"}
+                    type="text"
+                    placeholder="Nombre"
+                    onChange={cambioDatosUsuario}
+                    name="nombre"
+                    value={formData.nombre}
+                  />
+                  <div className="error-message_registro">
+                    {mostrarMensajeErrorNombre && (
+                      <p className="text-danger m-0">
+                        {mostrarMensajeErrorNombre}
+                      </p>
+                    )}
+                  </div>
+                </Form.Group>
+                <Form.Group
+                  className=" col-md-6 col-sm-12"
+                  controlId="formBasicApellido"
+                >
+                  <Form.Control
+                    className={errors.apellido && "is-invalid"}
+                    type="text"
+                    placeholder="Apellido"
+                    onChange={cambioDatosUsuario}
+                    name="apellido"
+                    value={formData.apellido}
+                  />
+                  <div className="error-message_registro">
+                    {mostrarMensajeErrorApellido && (
+                      <p className="text-danger m-0">
+                        {mostrarMensajeErrorApellido}
+                      </p>
+                    )}
+                  </div>
+                </Form.Group>
+              </div>
+              <div className="row">
+                <Form.Group className="col-12" controlId="formBasicCelular">
+                  <Form.Control
+                    className={errors.celular && "is-invalid"}
+                    type="text"
+                    placeholder="Celular"
+                    onChange={cambioDatosUsuario}
+                    name="celular"
+                    value={formData.celular}
+                  />
+                  <div className="error-message_registro">
+                    {mostrarMensajeErrorCelular && (
+                      <p className="text-danger m-0">
+                        {mostrarMensajeErrorCelular}
+                      </p>
+                    )}
+                  </div>
+                </Form.Group>
+              </div>
+              <div className="row">
+                {" "}
+                <Form.Group className="col-12" controlId="formBasicEmail">
+                  <Form.Control
+                    className={errors.email && "is-invalid"}
+                    type="email"
+                    placeholder="E-Mail"
+                    onChange={cambioDatosUsuario}
+                    name="email"
+                    value={formData.email}
+                  />
+                  <div className="error-message_registro">
+                    {mostrarMensajeErrorMail && (
+                      <p className="text-danger m-0">
+                        {mostrarMensajeErrorMail}
+                      </p>
+                    )}
+                  </div>
+                </Form.Group>
+              </div>
+              <div className="row">
+                <Form.Group className="col-12" controlId="formBasicPass">
+                  <Form.Control
+                    className={
+                      errors.pass === "passVacio" ||
+                      errors.pass === "passNoCumple"
+                        ? "is-invalid"
+                        : ""
+                    }
+                    type="password"
+                    placeholder="Contraseña"
+                    onChange={cambioDatosUsuario}
+                    name="pass"
+                    value={formData.pass}
+                  />
+                  <div className="error-message_registro">
+                    {mostrarMensajeErrorPass && (
+                      <p className="text-danger m-0">
+                        {mostrarMensajeErrorPass}
+                      </p>
+                    )}
+                  </div>
+                </Form.Group>
+              </div>
+              <Button
+                variant=""
+                type="submit"
+                className="w-100 square-button_md mt-5 custom-button_md"
+                onClick={enviarFormulario}
               >
-                <Form.Control
-                  className={errors.nombre && "is-invalid"}
-                  type="text"
-                  placeholder="Nombre"
-                  onChange={cambioDatosUsuario}
-                  name="nombre"
-                  value={formData.nombre}
-                />
-                <div className="error-message_registro">
-                  {mostrarMensajeErrorNombre && (
-                    <p className="text-danger m-0">
-                      {mostrarMensajeErrorNombre}
-                    </p>
-                  )}
-                </div>
-              </Form.Group>
-              <Form.Group
-                className=" col-md-6 col-sm-12"
-                controlId="formBasicApellido"
-              >
-                <Form.Control
-                  className={errors.apellido && "is-invalid"}
-                  type="text"
-                  placeholder="Apellido"
-                  onChange={cambioDatosUsuario}
-                  name="apellido"
-                  value={formData.apellido}
-                />
-                <div className="error-message_registro">
-                  {mostrarMensajeErrorApellido && (
-                    <p className="text-danger m-0">
-                      {mostrarMensajeErrorApellido}
-                    </p>
-                  )}
-                </div>
-              </Form.Group>
-            </div>
-            <div className="row">
-              <Form.Group className="col-12" controlId="formBasicCelular">
-                <Form.Control
-                  className={errors.celular && "is-invalid"}
-                  type="text"
-                  placeholder="Celular"
-                  onChange={cambioDatosUsuario}
-                  name="celular"
-                  value={formData.celular}
-                />
-                <div className="error-message_registro">
-                  {mostrarMensajeErrorCelular && (
-                    <p className="text-danger m-0">
-                      {mostrarMensajeErrorCelular}
-                    </p>
-                  )}
-                </div>
-              </Form.Group>
-            </div>
-            <div className="row">
-              {" "}
-              <Form.Group className="col-12" controlId="formBasicEmail">
-                <Form.Control
-                  className={errors.email && "is-invalid"}
-                  type="email"
-                  placeholder="E-Mail"
-                  onChange={cambioDatosUsuario}
-                  name="email"
-                  value={formData.email}
-                />
-                <div className="error-message_registro">
-                  {mostrarMensajeErrorMail && (
-                    <p className="text-danger m-0">{mostrarMensajeErrorMail}</p>
-                  )}
-                </div>
-              </Form.Group>
-            </div>
-            <div className="row">
-              <Form.Group className="col-12" controlId="formBasicPass">
-                <Form.Control
-                  className={
-                    errors.pass === "passVacio" ||
-                    errors.pass === "passNoCumple"
-                      ? "is-invalid"
-                      : ""
-                  }
-                  type="password"
-                  placeholder="Contraseña"
-                  onChange={cambioDatosUsuario}
-                  name="pass"
-                  value={formData.pass}
-                />
-                <div className="error-message_registro">
-                  {mostrarMensajeErrorPass && (
-                    <p className="text-danger m-0">{mostrarMensajeErrorPass}</p>
-                  )}
-                </div>
-              </Form.Group>
-            </div>
-            <Button
-              variant=""
-              type="submit"
-              className="w-100 square-button_registro mt-5 custom-button_registro"
-              onClick={enviarFormulario}
-            >
-              Enviar Registro
-            </Button>
-          </Form>
+                Editar Datos
+              </Button>
+            </Form>
+          </div>
         </div>
-        <div className="tamanio col-lg-6 col-md-12 col-sm-12 ">
-          <img src="../../public/circulo.png" alt="" className="" />
+        <div className="contenedor-img text-center">
+          <img src="../../circulo.png" alt="" />
         </div>
       </div>
     </div>
