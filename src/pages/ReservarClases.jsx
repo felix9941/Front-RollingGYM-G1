@@ -13,7 +13,12 @@ const ReservarClases = () => {
   return (
     <div className="contenedor-rc">
       <div className="contenedor-hijo-rc">
-        <h1>Reservar Clases</h1>
+        <h1 className="titulo-izquierda">Reservar Clases</h1>
+        <div className="titulo-izquierda d-flex">
+          <div className="my-2 me-2">Dia</div>
+          <div className="m-2">Todos los dias</div>
+          <div className="m-2">Buscar</div>
+        </div>
         <div className="tabla-reserva-clase">
           {" "}
           <Table bordered hover>
@@ -31,7 +36,7 @@ const ReservarClases = () => {
                 <td>10:00</td>
                 <td>Mariano Ocampos</td>
                 <td className="reservar-ancho text-center">
-                  <Button variant="primary" onClick={handleShow}>
+                  <Button className="boton-tabla-reserva" onClick={handleShow}>
                     Reservar
                   </Button>
                   <Modal show={show} onHide={handleClose}>
@@ -57,7 +62,7 @@ const ReservarClases = () => {
                 <td>10:00</td>
                 <td>Mariano Ocampos</td>
                 <td className="reservar-ancho text-center">
-                  <Button variant="primary" onClick={handleShow}>
+                  <Button className="boton-tabla-reserva" onClick={handleShow}>
                     Reservar
                   </Button>
                   <Modal show={show} onHide={handleClose}>
