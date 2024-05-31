@@ -25,3 +25,18 @@
   border-top: 1px solid #dee2e6;
   border-bottom: 1px solid #dee2e6;
 }
+
+.tabla-reserva-clase {
+  width: 100%;
+}
+
+@media (min-width: 1400px) {
+  .tabla-reserva-clase {
+    max-width: 80vw;
+    min-width: 80vw;
+  }
+}
+
+.reservar-ancho {
+  width: 110px !important;
+}
