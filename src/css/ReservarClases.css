@@ -13,6 +13,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
   width: 100%;
+}
+
+.table-header th {
+  background-color: RGB(255, 102, 0);
+  color: #ffffff;
+}
+
+.table-body td {
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
 }
