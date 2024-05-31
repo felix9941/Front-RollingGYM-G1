@@ -128,41 +128,6 @@
   opacity: 1;
 }
 
-/* Ajustes para responsive */
-@media (max-width: 768px) {
-  .reservacion-contentH3 {
-    color: white;
-    font-size: 1.4rem;
-    opacity: 1 !important;
-  }
-
-  .card-img-overlay {
-    opacity: 1 !important;
-  }
-
-  .clase:hover .reservacion-contentH3 {
-    opacity: 1 !important;
-  }
-
-  .clase {
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .clase a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .clase:hover {
-    transform: none;
-  }
-  .mx-auto {
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-}
-
 /* Sección de planes */
 .planes {
   padding: 2rem;
@@ -201,7 +166,6 @@
 .plan-contentP {
   color: #fff;
   font-size: 1.1em;
-  font-weight: bold;
   margin-bottom: 1em;
   margin-top: 0.5rem;
   text-align: unset;
@@ -221,16 +185,6 @@
   padding: 0.5rem 1rem;
   font-size: 1rem;
   cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .plan-contentP {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 }
 
 /* Sección de productos */
@@ -299,31 +253,35 @@
 .producto:hover .producto-img-overlay {
   opacity: 1;
 }
-@media (max-width: 768px) {
-  .producto {
-    flex-basis: 100%; /* Establecer tamaño completo en dispositivos móviles */
-  }
-}
+
 /* Sección de profesores */
 .profesores {
   padding: 2rem;
   text-align: center;
 }
 
-.profesor {
-  text-align: center;
+.profesor-img-container {
+  width: 100%;
+  max-width: 300px; /* O cualquier ancho máximo deseado */
+  height: 300px; /* Altura fija para las imágenes */
+  overflow: hidden;
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  margin: 0 auto; /* Centramos el contenedor */
 }
 
-.profesor-img-container {
-  position: relative;
-  overflow: hidden;
-  height: 350px;
-}
 .profesor-img {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
 }
+
+.profesor {
+  text-align: center;
+  margin: 20px;
+}
+
 .profesor-info {
   color: white;
   margin-top: 1rem;
@@ -345,16 +303,9 @@
 .profes-contentP {
   color: #fff;
   font-size: 1.1em;
-  font-weight: bold;
   margin-bottom: 1em;
   margin-top: 0.5rem;
   text-align: unset;
-}
-
-@media (max-width: 768px) {
-  .profesor-img-container {
-    height: 220px;
-  }
 }
 
 /* Sección de comentarios */
@@ -444,23 +395,6 @@ form textarea {
   color: transparent;
 }
 
-@media (max-width: 768px) {
-  form input,
-  form textarea {
-    width: 80%;
-    padding: 1rem;
-    margin: 0.5rem 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.8);
-  }
-
-  .comment {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
-}
-
 /* Sección de publicidades */
 .publicidades {
   padding: 2rem;
@@ -481,8 +415,86 @@ form textarea {
   width: 40%;
   height: auto;
 }
+
 @media (min-width: 768px) {
+  /* PUBLICIDAD */
   .carousel-container {
     display: block;
+  }
+}
+
+/* Ajustes para responsive */
+@media (max-width: 768px) {
+  /* RESERVACION*/
+  .reservacion-contentH3 {
+    color: white;
+    font-size: 1.4rem;
+    opacity: 1 !important;
+  }
+
+  .card-img-overlay {
+    opacity: 1 !important;
+  }
+
+  .clase:hover .reservacion-contentH3 {
+    opacity: 1 !important;
+  }
+
+  .clase {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .clase a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .clase:hover {
+    transform: none;
+  }
+  .mx-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  /* PLANES */
+  .plan-contentP {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* PRODUCTO */
+  .producto {
+    flex-basis: 100%; /* Establecer tamaño completo en dispositivos móviles */
+  }
+
+  /* PROFESORES*/
+  .profesor-img-container {
+    width: 100%;
+    max-width: 300px; /* O cualquier ancho máximo deseado */
+    height: 300px; /* Altura fija para las imágenes */
+    overflow: hidden;
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    margin: 0 auto; /* Centramos el contenedor */
+  }
+
+  /* COMENTARIOS*/
+  form input,
+  form textarea {
+    width: 80%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .comment {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 }

@@ -35,6 +35,13 @@ const RoutesViews = () => {
         <Route path="/iniciarSesion" element={<IniciarSesion />} />
         <Route path="/registro" element={<RegisterPage />} />
         <Route path="/sobreNosotros" element={<SobreNosotros />} />
+        <Route path="/misClases" element={<MisClases />} />
+        <Route path="/adminClases" element={<AdminClases />} />
+        <Route path="/adminPlanes" element={<AdminPlanes />} />
+        <Route path="/adminProductos" element={<AdminProductos />} />
+        <Route path="/adminProfesores" element={<AdminProfesores />} />
+        <Route path="/adminClientes" element={<AdminClientes />} />
+        <Route path="/adminAdmins" element={<AdminAdministradores />} />
         <Route path="/misReservas" element={<MisReservas />} />
         <Route path="/misDatos" element={<MisDatos />} />
         <Route path="/reservarClases" element={<ReservarClases />} />

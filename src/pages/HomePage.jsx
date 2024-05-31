@@ -143,25 +143,25 @@ const HomePage = () => {
     const value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
     setNewComment({ ...newComment, [e.target.name]: value });
   };
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 1024 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 1024, min: 768 },
-      items: 4,
-    },
-    tablet: {
-      breakpoint: { max: 768, min: 464 },
-      items: 3,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-      partialVisibilityGutter: 30,
-    },
-  };
+  // const responsive = {
+  //   superLargeDesktop: {
+  //     breakpoint: { max: 4000, min: 1024 },
+  //     items: 5,
+  //   },
+  //   desktop: {
+  //     breakpoint: { max: 1024, min: 768 },
+  //     items: 4,
+  //   },
+  //   tablet: {
+  //     breakpoint: { max: 768, min: 464 },
+  //     items: 3,
+  //   },
+  //   mobile: {
+  //     breakpoint: { max: 464, min: 0 },
+  //     items: 1,
+  //     partialVisibilityGutter: 30,
+  //   },
+  // };
   //Publicidad
   const publicidades = [
     { logo: "/public/publicicidad-protein.png" },
@@ -175,6 +175,7 @@ const HomePage = () => {
   return (
     <>
       <div className="container-Ppal">
+        {/* Inicio */}
         <section className="inicio">
           <div className="inicio-content">
             <h1 className="inicio-contentH1">Tu Cuerpo Primero</h1>
