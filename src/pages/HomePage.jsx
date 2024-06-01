@@ -33,7 +33,7 @@ const HomePage = () => {
   ];
 
   // Crear slides con tres productos cada uno
-  const productSlides = [];
+  const productSlidesLarge = [];
   for (let i = 0; i < productos.length; i += 3) {
     const items = productos.slice(i, i + 3).map((producto, index) => (
       <Col key={index} md={4} className="producto">
@@ -61,12 +61,24 @@ const HomePage = () => {
       );
     }
 
-    productSlides.push(
+    productSlidesLarge.push(
       <Carousel.Item key={i}>
         <Row>{items}</Row>
       </Carousel.Item>
     );
   }
+  const productSlidesSmall = productos.map((producto, index) => (
+    <Carousel.Item key={index}>
+      <div className="producto">
+        <div className="producto-img-container">
+          <img src={producto.icono} alt={producto.nombre} />
+          <div className="producto-img-overlay">
+            <h3 className="productos-contentH3">{producto.nombre}</h3>
+          </div>
+        </div>
+      </div>
+    </Carousel.Item>
+  ));
   //PROFESORES
   const profesores = [
     {
@@ -164,9 +176,6 @@ const HomePage = () => {
   // };
   //Publicidad
   const publicidades = [
-    { logo: "/public/publicicidad-protein.png" },
-    { logo: "/public/publicicidad-protein.png" },
-    { logo: "/public/publicicidad-protein.png" },
     { logo: "/public/publicicidad-protein.png" },
     { logo: "/public/publicicidad-protein.png" },
     { logo: "/public/publicicidad-protein.png" },
@@ -385,88 +394,137 @@ const HomePage = () => {
             Productos que podes adquirir en nuestro PowerGym
           </h2>
           <Container>
-            <Carousel
-              prevIcon={
-                <span
-                  className="carousel-control-prev-icon"
-                  aria-hidden="true"
-                />
-              }
-              nextIcon={
-                <span
-                  className="carousel-control-next-icon"
-                  aria-hidden="true"
-                />
-              }
-            >
-              {productSlides}
-            </Carousel>
+            {/* Carrusel para pantallas grandes */}
+            <div className="d-none d-md-block">
+              <Carousel
+                prevIcon={
+                  <span
+                    className="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  />
+                }
+                nextIcon={
+                  <span
+                    className="carousel-control-next-icon"
+                    aria-hidden="true"
+                  />
+                }
+              >
+                {productSlidesLarge}
+              </Carousel>
+            </div>
+            {/* Carrusel para pantallas pequeñas */}
+            <div className="d-md-none">
+              <Carousel
+                prevIcon={
+                  <span
+                    className="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  />
+                }
+                nextIcon={
+                  <span
+                    className="carousel-control-next-icon"
+                    aria-hidden="true"
+                  />
+                }
+              >
+                {productSlidesSmall}
+              </Carousel>
+            </div>
           </Container>
         </section>
         {/* Profesores */}
         <section className="profesores">
           <h2 className="profes-contentH2">Nuestros Profes</h2>
           <Container>
-            <Carousel>
-              {profesores.map(
-                (profesor, index) =>
-                  index % 3 === 0 && (
-                    <Carousel.Item key={index}>
-                      <Row>
-                        {profesores.slice(index, index + 3).map((prof, i) => (
-                          <Col key={i} md={4}>
-                            <div className="profesor">
-                              <div className="profesor-img-container">
-                                <img
-                                  src={prof.imagen}
-                                  alt={prof.nombre}
-                                  className="profesor-img"
-                                />
-                              </div>
-                              <div className="profesor-info">
-                                <h3 className="profes-contentH3">
-                                  {prof.nombre}
-                                </h3>
-                                <p className="profes-contentP">
-                                  {prof.especialidad}
-                                </p>
-                              </div>
-                            </div>
-                          </Col>
-                        ))}
-                        {/* Repetir profesores si no hay suficientes para completar el slide */}
-                        {profesores.slice(index, index + 3).length < 3 &&
-                          profesores
-                            .slice(
-                              0,
-                              3 - profesores.slice(index, index + 3).length
-                            )
-                            .map((prof, i) => (
-                              <Col key={i + 3} md={4}>
-                                <div className="profesor">
-                                  <div className="profesor-img-container">
-                                    <img
-                                      src={prof.imagen}
-                                      alt={prof.nombre}
-                                      className="profesor-img"
-                                    />
-                                  </div>
-                                  <div className="profesor-info">
-                                    <h3 className="profes-contentH3">
-                                      {prof.nombre}
-                                    </h3>
-                                    <p className="profes-contentP">
-                                      {prof.especialidad}
-                                    </p>
-                                  </div>
+            {/* Carrusel para pantallas grandes */}
+            <div className="d-none d-md-block">
+              <Carousel>
+                {profesores.map(
+                  (profesor, index) =>
+                    index % 3 === 0 && (
+                      <Carousel.Item key={index}>
+                        <Row>
+                          {profesores.slice(index, index + 3).map((prof, i) => (
+                            <Col key={i} md={4}>
+                              <div className="profesor">
+                                <div className="profesor-img-container">
+                                  <img
+                                    src={prof.imagen}
+                                    alt={prof.nombre}
+                                    className="profesor-img"
+                                  />
                                 </div>
-                              </Col>
-                            ))}
-                      </Row>
-                    </Carousel.Item>
-                  )
-              )}
-            </Carousel>
+                                <div className="profesor-info">
+                                  <h3 className="profes-contentH3">
+                                    {prof.nombre}
+                                  </h3>
+                                  <p className="profes-contentP">
+                                    {prof.especialidad}
+                                  </p>
+                                </div>
+                              </div>
+                            </Col>
+                          ))}
+                          {/* Repetir profesores si no hay suficientes para completar el slide */}
+                          {profesores.slice(index, index + 3).length < 3 &&
+                            profesores
+                              .slice(
+                                0,
+                                3 - profesores.slice(index, index + 3).length
+                              )
+                              .map((prof, i) => (
+                                <Col key={i + 3} md={4}>
+                                  <div className="profesor">
+                                    <div className="profesor-img-container">
+                                      <img
+                                        src={prof.imagen}
+                                        alt={prof.nombre}
+                                        className="profesor-img"
+                                      />
+                                    </div>
+                                    <div className="profesor-info">
+                                      <h3 className="profes-contentH3">
+                                        {prof.nombre}
+                                      </h3>
+                                      <p className="profes-contentP">
+                                        {prof.especialidad}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </Col>
+                              ))}
+                        </Row>
+                      </Carousel.Item>
+                    )
+                )}
+              </Carousel>
+            </div>
+            {/* Carrusel para pantallas pequeñas */}
+            <div className="d-md-none">
+              <Carousel>
+                {profesores.map((profesor, index) => (
+                  <Carousel.Item key={index}>
+                    <div className="profesor">
+                      <div className="profesor-img-container">
+                        <img
+                          src={profesor.imagen}
+                          alt={profesor.nombre}
+                          className="profesor-img"
+                        />
+                      </div>
+                      <div className="profesor-info">
+                        <h3 className="profes-contentH3">{profesor.nombre}</h3>
+                        <p className="profes-contentP">
+                          {profesor.especialidad}
+                        </p>
+                      </div>
+                    </div>
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            </div>
           </Container>
         </section>
         {/*Comentarios */}
@@ -482,7 +540,7 @@ const HomePage = () => {
               </div>
             ))}
           </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="formContacto">
             <input
               type="text"
               name="autor"
