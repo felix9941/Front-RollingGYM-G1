@@ -30,7 +30,6 @@
 .inicio-contentP {
   color: #fff;
   font-size: 1.1em;
-  font-weight: bold;
   margin-bottom: 1em;
   margin-top: 0.5rem;
 }
@@ -223,13 +222,13 @@
 
 .producto-img-container {
   width: 100%;
-  max-width: 300px; /* O cualquier ancho máximo deseado */
-  height: 300px; /* Altura fija para las imágenes */
+  max-width: 300px;
+  height: 300px;
   overflow: hidden;
   display: flex;
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  margin: 0 auto; /* Centramos el contenedor */
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .producto img {
@@ -240,15 +239,11 @@
 
 .producto-img-overlay {
   width: 100%;
-  max-width: 300px; /* O cualquier ancho máximo deseado */
-  height: 300px; /* Altura fija para las imágenes */
+  max-width: 300px;
+  height: 300px;
   overflow: hidden;
-  margin: 0 auto; /* Centramos el contenedor */
+  margin: 0 auto;
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -273,13 +268,13 @@
 
 .profesor-img-container {
   width: 100%;
-  max-width: 300px; /* O cualquier ancho máximo deseado */
-  height: 300px; /* Altura fija para las imágenes */
+  max-width: 300px;
+  height: 300px;
   overflow: hidden;
   display: flex;
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  margin: 0 auto; /* Centramos el contenedor */
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .profesor-img {
@@ -362,7 +357,7 @@
   flex: 1 1 30%;
   max-width: 30%;
   text-align: center;
-  padding: 2rem 1rem 3.5rem; /* Ajustamos el padding inferior para espacio del h3 */
+  padding: 2rem 1rem 3.5rem;
   border: 1px solid rgb(255, 102, 0);
   border-radius: 8px;
   margin: 1rem;
@@ -418,23 +413,27 @@
   margin-bottom: 2rem;
   text-align: start;
 }
-.carousel-container {
-  display: none;
-}
 
+.publicidad {
+  width: 100%;
+  max-width: 250px;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .publicidad img {
-  width: 40%;
-  height: auto;
+  width: 100%;
+  height: 100%;
 }
 
 @media (min-width: 768px) {
   /* PUBLICIDAD */
-  .carousel-container {
-    display: block;
+  .publicidades {
+    display: none;
   }
 }
 
-/* Ajustes para responsive */
 @media (max-width: 768px) {
   /* RESERVACION*/
   .reservacion-contentH3 {
@@ -478,21 +477,19 @@
   }
   /* PRODUCTO */
   .producto {
-    flex-basis: 100%; /* Establecer tamaño completo en dispositivos móviles */
+    flex-basis: 100%;
   }
-
   /* PROFESORES*/
   .profesor-img-container {
     width: 100%;
-    max-width: 300px; /* O cualquier ancho máximo deseado */
-    height: 300px; /* Altura fija para las imágenes */
+    max-width: 300px;
+    height: 300px;
     overflow: hidden;
     display: flex;
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    margin: 0 auto; /* Centramos el contenedor */
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
   }
-
   /* COMENTARIOS*/
   .formContacto input,
   .formContacto textarea {
@@ -503,7 +500,6 @@
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.8);
   }
-
   .comment {
     flex: 1 1 100%;
     max-width: 100%;

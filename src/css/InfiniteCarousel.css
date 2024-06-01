@@ -1,24 +1,22 @@
+/* Estilos para el carrusel infinito */
 .infinite-carousel {
   overflow: hidden;
-  position: relative;
   width: 100%;
-  height: 20%;
+  position: relative;
 }
 
 .infinite-carousel-inner {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease;
+  width: 150%;
 }
 
 .infinite-carousel-item {
-  flex: 0 0 100%;
-  padding: 5px;
-}
-@keyframes scroll {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% / 10);
+  padding: 0;
+  margin: 0;
 }
