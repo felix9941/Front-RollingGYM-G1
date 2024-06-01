@@ -222,17 +222,28 @@
 }
 
 .producto-img-container {
-  position: relative;
+  width: 100%;
+  max-width: 300px; /* O cualquier ancho máximo deseado */
+  height: 300px; /* Altura fija para las imágenes */
   overflow: hidden;
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  margin: 0 auto; /* Centramos el contenedor */
 }
 
 .producto img {
   width: 100%;
-  height: 50vh;
-  transition: transform 0.3s ease;
+  height: 100%;
+  object-fit: cover;
 }
 
 .producto-img-overlay {
+  width: 100%;
+  max-width: 300px; /* O cualquier ancho máximo deseado */
+  height: 300px; /* Altura fija para las imágenes */
+  overflow: hidden;
+  margin: 0 auto; /* Centramos el contenedor */
   position: absolute;
   top: 0;
   right: 0;
@@ -359,15 +370,15 @@
   position: relative;
 }
 
-form {
+.formContacto {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 2rem;
 }
 
-form input,
-form textarea {
+.formContacto input,
+.formContacto textarea {
   width: 40%;
   padding: 1.5rem;
   margin: 0.5rem 0;
@@ -483,8 +494,8 @@ form textarea {
   }
 
   /* COMENTARIOS*/
-  form input,
-  form textarea {
+  .formContacto input,
+  .formContacto textarea {
     width: 80%;
     padding: 1rem;
     margin: 0.5rem 0;
