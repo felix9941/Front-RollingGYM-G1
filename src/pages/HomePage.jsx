@@ -155,30 +155,13 @@ const HomePage = () => {
     const value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
     setNewComment({ ...newComment, [e.target.name]: value });
   };
-  // const responsive = {
-  //   superLargeDesktop: {
-  //     breakpoint: { max: 4000, min: 1024 },
-  //     items: 5,
-  //   },
-  //   desktop: {
-  //     breakpoint: { max: 1024, min: 768 },
-  //     items: 4,
-  //   },
-  //   tablet: {
-  //     breakpoint: { max: 768, min: 464 },
-  //     items: 3,
-  //   },
-  //   mobile: {
-  //     breakpoint: { max: 464, min: 0 },
-  //     items: 1,
-  //     partialVisibilityGutter: 30,
-  //   },
-  // };
   //Publicidad
   const publicidades = [
-    { logo: "/public/publicicidad-protein.png" },
-    { logo: "/public/publicicidad-protein.png" },
-    { logo: "/public/publicicidad-protein.png" },
+    { logo: "/public/publi-nike.png" },
+    { logo: "/public/publi-adidas.png" },
+    { logo: "/public/publi-colegym.png" },
+    { logo: "/public/publi-under-armour.png" },
+    { logo: "/public/powerGymLogo.png" },
   ];
 
   return (
@@ -321,7 +304,6 @@ const HomePage = () => {
             </Row>
           </Container>
         </section>
-
         {/* Planes */}
         <section className="planes">
           <h2 className="planes-contentH2">Elegí tu plan!</h2>
@@ -567,7 +549,7 @@ const HomePage = () => {
           </form>
         </section>
         {/*Publicidad */}
-        <section className="publicidades">
+        <section className="publicidades d-none d-md-block">
           <h2 className="publi-contentH2">Marcas que nos respaldan</h2>
           <InfiniteCarousel autoPlaySpeed={2000}>
             {publicidades.map((publicidad, index) => (
