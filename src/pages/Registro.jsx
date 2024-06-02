@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Swal from "sweetalert2"; // para instalar la libreria poner npm install sweetalert2
+import Swal from "sweetalert2";
 import "../css/Registro.css";
 
 const RegisterPage = () => {
@@ -28,7 +29,7 @@ const RegisterPage = () => {
   const usersLocalStorage = JSON.parse(localStorage.getItem("users")) || [];
 
   const cambioDatosUsuario = (ev) => {
-    const { user, pass, rpass } = formData; //Desestructuramiento
+    const { user, pass, rpass } = formData;
     let newErrors = {};
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
     /* Creo que error deberia estar en cambio de datos porque trabajaria con el onchange y se podria hacer una validacion en tiempo real */
@@ -103,7 +104,6 @@ const RegisterPage = () => {
       if (pass !== rpass) {
         newErrors = { ...newErrors, rpass: "passNoCoincide" };
       } else {
-        //Envio exitoso - Sweet alert - Podria aplicar un trycach
         Swal.fire({
           icon: "success",
           title: "Envío Exitoso",
@@ -289,7 +289,6 @@ const RegisterPage = () => {
                 value={formData.textArea}
               />
             </Form.Group>
-
             <Button
               variant=""
               type="submit"
@@ -299,9 +298,9 @@ const RegisterPage = () => {
               Enviar Registro
             </Button>
             <div className="text-center m-2 mt-4 ">
-              <a className="text-white" href="./iniciarSesion">
+              <NavLink className="text-white" to="/iniciarSesion">
                 ¿Ya tiene una cuenta?
-              </a>
+              </NavLink>
             </div>
           </Form>
         </div>
