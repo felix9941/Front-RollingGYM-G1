@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Carousel, Container, Row, Col, Card, Nav } from "react-bootstrap";
+import { Link, NavLink } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -166,10 +167,9 @@ const HomePage = () => {
       text: "Tu comentario fue enviado con éxito!",
       icon: "success",
     }).then(() => {
-      window.location.reload();
+      setComments([...comments, newComment]);
+      setNewComment({ autor: "", texto: "" });
     });
-    setComments([...comments, newComment]);
-    setNewComment({ autor: "", texto: "" });
   };
 
   const handleNameInput = (e) => {
@@ -194,13 +194,9 @@ const HomePage = () => {
             <h1 className="inicio-contentH1">Tu Cuerpo Primero</h1>
             <img className="logoTitulo" src={PowerGymPpal} alt="logo" />
             <p className="inicio-contentP">Acompañándote en el proceso</p>
-            <button
-              type="button"
-              className="btn-PlanPpal"
-              onClick={() => (window.location.href = "/error404")}
-            >
+            <Link to="/error404" className="btn-PlanPpal">
               Ver Planes
-            </button>
+            </Link>
           </div>
         </section>
         {/* Reservación */}
@@ -337,13 +333,9 @@ const HomePage = () => {
                 bienestar general a su propio ritmo.
               </p>
               <p className="plan-contentPrecio">$7000/mes</p>
-              <button
-                type="button"
-                className="btn-PlanPpal"
-                onClick={() => (window.location.href = "/reservarClases")}
-              >
-                Ver más
-              </button>
+              <Link to="/reservarClases" className="btn-PlanPpal">
+                Ver Más
+              </Link>
             </div>
             <div className="plan">
               <h3 className="plan-contentH3">Plan Full</h3>
@@ -357,13 +349,9 @@ const HomePage = () => {
                 holístico en su rutina de ejercicios.
               </p>
               <p className="plan-contentPrecio">$10000/mes</p>
-              <button
-                type="button"
-                className="btn-PlanPpal"
-                onClick={() => (window.location.href = "/reservarClases")}
-              >
-                Ver más
-              </button>
+              <Link to="/reservarClases" className="btn-PlanPpal">
+                Ver Más
+              </Link>
             </div>
             <div className="plan">
               <h3 className="plan-contentH3">Plan Clases</h3>
@@ -377,13 +365,9 @@ const HomePage = () => {
                 en grupo.
               </p>
               <p className="plan-contentPrecio">$8000/mes</p>
-              <button
-                type="button"
-                className="btn-PlanPpal"
-                onClick={() => (window.location.href = "/reservarClases")}
-              >
-                Ver más
-              </button>
+              <Link to="/reservarClases" className="btn-PlanPpal">
+                Ver Más
+              </Link>
             </div>
           </div>
         </section>
