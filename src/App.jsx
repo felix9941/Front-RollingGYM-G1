@@ -7,12 +7,13 @@ import "./App.css";
 const AppContent = () => {
   const location = useLocation();
   const isHeroPage = location.pathname === "/";
+  const isErrorPage = location.pathname === "/error404";
 
   return (
     <>
-      <NavbarPage />
+      {!isErrorPage && <NavbarPage />}
       <RoutesViews />
-      {!isHeroPage && <Footer />}
+      {!isHeroPage && !isErrorPage && <Footer />}
     </>
   );
 };
