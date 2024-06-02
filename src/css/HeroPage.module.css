@@ -1,7 +1,6 @@
 body {
   margin: 0;
   padding: 0;
-  /* overflow: hidden; */ /* Para evitar desbordamiento vertical en el cuerpo */
 }
 
 .fullScreen {
@@ -11,8 +10,8 @@ body {
 
 .carHero {
   height: 100%;
-  margin: 0; /* Elimina cualquier margen del Carousel */
-  padding: 0; /* Elimina cualquier relleno del Carousel */
+  margin: 0;
+  padding: 0;
 }
 
 .pHP {
@@ -32,7 +31,6 @@ body {
   padding: 6px;
   font-weight: bolder;
   cursor: pointer;
-  /* transition: background-image 2s ease-in-out 1s; */ /* Transición suave */
   transition-duration: 400ms, 300ms, 200ms, 100ms;
   transition-property: padding, background-image, border, color;
   margin-top: 10px;
@@ -41,12 +39,12 @@ body {
 .btnHero:hover {
   padding: 10px;
   border: none;
-  background-color: transparent; /* Hacer transparente el color de fondo */
-  background-image: url("../../public/circulo.png"); /* Ruta de la imagen */
-  background-size: contain; /* Ajustar la imagen para cubrir todo el botón */
+  background-color: transparent;
+  background-image: url("../../public/circulo.png");
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: center; /* Centrar la imagen */
-  color: transparent; /* Hacer el texto transparente para que no se vea */
+  background-position: center;
+  color: transparent;
 }
 
 .heroTextBox {
@@ -59,26 +57,15 @@ body {
 
 .customCaption {
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   height: 100%;
   left: 5% !important;
 }
 
-/* .carousel .carousel-control-next-icon.changed {
-  background-image: url(../../public/images/caret-right-solid.svg);
-  align-items: start;
-}
-
-.carousel .carousel-control-prev-icon.changed {
-  background-image: url(../../public/images/caret-left-solid.svg);
-  align-items: start;
-} */
-
 .carHeroM {
   height: 100%;
-  margin: 0; /* Elimina cualquier margen del Carousel */
-  padding: 0; /* Elimina cualquier relleno del Carousel */
+  margin: 0;
+  padding: 0;
 }
 
 @media (max-width: 750px) {
