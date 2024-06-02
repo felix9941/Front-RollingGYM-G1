@@ -1,21 +1,27 @@
+import { useEffect } from "react";
+import SnDesktop from "../../public/snDesktop.jpg";
+import SnMobile from "../../public/snMobile.jpg";
+import Nacho from "../../public/nachooo.png";
+import Javier from "../../public/Javier.png";
+import Felix from "../../public/Felix.jpg";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import styles from "../css/SobreNosotros.module.css";
-import { useEffect } from "react";
 
 const SobreNosotros = () => {
   useEffect(() => {
-    document.title = "Power Gym";
+    document.title = "Sobre Nosotros";
   }, []);
+
   return (
     <>
       <div className={styles.imageContainer}>
         <img
-          src="../../public/snDesktop.jpg"
+          src={SnDesktop}
           className={`${styles.imageD} ${styles.backgroundImage}`}
         />
         <img
-          src="../../public/snMobile.jpg"
+          src={SnMobile}
           className={`${styles.imageM} ${styles.backgroundImage}`}
         />
         <div className={styles.textOverlay}>
@@ -46,7 +52,7 @@ const SobreNosotros = () => {
           <div className={styles.card}>
             <h2 className={styles.h2SN}>Ignacio Duarte</h2>
             <h3 className={styles.h3SN}>Co-Fundador y Entrenador Principal</h3>
-            <img src="../../public/nachooo.png" alt="Juan Pérez" />
+            <img src={Nacho} alt="Nacho" />
             <p className={styles.pSN}>
               Con más de 15 años de experiencia en fitness, Nacho es experto en
               entrenamiento personal y nutrición deportiva, comprometido a
@@ -60,7 +66,7 @@ const SobreNosotros = () => {
             <h3 className={styles.h3SN}>
               Co-Fundador y Especialista en Clases
             </h3>
-            <img src="../../public/nachooo.png" alt="Juan Pérez" />
+            <img src={Javier} alt="Javier" />
             <p className={styles.pSN}>
               Certificado en yoga, pilates y Zumba, aporta su energía y pasión
               por el fitness, haciendo que cada clase sea divertida y accesible
@@ -74,7 +80,7 @@ const SobreNosotros = () => {
             <h3 className={styles.h3SN}>
               Co-Fundador y Director de Operaciones
             </h3>
-            <img src="../../public/nachooo.png" alt="Juan Pérez" />
+            <img src={Felix} alt="Felix" />
             <p className={styles.pSN}>
               Con experiencia en administración y gestión deportiva, Felix
               asegura una operación perfecta del gimnasio, enfocándose en
