@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -6,6 +6,10 @@ import Swal from "sweetalert2"; // para instalar la libreria poner npm install s
 import "../css/IniciarSesion.css";
 
 const IniciarSesion = () => {
+  useEffect(() => {
+    document.title = "Iniciar Sesión";
+  }, []);
+
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
