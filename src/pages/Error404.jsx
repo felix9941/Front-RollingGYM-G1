@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import React from "react";
-import Error404 from "../../public/error404.svg";
+import Error404Img from "../../public/error404.svg";
 import "../css/Error404.css";
 
 function atras() {
@@ -11,7 +11,7 @@ const Error404 = () => {
   return (
     <div className="fondo-blanco">
       <div className="tamanio my-5 d-flex flex-column">
-        <img src={Error404} alt="" className="img-tamanio mt-5" />
+        <img src={Error404Img} alt="" className="img-tamanio mt-5" />
 
         <div>
           <Button
