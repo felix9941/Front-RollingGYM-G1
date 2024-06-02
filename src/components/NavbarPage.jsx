@@ -4,6 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom"; // Asegúrate de importar Link
 import styles from "../css/NavbarPage.module.css";
 import axios from "axios";
 
@@ -61,7 +62,9 @@ const NavbarPage = () => {
       }`}
     >
       <Container fluid>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand as={Link} to="/">
+          {" "}
+          {/* Usa Link para la navegación interna */}
           <img
             src="/public/powerGymLogo.png"
             alt="LogoPowerGYM"
@@ -84,37 +87,41 @@ const NavbarPage = () => {
             className={isResponsive ? "ms-auto" : "ms-auto align-items-center"}
           >
             <Nav.Link
+              as={Link}
+              to="/sobreNosotros"
               className={`${styles.navLink} ${
                 isScrolling ? styles.navbarScrollingNavLink : ""
               }`}
-              href="/sobreNosotros"
             >
               SOBRE NOSOTROS
             </Nav.Link>
             {!isResponsive && <span className={styles.navbarText}>|</span>}
             <Nav.Link
+              as={Link}
+              to="/contacto"
               className={`${styles.navLink} ${
                 isScrolling ? styles.navbarScrollingNavLink : ""
               }`}
-              href="/contacto"
             >
               CONTACTO
             </Nav.Link>
             {!isResponsive && <span className={styles.navbarText}>|</span>}
             <Nav.Link
+              as={Link}
+              to="/iniciarSesion"
               className={`${styles.navLink} ${
                 isScrolling ? styles.navbarScrollingNavLink : ""
               }`}
-              href="/iniciarSesion"
             >
               INICIAR SESIÓN
             </Nav.Link>
             {!isResponsive && <span className={styles.navbarText}>|</span>}
             <Nav.Link
+              as={Link}
+              to="/registro"
               className={`${styles.navLink} ${
                 isScrolling ? styles.navbarScrollingNavLink : ""
               }`}
-              href="/registro"
             >
               ¡HACETE SOCIO!
             </Nav.Link>
