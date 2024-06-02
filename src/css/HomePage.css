@@ -43,6 +43,7 @@
   padding: 10px;
   font-size: 1rem;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .btn-PlanPpal:hover {
