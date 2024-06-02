@@ -1,10 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { Carousel, Container, Row, Col, Card } from "react-bootstrap";
+import { Carousel, Container, Row, Col, Card, Nav } from "react-bootstrap";
 import "react-multi-carousel/lib/styles.css";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/HomePage.css";
+import PowerGymPpal from "../../public/POWERGYMPpal.png";
+import PesasReservación from "../../public/pesas-reservación.png";
+import BoxeoReservación from "../../public/boxeo-reservación.png";
+import CrossfitReservación from "../../public/Crossfit-reservación.png";
+import MusculaconReservación from "../../public/musculación-reservación.png";
+import PilatesReservación from "../../public/pilates-reservación.png";
+import CalisteniaReservación from "../../public/calistenia-reservación.png";
+import AdvancedWheyProtein from "../../public/Advanced Whey Protein (1000 gr.) (33 sv.).png";
+import MancuernaVinilica from "../../public/Mancuerna Vinilica 4kg (por unidad).jpg";
+import StarNutritionWhey from "../../public/STAR NUTRITION Whey Platinum Protein (3000 gr.) (100 sv.).png";
+import MatYogaColchoneta from "../../public/MAT YOGA COLCHONETA 1 CM BOLSO RANDERS PILATES FITNESS ARG-031A.webp";
+import JuanPerez from "../../public/juan-perez-musculacion.png";
+import RobertoMayan from "../../public/iconoPowerGym.png";
+import MariaSarmiento from "../../public/profe-maria-zumba.png";
+import SergioGomez from "../../public/musculación-reservación.png";
+import LudmilaDiaz from "../../public/iconoPowerGym.png";
+import MarceloPaz from "../../public/enrique-boxeo.png";
+import JulianaDiaz from "../../public/profe-pilates.png";
+import PubliNike from "../../public/publi-nike.png";
+import PubliAdidas from "../../public/publi-adidas.png";
+import PubliColegym from "../../public/publi-colegym.png";
+import PubliUnderArmour from "../../public/publi-under-armour.png";
+import PowerGymLogo from "../../public/powerGymLogo.png";
 import InfiniteCarousel from "../components/InifiniteCarousel";
+import "../css/HomePage.css";
 
 const HomePage = () => {
   useEffect(() => {
@@ -13,21 +36,19 @@ const HomePage = () => {
 
   const productos = [
     {
-      icono: "/public/Advanced Whey Protein (1000 gr.) (33 sv.).png",
+      icono: AdvancedWheyProtein,
       nombre: "Advanced Whey Protein (1000 gr.) (33 sv.)",
     },
     {
-      icono: "/public/Mancuerna Vinilica 4kg (por unidad).jpg",
+      icono: MancuernaVinilica,
       nombre: "Mancuerna Vinilica 4kg (por unidad)",
     },
     {
-      icono:
-        "/public/STAR NUTRITION Whey Platinum Protein (3000 gr.) (100 sv.).png",
+      icono: StarNutritionWhey,
       nombre: "STAR NUTRITION Whey Platinum Protein (3000 gr.) (100 sv.)",
     },
     {
-      icono:
-        "/public/MAT YOGA COLCHONETA 1 CM BOLSO RANDERS PILATES FITNESS ARG-031A.webp",
+      icono: MatYogaColchoneta,
       nombre: "MAT YOGA COLCHONETA 1 CM BOLSO RANDERS PILATES FITNESS ARG-031A",
     },
   ];
@@ -84,37 +105,37 @@ const HomePage = () => {
     {
       nombre: "Juan Perez",
       especialidad: "Musculación",
-      imagen: "/public/juan-perez-musculacion.png",
+      imagen: JuanPerez,
     },
     {
       nombre: "Roberto Mayan",
       especialidad: "Crossfit",
-      imagen: "/public/nachooo.png",
+      imagen: RobertoMayan,
     },
     {
       nombre: "Maria Sarmiento",
       especialidad: "Zumba",
-      imagen: "/public/profe-maria-zumba.png",
+      imagen: MariaSarmiento,
     },
     {
       nombre: "Sergio Gomez",
       especialidad: "Musculación",
-      imagen: "/public/musculación-reservación.png",
+      imagen: SergioGomez,
     },
     {
       nombre: "Ludmila Diaz",
       especialidad: "Zumba",
-      imagen: "/public/iconoPowerGym.png",
+      imagen: LudmilaDiaz,
     },
     {
       nombre: "Marcelo Paz",
       especialidad: "Boxeo",
-      imagen: "/public/enrique-boxeo.png",
+      imagen: MarceloPaz,
     },
     {
       nombre: "Juliana Diaz",
       especialidad: "Pilates",
-      imagen: "/public/profe-pilates.png",
+      imagen: JulianaDiaz,
     },
   ];
   //COMENTARIOS
@@ -157,11 +178,11 @@ const HomePage = () => {
   };
   //Publicidad
   const publicidades = [
-    { logo: "/public/publi-nike.png" },
-    { logo: "/public/publi-adidas.png" },
-    { logo: "/public/publi-colegym.png" },
-    { logo: "/public/publi-under-armour.png" },
-    { logo: "/public/powerGymLogo.png" },
+    { logo: PubliNike },
+    { logo: PubliAdidas },
+    { logo: PubliColegym },
+    { logo: PubliUnderArmour },
+    { logo: PowerGymLogo },
   ];
 
   return (
@@ -171,11 +192,7 @@ const HomePage = () => {
         <section className="inicio">
           <div className="inicio-content">
             <h1 className="inicio-contentH1">Tu Cuerpo Primero</h1>
-            <img
-              className="logoTitulo"
-              src="/public/POWERGYMPpal.png"
-              alt="logo"
-            />
+            <img className="logoTitulo" src={PowerGymPpal} alt="logo" />
             <p className="inicio-contentP">Acompañándote en el proceso</p>
             <button
               type="button"
@@ -193,11 +210,11 @@ const HomePage = () => {
             <Row>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <a href="/reservarClase">
+                  <Nav.Link href="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
-                        src="/public/pesas-reservación.png"
+                        src={PesasReservación}
                         alt="Pesas"
                       />
                       <div className="card-img-overlay">
@@ -206,16 +223,16 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </a>
+                  </Nav.Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <a href="/reservarClase">
+                  <Nav.Link href="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
-                        src="/public/boxeo-reservación.png"
+                        src={BoxeoReservación}
                         alt="Boxeo"
                       />
                       <div className="card-img-overlay">
@@ -224,16 +241,16 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </a>
+                  </Nav.Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <a href="/reservarClase">
+                  <Nav.Link href="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
-                        src="/public/Crossfit-reservación.png"
+                        src={CrossfitReservación}
                         alt="Crossfit"
                       />
                       <div className="card-img-overlay">
@@ -242,18 +259,18 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </a>
+                  </Nav.Link>
                 </Card>
               </Col>
             </Row>
             <Row>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <a href="/reservarClase">
+                  <Nav.Link href="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
-                        src="/public/musculación-reservación.png"
+                        src={MusculaconReservación}
                         alt="Musculación"
                       />
                       <div className="card-img-overlay">
@@ -262,16 +279,16 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </a>
+                  </Nav.Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <a href="/reservarClase">
+                  <Nav.Link href="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
-                        src="/public/pilates-reservación.png"
+                        src={PilatesReservación}
                         alt="Pilates"
                       />
                       <div className="card-img-overlay">
@@ -280,16 +297,16 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </a>
+                  </Nav.Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <a href="/reservarClase">
+                  <Nav.Link href="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
-                        src="/public/calistenia-reservación.png"
+                        src={CalisteniaReservación}
                         alt="Calistenia"
                       />
                       <div className="card-img-overlay">
@@ -298,7 +315,7 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </a>
+                  </Nav.Link>
                 </Card>
               </Col>
             </Row>
@@ -323,7 +340,7 @@ const HomePage = () => {
               <button
                 type="button"
                 className="btn-PlanPpal"
-                onClick={() => (window.location.href = "/reservarClase")}
+                onClick={() => (window.location.href = "/reservarClases")}
               >
                 Ver más
               </button>
@@ -343,7 +360,7 @@ const HomePage = () => {
               <button
                 type="button"
                 className="btn-PlanPpal"
-                onClick={() => (window.location.href = "/reservarClase")}
+                onClick={() => (window.location.href = "/reservarClases")}
               >
                 Ver más
               </button>
@@ -363,7 +380,7 @@ const HomePage = () => {
               <button
                 type="button"
                 className="btn-PlanPpal"
-                onClick={() => (window.location.href = "/reservarClase")}
+                onClick={() => (window.location.href = "/reservarClases")}
               >
                 Ver más
               </button>
