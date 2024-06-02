@@ -5,6 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom"; // Asegúrate de importar Link
+import LogoPowerGYM from "../../public/powerGymLogo.png";
 import styles from "../css/NavbarPage.module.css";
 import axios from "axios";
 
@@ -65,12 +66,7 @@ const NavbarPage = () => {
         <Navbar.Brand as={Link} to="/">
           {" "}
           {/* Usa Link para la navegación interna */}
-          <img
-            src="/public/powerGymLogo.png"
-            alt="LogoPowerGYM"
-            width="100"
-            height="40"
-          />
+          <img src={LogoPowerGYM} alt="LogoPowerGYM" width="100" height="40" />
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
