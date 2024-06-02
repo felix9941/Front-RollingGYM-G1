@@ -197,7 +197,7 @@ const HomePage = () => {
             <button
               type="button"
               className="btn-PlanPpal"
-              onClick={() => (window.location.href = "/planes")}
+              onClick={() => (window.location.href = "/error404")}
             >
               Ver Planes
             </button>

@@ -1,5 +1,5 @@
 import { FaFacebook, FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Importar Link de react-router-dom
+import { Link } from "react-router-dom";
 import IconoPowerGYM from "../../public/iconoPowerGym.png";
 import "../css/Footer.css";
 
@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="container-fluid">
         <div className="row pt-1 align-items-center fsfooter">
           <div className="col-12 col-md-6 col-lg-4 text-center mt-2 mb-2">
-            <Link to="/homePage">
+            <Link to="/" className="text-white fs-6 p-2 footer-link">
               <img src={IconoPowerGYM} alt="LogoPowerGym" width="100" />
             </Link>
           </div>
@@ -47,13 +47,13 @@ const Footer = () => {
           </div>
           <div className="col-12 col-md-6 col-lg-4 text-center mt-2 mb-2">
             <div className="informacion-pag text-center mt-4 mb-3">
-              <Link to="/inicio">Inicio</Link>
+              <Link to="/principal">Inicio</Link>
               <br />
               <Link to="/sobreNosotros">Sobre Nosotros</Link>
               <br />
               <Link to="/contacto">Contacto</Link>
               <br />
-              <Link to="/preguntasFrecuentes">Preguntas Frecuentes</Link>
+              <Link to="/error404">Preguntas Frecuentes</Link>
               <br />
             </div>
           </div>
