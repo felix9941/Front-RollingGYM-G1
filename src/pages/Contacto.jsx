@@ -38,7 +38,13 @@ const Contacto = () => {
       text: "Tu mensaje fue enviado con éxito!",
       icon: "success",
     }).then(() => {
-      window.location.reload();
+      setFormData({
+        nombre: "",
+        apellido: "",
+        email: "",
+        telefono: "",
+        mensaje: "",
+      });
     });
   };
 
