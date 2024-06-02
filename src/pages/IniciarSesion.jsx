@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2"; // para instalar la libreria poner npm install sweetalert2
@@ -189,14 +190,14 @@ const IniciarSesion = () => {
             </Button>
           </Form>
           <div className="text-center m-2 mt-4 ">
-            <a className="text-white" href="./registro">
+            <NavLink className="text-white" to="/registro">
               ¿No tiene una cuenta?
-            </a>
+            </NavLink>
           </div>
           <div className="text-center m-2">
-            <a className="text-white" href="./reestablacerPass">
+            <NavLink className="text-white" to="/error404">
               Reestablecer contraseña
-            </a>
+            </NavLink>
           </div>
         </div>
       </div>
