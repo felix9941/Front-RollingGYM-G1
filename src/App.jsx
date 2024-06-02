@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import "./App.css";
 
 const App = () => {
+  const isHeroPage = location.pathname === "/";
   return (
     <>
       <NavbarPage />
@@ -13,7 +14,7 @@ const App = () => {
         <RoutesViews />
       </Router>
       {/* </main> */}
-      <Footer />
+      {!isHeroPage && <Footer />}
     </>
   );
 };
