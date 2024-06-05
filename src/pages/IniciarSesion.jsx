@@ -53,7 +53,8 @@ const IniciarSesion = () => {
     ev.preventDefault();
     const { email, pass } = formData;
     let newErrors = {};
-    const passExpReg = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const passExpReg =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{6,}$/;
     const emailExpReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailExpReg.test(email)) {
@@ -66,7 +67,7 @@ const IniciarSesion = () => {
       newErrors = { ...newErrors, pass: "passNoCumple" };
     } else {
       try {
-        const iniciarSesion = clienteAxios.post(
+        const iniciarSesion = await clienteAxios.post(
           "/clientes/login",
           {
             email,
@@ -77,11 +78,11 @@ const IniciarSesion = () => {
         if (iniciarSesion.status === 200) {
           sessionStorage.setItem(
             "token",
-            JSON.stringify(loguearUsuario.data.token)
+            JSON.stringify(iniciarSesion.data.token)
           );
           sessionStorage.setItem(
             "role",
-            JSON.stringify(loguearUsuario.data.role)
+            JSON.stringify(iniciarSesion.data.role)
           );
           Swal.fire({
             icon: "success",
@@ -105,22 +106,10 @@ const IniciarSesion = () => {
 
     setErrors((prevState) => ({ ...prevState, ...newErrors }));
     //toma un estado anterior y con newErrors actualiza de ser necesario lo que no conbine
-    console.log({ ...formData, ...newErrors });
   };
 
   const mostrarMensajeErrorMail = mensajeError(errors.email);
   const mostrarMensajeErrorPass = mensajeError(errors.pass);
-
-  //Sweet
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    enviarFormulario();
-    Swal.fire({
-      icon: "success",
-      title: "Envío Exitoso",
-      text: "El formulario se ha enviado correctamente.",
-    });
-  };
 
   return (
     <div className="background_i d-flex justify-content-center align-items-center h-100">
