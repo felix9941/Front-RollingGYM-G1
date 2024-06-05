@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "../css/ModalParaNuevo.css";
 
 const ModalParaNuevo = ({
@@ -10,23 +12,67 @@ const ModalParaNuevo = ({
   errors,
   handleChange,
   errorMessage,
-  tipo, //Tipos adminitos: administrados, cliente, profesor
+  tipo, //Tipos adminitos: clase, categoria, producto
 }) => {
   let titleText = "";
   switch (tipo) {
-    case "administrador":
-      titleText = "Nuevo Administrador";
+    case "clase":
+      titleText = "Nueva Clase";
       break;
-    case "cliente":
-      titleText = "Nuevo Cliente";
+    case "categoria":
+      titleText = "Nueva Categoria";
       break;
-    case "profesor":
-      titleText = "Nuevo Profesor";
+    case "producto":
+      titleText = "Nuevo Producto";
       break;
     default:
-      titleText = "Nuevo Usuario";
       break;
   }
+
+  // e.preventDefault();
+  // if (!file) {
+  //   alert("Por favor, selecciona una imagen");
+  //   return;
+  // }
+
+  const horas = [
+    "7:00 AM",
+    "8:00 AM",
+    "9:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 PM",
+    "1:00 PM",
+    "2:00 PM",
+    "3:00 PM",
+    "4:00 PM",
+    "5:00 PM",
+    "6:00 PM",
+    "7:00 PM",
+    "8:00 PM",
+    "9:00 PM",
+    "10:00 PM",
+  ];
+
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [error, setError] = useState("");
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const [options, setOptions] = useState({
+    option1: false,
+    option2: false,
+    option3: false,
+  });
+
+  const handleCheckboxChange = (option) => {
+    setOptions({
+      ...options,
+      [option]: !options[option],
+    });
+  };
 
   const [file, setFile] = useState(null);
 
@@ -34,6 +80,11 @@ const ModalParaNuevo = ({
     setFile(e.target.files[0]);
   };
 
+  const [opcionSeleccionada, setOpcionSeleccionada] = useState("");
+
+  const manejarCambioSeleccion = (e) => {
+    setOpcionSeleccionada(e.target.value);
+  };
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -42,9 +93,10 @@ const ModalParaNuevo = ({
       <Modal.Body>
         <Form>
           <div className="row">
+            {tipo === "clase" && <p className="">Prefesor que la dicta</p>}
             <Form.Group
               controlId="formBasicNombre"
-              className=" col-md-6 col-sm-12"
+              className={tipo === "clase" ? " col-md-6 col-sm-12" : "col-12"}
             >
               <Form.Control
                 className={errors.nombre && "is-invalid"}
@@ -58,103 +110,127 @@ const ModalParaNuevo = ({
                 {errorMessage(errors.nombre)}
               </div>
             </Form.Group>
-            <Form.Group
-              controlId="formBasicApellido"
-              className=" col-md-6 col-sm-12"
-            >
-              <Form.Control
-                className={errors.apellido && "is-invalid"}
-                type="text"
-                placeholder="Apellido"
-                onChange={handleChange}
-                name="apellido"
-                value={formData.apellido}
-              />
-              <div className="error-message_registro">
-                {errorMessage(errors.apellido)}
-              </div>
-            </Form.Group>
+            {tipo === "clase" && (
+              <Form.Group
+                controlId="formBasicApellido"
+                className=" col-md-6 col-sm-12"
+              >
+                <Form.Control
+                  className={errors.apellido && "is-invalid"}
+                  type="text"
+                  placeholder="Apellido"
+                  onChange={handleChange}
+                  name="apellido"
+                  value={formData.apellido}
+                />
+                <div className="error-message_registro">
+                  {errorMessage(errors.apellido)}
+                </div>
+              </Form.Group>
+            )}
           </div>
-          <div className="row">
-            <Form.Group
-              controlId="formBasicCelular"
-              className=" col-md-6 col-sm-12"
-            >
-              <Form.Control
-                className={errors.celular && "is-invalid"}
-                type="text"
-                placeholder="Celular"
-                onChange={handleChange}
-                name="celular"
-                value={formData.celular}
-              />
-              <div className="error-message_registro">
-                {errorMessage(errors.celular)}
-              </div>
-            </Form.Group>
-            <Form.Group
-              controlId="formBasicEmail"
-              className=" col-md-6 col-sm-12"
-            >
-              <Form.Control
-                className={errors.email && "is-invalid"}
-                type="text"
-                placeholder="E-mail"
-                onChange={handleChange}
-                name="email"
-                value={formData.email}
-              />
-              <div className="error-message_registro">
-                {errorMessage(errors.email)}
-              </div>
-            </Form.Group>
-          </div>
-
-          <div className="row">
-            <Form.Group
-              controlId="formBasicPass"
-              className=" col-md-6 col-sm-12"
-            >
-              <Form.Control
-                className={errors.pass && "is-invalid"}
-                type="password"
-                placeholder="Contraseña"
-                onChange={handleChange}
-                name="pass"
-                value={formData.pass}
-              />
-              <div className="error-message_registro">
-                {errorMessage(errors.pass)}
-              </div>
-            </Form.Group>
-            <Form.Group
-              controlId="formBasicRpass"
-              className=" col-md-6 col-sm-12"
-            >
-              <Form.Control
-                className={errors.rpass && "is-invalid"}
-                type="password"
-                placeholder="Repetir contraseña"
-                onChange={handleChange}
-                name="rpass"
-                value={formData.rpass}
-              />
-              <div className="error-message_registro">
-                {errorMessage(errors.rpass)}
-              </div>
-            </Form.Group>
-          </div>
-          {tipo === "profesor" && (
+          {tipo === "clase" && (
             <div className="row">
               <Form.Group
-                controlId="formBasicImagen"
-                className="col-md-6 col-sm-12"
+                controlId="formBasicApellido"
+                className=" col-md-6 col-sm-12"
               >
+                <Form.Control
+                  className={errors.capacidad && "is-invalid"}
+                  type="number"
+                  placeholder="Capacidad"
+                  onChange={handleChange}
+                  name="capacidad"
+                  value={formData.capacidad}
+                />
+                <div className="error-message_registro">
+                  {errorMessage(errors.capacidad)}
+                </div>
+              </Form.Group>
+
+              <Form.Group
+                controlId="exampleForm.SelectCustom"
+                className=" col-md-6 col-sm-12"
+              >
+                <Form.Select onChange={manejarCambioSeleccion}>
+                  <option value="">Seleccione categoria</option>
+                  <option value="1">Categoría 1</option>
+                  <option value="2">Categoría 2</option>
+                  <option value="3">Categoría 3</option>
+                </Form.Select>
+              </Form.Group>
+            </div>
+          )}
+          {tipo === "clase" && (
+            <div className="row">
+              <Form.Group
+                controlId="exampleForm.SelectDia"
+                className=" col-md-6 col-sm-12"
+              >
+                <Form.Select onChange={manejarCambioSeleccion}>
+                  <option value="">Seleccione Dia</option>
+                  <option value="1">Lunes</option>
+                  <option value="2">Martes</option>
+                  <option value="3">Miércoles</option>
+                  <option value="4">Jueves</option>
+                  <option value="5">Viernes</option>
+                  <option value="6">Sábado</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group
+                controlId="exampleForm.SelectHora"
+                className=" col-md-6 col-sm-12"
+              >
+                <Form.Select onChange={manejarCambioSeleccion}>
+                  <option value="">Seleccione hora</option>
+                  {horas.map((hora, index) => (
+                    <option key={index} value={index}>
+                      {hora}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            </div>
+          )}
+
+          {tipo === "categoria" && (
+            <div className="row mb-3">
+              <p className="">Plan al que pertenece</p>
+              <Form className="row d-flex justify-content-center  ps-5">
+                <Form.Check
+                  type="checkbox"
+                  label="Opción 1"
+                  checked={options.option1}
+                  onChange={() => handleCheckboxChange("option1")}
+                  className="col-4"
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Opción 2"
+                  checked={options.option2}
+                  onChange={() => handleCheckboxChange("option2")}
+                  className="col-4"
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Opción 3"
+                  checked={options.option3}
+                  onChange={() => handleCheckboxChange("option3")}
+                  className="col-4"
+                />
+              </Form>
+            </div>
+          )}
+
+          {tipo !== "clase" && (
+            <div className="row">
+              <Form.Group controlId="formBasicImagen" className="col-12">
                 <Form.Label>Cargar Foto</Form.Label>
                 <Form.Control
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
+                  required
                 />
               </Form.Group>
             </div>
