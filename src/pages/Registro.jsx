@@ -5,11 +5,15 @@ import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 import fondo from "../../public/fondo_r.png";
 import "../css/Registro.css";
+import axios from "axios";
+import clienteAxios, { config } from "../helpers/clienteAxios";
 
 const RegisterPage = () => {
   useEffect(() => {
     document.title = "Registro";
   }, []);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -66,11 +70,12 @@ const RegisterPage = () => {
     }
   };
 
-  const enviarFormulario = (ev) => {
+  const enviarFormulario = async (ev) => {
     ev.preventDefault();
-    const { user, nombre, apellido, celular, email, pass, rpass } = formData;
+    const { nombre, apellido, celular, email, pass, rpass } = formData;
     let newErrors = {};
-    const passExpReg = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const passExpReg =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{6,}$/;
     const nombreApellidoExpReg = /^(?=.*[a-zA-Z])[A-Za-z\s]{3,}$/;
 
     const emailExpReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -105,16 +110,33 @@ const RegisterPage = () => {
       if (pass !== rpass) {
         newErrors = { ...newErrors, rpass: "passNoCoincide" };
       } else {
-        Swal.fire({
-          icon: "success",
-          title: "Envío Exitoso",
-          text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
-        });
+        setIsLoading(true);
+
+        const createUser = await clienteAxios.post(
+          "/clientes/register",
+          { nombre, apellido, telefono: celular, email, contrasenia: pass },
+          config
+        );
+
+        if (createUser.status === 200) {
+          setIsLoading(false);
+          Swal.fire({
+            icon: "success",
+            title: "Envío Exitoso",
+            text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Registro Fallido",
+            text: "Intente nuevamente el registro",
+          });
+          setIsLoading(false);
+        }
       }
     }
 
     setErrors((prevState) => ({ ...prevState, ...newErrors }));
-    console.log({ ...formData, ...newErrors });
   };
 
   const mostrarMensajeErrorNombre = mensajeError(errors.nombre);
@@ -291,6 +313,7 @@ const RegisterPage = () => {
                   type="submit"
                   className="w-100 square-button_registro mt-3 custom-button_registro"
                   onClick={enviarFormulario}
+                  disabled={isLoading}
                 >
                   Enviar Registro
                 </Button>

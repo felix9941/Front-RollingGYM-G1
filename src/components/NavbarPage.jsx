@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom"; // Asegúrate de importar Link
+import { Link } from "react-router-dom";
 import LogoPowerGYM from "../../public/powerGymLogo.png";
 import styles from "../css/NavbarPage.module.css";
 import axios from "axios";
@@ -13,6 +14,8 @@ const NavbarPage = () => {
   const [isResponsive, setIsResponsive] = useState(false);
   const [weather, setWeather] = useState(null);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,8 +54,22 @@ const NavbarPage = () => {
       );
   }, []);
 
+  useEffect(() => {
+    const role = localStorage.getItem("userRole");
+    setUserRole(role);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userRole");
+    setUserRole(null);
+  };
+
   const getWeatherIconUrl = (iconCode) => {
     return `http://openweathermap.org/img/wn/${iconCode}.png`;
+  };
+
+  const handleNavLinkClick = () => {
+    setExpanded(false);
   };
 
   return (
@@ -61,11 +78,11 @@ const NavbarPage = () => {
       className={`sticky-top ${
         isScrolling ? styles.navbarScrolling : styles.navbarInitial
       }`}
+      expanded={expanded}
+      onToggle={() => setExpanded(!expanded)}
     >
       <Container fluid>
-        <Navbar.Brand as={Link} to="/">
-          {" "}
-          {/* Usa Link para la navegación interna */}
+        <Navbar.Brand as={Link} to="/" onClick={handleNavLinkClick}>
           <img src={LogoPowerGYM} alt="LogoPowerGYM" width="100" height="40" />
         </Navbar.Brand>
         <Navbar.Toggle
@@ -81,7 +98,9 @@ const NavbarPage = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav
             className={isResponsive ? "ms-auto" : "ms-auto align-items-center"}
+            onClick={handleNavLinkClick}
           >
+            {!isResponsive && <span className={styles.navbarText}>|</span>}
             <Nav.Link
               as={Link}
               to="/sobreNosotros"
@@ -102,25 +121,113 @@ const NavbarPage = () => {
               CONTACTO
             </Nav.Link>
             {!isResponsive && <span className={styles.navbarText}>|</span>}
-            <Nav.Link
-              as={Link}
-              to="/iniciarSesion"
-              className={`${styles.navLink} ${
-                isScrolling ? styles.navbarScrollingNavLink : ""
-              }`}
-            >
-              INICIAR SESIÓN
-            </Nav.Link>
-            {!isResponsive && <span className={styles.navbarText}>|</span>}
-            <Nav.Link
-              as={Link}
-              to="/registro"
-              className={`${styles.navLink} ${
-                isScrolling ? styles.navbarScrollingNavLink : ""
-              }`}
-            >
-              ¡HACETE SOCIO!
-            </Nav.Link>
+
+            {userRole === "admin" && (
+              <>
+                <Nav.Link
+                  as={Link}
+                  to="/principal"
+                  className={`${styles.navLink} ${
+                    isScrolling ? styles.navbarScrollingNavLink : ""
+                  }`}
+                >
+                  INICIO
+                </Nav.Link>
+                <NavDropdown title="Admin" id="admin-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/adminClases">
+                    Admin de Clases
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/adminProfesores">
+                    Admin de Profesores
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/adminClientes">
+                    Admin de Clientes
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/adminAdmins">
+                    Admin de Administradores
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/adminPlanes">
+                    Admin de Planes
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/adminProductos">
+                    Admin Productos
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Link
+                  as={Link}
+                  to="/logout"
+                  className={`${styles.navLink} ${
+                    isScrolling ? styles.navbarScrollingNavLink : ""
+                  }`}
+                  onClick={handleLogout}
+                >
+                  CERRAR SESIÓN
+                </Nav.Link>
+              </>
+            )}
+
+            {userRole === "user" && (
+              <>
+                <Nav.Link
+                  as={Link}
+                  to="/principal"
+                  className={`${styles.navLink} ${
+                    isScrolling ? styles.navbarScrollingNavLink : ""
+                  }`}
+                >
+                  INICIO
+                </Nav.Link>
+                <NavDropdown title="Mi Cuenta" id="user-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/misClases">
+                    Mis Clases
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/reservarClases">
+                    Reservar una Clase
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/misReservas">
+                    Mis Reservas
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/misDatos">
+                    Mis Datos
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Link
+                  as={Link}
+                  to="/logout"
+                  className={`${styles.navLink} ${
+                    isScrolling ? styles.navbarScrollingNavLink : ""
+                  }`}
+                  onClick={handleLogout}
+                >
+                  CERRAR SESIÓN
+                </Nav.Link>
+              </>
+            )}
+
+            {!userRole && (
+              <>
+                <Nav.Link
+                  as={Link}
+                  to="/iniciarSesion"
+                  className={`${styles.navLink} ${
+                    isScrolling ? styles.navbarScrollingNavLink : ""
+                  }`}
+                >
+                  INICIAR SESIÓN
+                </Nav.Link>
+                {!isResponsive && <span className={styles.navbarText}>|</span>}
+                <Nav.Link
+                  as={Link}
+                  to="/registro"
+                  className={`${styles.navLink} ${
+                    isScrolling ? styles.navbarScrollingNavLink : ""
+                  }`}
+                >
+                  ¡HACETE SOCIO!
+                </Nav.Link>
+              </>
+            )}
+
             {weather && weather.weather && weather.weather.length > 0 && (
               <span className={styles.navbarText}>
                 <img
@@ -138,5 +245,4 @@ const NavbarPage = () => {
     </Navbar>
   );
 };
-
 export default NavbarPage;
