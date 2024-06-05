@@ -333,9 +333,14 @@ const HomePage = () => {
                 bienestar general a su propio ritmo.
               </p>
               <p className="plan-contentPrecio">$7000/mes</p>
-              <Link to="/reservarClases" className="btn-PlanPpal">
+              <a
+                href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-PlanPpal"
+              >
                 Ver Más
-              </Link>
+              </a>
             </div>
             <div className="plan">
               <h3 className="plan-contentH3">Plan Full</h3>
@@ -349,9 +354,14 @@ const HomePage = () => {
                 holístico en su rutina de ejercicios.
               </p>
               <p className="plan-contentPrecio">$10000/mes</p>
-              <Link to="/reservarClases" className="btn-PlanPpal">
+              <a
+                href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-PlanPpal"
+              >
                 Ver Más
-              </Link>
+              </a>
             </div>
             <div className="plan">
               <h3 className="plan-contentH3">Plan Clases</h3>
@@ -365,9 +375,14 @@ const HomePage = () => {
                 en grupo.
               </p>
               <p className="plan-contentPrecio">$8000/mes</p>
-              <Link to="/reservarClases" className="btn-PlanPpal">
+              <a
+                href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-PlanPpal"
+              >
                 Ver Más
-              </Link>
+              </a>
             </div>
           </div>
         </section>
