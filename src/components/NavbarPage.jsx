@@ -15,6 +15,7 @@ const NavbarPage = () => {
   const [weather, setWeather] = useState(null);
   const [isScrolling, setIsScrolling] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,15 +68,21 @@ const NavbarPage = () => {
     return `http://openweathermap.org/img/wn/${iconCode}.png`;
   };
 
+  const handleNavLinkClick = () => {
+    setExpanded(false);
+  };
+
   return (
     <Navbar
       expand="lg"
       className={`sticky-top ${
         isScrolling ? styles.navbarScrolling : styles.navbarInitial
       }`}
+      expanded={expanded}
+      onToggle={() => setExpanded(!expanded)}
     >
       <Container fluid>
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to="/" onClick={handleNavLinkClick}>
           <img src={LogoPowerGYM} alt="LogoPowerGYM" width="100" height="40" />
         </Navbar.Brand>
         <Navbar.Toggle
@@ -91,6 +98,7 @@ const NavbarPage = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav
             className={isResponsive ? "ms-auto" : "ms-auto align-items-center"}
+            onClick={handleNavLinkClick}
           >
             {!isResponsive && <span className={styles.navbarText}>|</span>}
             <Nav.Link
@@ -142,7 +150,7 @@ const NavbarPage = () => {
                     Admin de Planes
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/adminProductos">
-                    Admin de Productos
+                    Admin Productos
                   </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link
