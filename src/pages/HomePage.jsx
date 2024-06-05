@@ -194,9 +194,9 @@ const HomePage = () => {
             <h1 className="inicio-contentH1">Tu Cuerpo Primero</h1>
             <img className="logoTitulo" src={PowerGymPpal} alt="logo" />
             <p className="inicio-contentP">Acompañándote en el proceso</p>
-            <Link to="/error404" className="btn-PlanPpal">
+            <a href="#planes" className="btn-PlanPpal">
               Ver Planes
-            </Link>
+            </a>
           </div>
         </section>
         {/* Reservación */}
@@ -318,7 +318,7 @@ const HomePage = () => {
           </Container>
         </section>
         {/* Planes */}
-        <section className="planes">
+        <section id="planes" className="planes">
           <h2 className="planes-contentH2">Elegí tu plan!</h2>
           <div className="planes-container">
             <div className="plan">
