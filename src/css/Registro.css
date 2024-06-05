@@ -41,6 +41,16 @@
   .contenedor-regis {
     padding-top: 50px;
   }
+  .error-message_registro {
+    min-height: 50px;
+  }
+}
+
+@media (width > 500px) {
+  .error-message_registro {
+    min-height: 50px;
+    max-width: 250px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -71,10 +81,6 @@
   max-width: 600px;
   width: 100%;
   height: 100%;
-}
-
-.error-message_registro {
-  min-height: 36px;
 }
 
 .square-button_registro {
