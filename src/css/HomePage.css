@@ -1,4 +1,3 @@
-/* Sección de inicio */
 .container-Ppal {
   margin: 0;
   padding: 0;
@@ -55,7 +54,6 @@
   color: transparent;
 }
 
-/* Sección de reservación */
 .reservacion {
   padding: 2rem;
   text-align: center;
@@ -129,7 +127,6 @@
   opacity: 1;
 }
 
-/* Sección de planes */
 .planes {
   padding: 2rem;
   text-align: center;
@@ -188,7 +185,6 @@
   cursor: pointer;
 }
 
-/* Sección de productos */
 .productos {
   padding: 1rem;
   text-align: center;
@@ -216,7 +212,7 @@
 }
 
 .producto {
-  flex: 1;
+  flex: 1 1 0;
   margin: 1rem;
   text-align: center;
   position: relative;
@@ -231,6 +227,7 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  object-fit: cover;
 }
 
 .producto img {
@@ -262,7 +259,6 @@
   opacity: 1;
 }
 
-/* Sección de profesores */
 .profesores {
   padding: 2rem;
   text-align: center;
@@ -277,6 +273,7 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  object-fit: cover;
 }
 
 .profesor-img {
@@ -316,7 +313,6 @@
   text-align: unset;
 }
 
-/* Sección de comentarios */
 .comentarios {
   padding: 2rem;
   text-align: center;
@@ -403,7 +399,6 @@
   color: transparent;
 }
 
-/* Sección de publicidades */
 .publicidades {
   padding: 2rem;
   text-align: center;
@@ -427,17 +422,16 @@
 .publicidad img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 @media (min-width: 768px) {
-  /* PUBLICIDAD */
   .publicidades {
     display: none;
   }
 }
 
 @media (max-width: 768px) {
-  /* RESERVACION*/
   .reservacion-contentH3 {
     color: white;
     font-size: 1.4rem;
@@ -469,7 +463,7 @@
     margin-left: auto !important;
     margin-right: auto !important;
   }
-  /* PLANES */
+
   .plan-contentP {
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -477,11 +471,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  /* PRODUCTO */
+
   .producto {
     flex-basis: 100%;
   }
-  /* PROFESORES*/
+
   .profesor-img-container {
     width: 100%;
     max-width: 300px;
@@ -491,8 +485,9 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+    object-fit: cover;
   }
-  /* COMENTARIOS*/
+
   .formContacto input,
   .formContacto textarea {
     width: 80%;
