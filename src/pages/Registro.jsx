@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import fondo from "../../public/fondo_r.png";
 import "../css/Registro.css";
 import axios from "axios";
+import clienteAxios, { config } from "../helpers/clienteAxios";
 
 const RegisterPage = () => {
   useEffect(() => {
