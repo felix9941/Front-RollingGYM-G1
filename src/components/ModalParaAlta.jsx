@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
+import "../css/ModalParaAlta.css";
 
 const ModalParaAlta = ({
   show,
@@ -9,7 +10,7 @@ const ModalParaAlta = ({
   errors,
   handleChange,
   errorMessage,
-  tipo, //administrados, cliente, profesor
+  tipo, //Tipos adminitos: administrados, cliente, profesor
 }) => {
   let titleText = "";
   switch (tipo) {
@@ -143,7 +144,7 @@ const ModalParaAlta = ({
               </div>
             </Form.Group>
           </div>
-          {tipo == "profesor" && (
+          {tipo === "profesor" && (
             <div className="row">
               <Form.Group
                 controlId="formBasicImagen"
@@ -164,7 +165,7 @@ const ModalParaAlta = ({
         <Button
           variant=""
           type="submit"
-          className="w-100 square-button_registro mt-3 custom-button_registro"
+          className="w-100 square-button_modal mt-3 custom-button_modal"
           onClick={handleSubmit}
         >
           Enviar Registro
