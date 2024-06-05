@@ -84,20 +84,10 @@ const AdminClientes = () => {
     } else {
       if (pass !== rpass) {
         newErrors = { ...newErrors, rpass: "passNoCoincide" };
-      } else {
-        // Swal.fire({
-        //   icon: "success",
-        //   title: "Envío Exitoso",
-        //   text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
-        // });
       }
     }
-
     setErrors((prevState) => ({ ...prevState, ...newErrors }));
     console.log({ ...formData, ...newErrors });
-
-    // UNA VEZ CARGADO CON EXITO EJECUTAR LA FUNCION
-    //  handleClose(); O SOLAMENTE setShow(false);
   };
 
   const errorMessage = (error) => {
