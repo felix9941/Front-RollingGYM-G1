@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 import fondo from "../../public/fondo_r.png";
 import "../css/Registro.css";
+import axios from "axios";
 
 const RegisterPage = () => {
   useEffect(() => {
@@ -109,21 +110,11 @@ const RegisterPage = () => {
         newErrors = { ...newErrors, rpass: "passNoCoincide" };
       } else {
         setIsLoading(true);
-        const createUser = await fetch(
-          "http://localhost:3002/api/clientes/register",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              nombre,
-              apellido,
-              telefono: celular,
-              email,
-              contrasenia: pass,
-            }),
-          }
+
+        const createUser = await clienteAxios.post(
+          "/clientes/register",
+          { nombre, apellido, telefono: celular, email, contrasenia: pass },
+          config
         );
 
         if (createUser.status === 200) {
