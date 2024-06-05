@@ -62,7 +62,7 @@ const RegisterPage = () => {
       case "passVacio":
         return "Ingresar contraseña";
       case "passNoCumple":
-        return "La contraseña contener almenos 6 caracteres alfanumericos";
+        return "Contraseña: 6 caracteres, al menos una letra, un número y un carácter especial.";
       case "passNoCoincide":
         return "La contraseña no coincide";
       default:
