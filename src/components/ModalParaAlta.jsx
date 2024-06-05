@@ -168,7 +168,7 @@ const ModalParaAlta = ({
           className="w-100 square-button_modal mt-3 custom-button_modal"
           onClick={handleSubmit}
         >
-          Enviar Registro
+          Cargar
         </Button>
       </Modal.Footer>
     </Modal>

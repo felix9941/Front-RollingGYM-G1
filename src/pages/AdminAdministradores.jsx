@@ -126,7 +126,7 @@ const AdminAdministradores = () => {
       <div className={styles.contenedorAdmins}>
         <div className={styles.encabezadoAdministrador}>
           <h1 className={styles.h1Admins}>Administracion de Administradores</h1>
-          <Button onClick={handleShow} className="">
+          <Button onClick={handleShow} className={styles.buttonAdmins}>
             Nuevo Administrador
           </Button>
           <ModalParaAlta
