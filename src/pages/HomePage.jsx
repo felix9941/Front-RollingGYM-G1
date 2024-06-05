@@ -54,7 +54,6 @@ const HomePage = () => {
     },
   ];
 
-  // Crear slides con tres productos cada uno
   const productSlidesLarge = [];
   for (let i = 0; i < productos.length; i += 3) {
     const items = productos.slice(i, i + 3).map((producto, index) => (
@@ -68,7 +67,6 @@ const HomePage = () => {
       </Col>
     ));
 
-    // Rellenar con productos repetidos si el último slide tiene menos de 3 productos
     while (items.length < 3) {
       const producto = productos[items.length % productos.length];
       items.push(
@@ -101,7 +99,7 @@ const HomePage = () => {
       </div>
     </Carousel.Item>
   ));
-  //PROFESORES
+
   const profesores = [
     {
       nombre: "Juan Perez",
@@ -139,7 +137,7 @@ const HomePage = () => {
       imagen: JulianaDiaz,
     },
   ];
-  //COMENTARIOS
+
   const [comments, setComments] = useState([
     { autor: "Jeffrey Brown", texto: "El mejor Gym que conoci, buen ambiente" },
     {
@@ -176,7 +174,7 @@ const HomePage = () => {
     const value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
     setNewComment({ ...newComment, [e.target.name]: value });
   };
-  //Publicidad
+
   const publicidades = [
     { logo: PubliNike },
     { logo: PubliAdidas },
@@ -188,7 +186,6 @@ const HomePage = () => {
   return (
     <>
       <div className="container-Ppal">
-        {/* Inicio */}
         <section className="inicio">
           <div className="inicio-content">
             <h1 className="inicio-contentH1">Tu Cuerpo Primero</h1>
@@ -199,7 +196,7 @@ const HomePage = () => {
             </a>
           </div>
         </section>
-        {/* Reservación */}
+
         <section className="reservacion">
           <h2 className="reservacion-contentH2">Reserva Tu Clase!</h2>
           <Container>
@@ -317,7 +314,7 @@ const HomePage = () => {
             </Row>
           </Container>
         </section>
-        {/* Planes */}
+
         <section id="planes" className="planes">
           <h2 className="planes-contentH2">Elegí tu plan!</h2>
           <div className="planes-container">
@@ -386,7 +383,7 @@ const HomePage = () => {
             </div>
           </div>
         </section>
-        {/* Productos */}
+
         <section className="productos">
           <h2 className="productos-contentH2">
             Productos que podes adquirir en nuestro PowerGym
@@ -432,7 +429,6 @@ const HomePage = () => {
             </div>
           </Container>
         </section>
-        {/* Profesores */}
         <section className="profesores">
           <h2 className="profes-contentH2">Nuestros Profes</h2>
           <Container>
