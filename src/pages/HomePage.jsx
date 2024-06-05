@@ -206,7 +206,7 @@ const HomePage = () => {
             <Row>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -219,12 +219,12 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -237,12 +237,12 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -255,14 +255,14 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
             </Row>
             <Row>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -275,12 +275,12 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -293,12 +293,12 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -311,7 +311,7 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
             </Row>
