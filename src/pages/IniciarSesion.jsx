@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2"; // para instalar la libreria poner npm install sweetalert2
 import "../css/IniciarSesion.css";
-import axios from "axios";
 import clienteAxios, { config } from "../helpers/clienteAxios";
 
 const IniciarSesion = () => {
@@ -67,7 +66,54 @@ const IniciarSesion = () => {
       newErrors = { ...newErrors, pass: "passNoCumple" };
     } else {
       try {
-        const iniciarSesion = await clienteAxios.post(
+        const collections = ["clientes", "profesores"];
+        let isAuthenticated = false;
+        let iniciarSesion;
+
+        for (let collection of collections) {
+          try {
+            iniciarSesion = await clienteAxios.post(
+              `/${collection}/login`,
+              { email, contrasenia: pass },
+              config
+            );
+
+            if (iniciarSesion.status === 200) {
+              sessionStorage.setItem(
+                "token",
+                JSON.stringify(iniciarSesion.data.token)
+              );
+              sessionStorage.setItem(
+                "role",
+                JSON.stringify(iniciarSesion.data.role)
+              );
+              Swal.fire({
+                icon: "success",
+                title: "Inicio de sesión exitoso",
+                text: "Bienvenido a Power Gym",
+              });
+              isAuthenticated = true;
+              break;
+            }
+          } catch (error) {
+            if (
+              error.response &&
+              error.response.status !== 401 &&
+              error.response &&
+              error.response.status !== 404
+            ) {
+              alert("Error al iniciar sesión");
+              return;
+            }
+          }
+        }
+
+        if (!isAuthenticated) {
+          setError("errorPassIncorrecto");
+          alert("Email o contraseña incorrectos");
+        }
+
+        /* const iniciarSesion = await clienteAxios.post(
           "/clientes/login",
           {
             email,
@@ -89,18 +135,17 @@ const IniciarSesion = () => {
             title: "Inicio de sesion exitoso",
             text: "Bienvenido a Power Gym",
           });
-        }
+        } */
       } catch (error) {
-        if (error.response.status === 401) {
-          /* Si el status de la consulta da 401 es por la contrasena */
+        /* if (error.response.status === 401) {
           setError("errorPassIncorrecto");
           alert(error.response.data.message);
           setIsLoading(false);
           return;
         } else {
-          /* Si el status de la consulta es otro es porque ya hay otro error */
           alert("Error al iniciar sesion");
-        }
+        } */
+        alert("Error al iniciar sesión");
       }
     }
 

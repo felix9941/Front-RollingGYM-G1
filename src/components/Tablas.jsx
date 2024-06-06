@@ -32,6 +32,9 @@ const DynamicTable = ({ columns, data, onToggle, onDelete, onEdit }) => {
           </button>
         );
       default:
+        if (Array.isArray(value)) {
+          return value.join(", ");
+        }
         return value;
     }
   };
@@ -67,13 +70,13 @@ DynamicTable.propTypes = {
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       header: PropTypes.string.isRequired,
-      type: PropTypes.string, // 'text', 'image', 'boolean', 'action'
+      type: PropTypes.string,
     })
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onToggle: PropTypes.func.isRequired, // Para manejar la activación/desactivación
-  onDelete: PropTypes.func.isRequired, // Para manejar la eliminación
-  onEdit: PropTypes.func.isRequired, // Para manejar la edicion
+  onToggle: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default DynamicTable;

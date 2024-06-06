@@ -24,12 +24,14 @@ const Footer = () => {
                 >
                   <FaFacebook className="icono-redes" />
                 </Link>
-                <Link
-                  to="/error404"
+                <a
+                  href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white fs-6 p-2 footer-link"
                 >
                   <FaWhatsapp className="icono-redes" />
-                </Link>
+                </a>
                 <Link
                   to="/error404"
                   className="text-white fs-6 p-2 footer-link"
