@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import emailjs from "@emailjs/browser";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import "../css/Contacto.css";
@@ -33,19 +34,33 @@ const Contacto = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Swal.fire({
-      title: "Perfecto!",
-      text: "Tu mensaje fue enviado con éxito!",
-      icon: "success",
-    }).then(() => {
-      setFormData({
-        nombre: "",
-        apellido: "",
-        email: "",
-        telefono: "",
-        mensaje: "",
-      });
-    });
+    emailjs
+      .sendForm(
+        "service_jemddsf",
+        "template_ukriywk",
+        e.target,
+        "Da77wCqrNgf7MAbSe"
+      )
+      .then(
+        (result) => {
+          Swal.fire({
+            title: "Perfecto!",
+            text: "Tu mensaje fue enviado con éxito!",
+            icon: "success",
+          }).then(() => {
+            setFormData({
+              nombre: "",
+              apellido: "",
+              email: "",
+              telefono: "",
+              mensaje: "",
+            });
+          });
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
   };
 
   return (
