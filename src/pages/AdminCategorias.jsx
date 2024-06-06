@@ -45,12 +45,28 @@ const Admincategorias = () => {
     imagen: "",
     estado: true,
   });
+  const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!modalData.name) newErrors.name = "El nombre es requerido";
+    if (modalData.planes.length === 0)
+      newErrors.planes = "Debe seleccionar al menos un plan";
+    setErrors(newErrors);
+    setIsFormValid(Object.keys(newErrors).length === 0);
+  };
+
+  useEffect(() => {
+    validateForm();
+  }, [modalData]);
 
   const handleShowModal = (
     category = { id: null, name: "", planes: [], imagen: "", estado: true }
   ) => {
     setModalData(category);
     setShowModal(true);
+    setErrors({});
   };
 
   const handleHideModal = () => {
@@ -58,14 +74,14 @@ const Admincategorias = () => {
   };
 
   const handleSaveCategory = () => {
+    if (!isFormValid) return;
+
     if (modalData.id === null) {
-      // Add new category
       setcategorias([
         ...categorias,
         { ...modalData, id: categorias.length + 1 },
       ]);
     } else {
-      // Edit existing category
       setcategorias(
         categorias.map((cat) => (cat.id === modalData.id ? modalData : cat))
       );
@@ -112,7 +128,10 @@ const Admincategorias = () => {
     <div className={styles.contenedorAdmins}>
       <div className={styles.encabezadoAdministrador}>
         <h1 className={styles.h1Admins}>Administración de categorías</h1>
-        <Button variant="warning" onClick={() => handleShowModal()}>
+        <Button
+          className={styles.buttonAdmins}
+          onClick={() => handleShowModal()}
+        >
           Nueva categoría
         </Button>
         <DynamicTable
@@ -139,7 +158,11 @@ const Admincategorias = () => {
                   onChange={(e) =>
                     setModalData({ ...modalData, name: e.target.value })
                   }
+                  isInvalid={!!errors.name}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.name}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group>
                 <Form.Label>Planes al que pertenece</Form.Label>
@@ -164,6 +187,9 @@ const Admincategorias = () => {
                     }}
                   />
                 ))}
+                {errors.planes && (
+                  <div className="text-danger">{errors.planes}</div>
+                )}
               </Form.Group>
               <Form.Group>
                 <Form.Label>Foto</Form.Label>
@@ -173,7 +199,11 @@ const Admincategorias = () => {
                   onChange={(e) =>
                     setModalData({ ...modalData, imagen: e.target.value })
                   }
+                  isInvalid={!!errors.imagen}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.imagen}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group>
                 <Form.Check
@@ -194,6 +224,7 @@ const Admincategorias = () => {
             <Button
               onClick={handleSaveCategory}
               className={styles.buttonAdmins}
+              disabled={!isFormValid}
             >
               Guardar
             </Button>
