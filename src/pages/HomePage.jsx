@@ -35,9 +35,11 @@ const HomePage = () => {
   useEffect(() => {
     document.title = "Pagina Principal";
     getProductos();
+    getProfesores();
   }, []);
 
   const [productos, setProductos] = useState([]);
+  const [profesores, setProfesores] = useState([]);
 
   const getProductos = async () => {
     const response = await clienteAxios.get("/productos/prodHabilitados");
@@ -90,43 +92,10 @@ const HomePage = () => {
     </Carousel.Item>
   ));
 
-  const profesores = [
-    {
-      nombre: "Juan Perez",
-      especialidad: "Musculación",
-      imagen: JuanPerez,
-    },
-    {
-      nombre: "Roberto Mayan",
-      especialidad: "Crossfit",
-      imagen: RobertoMayan,
-    },
-    {
-      nombre: "Maria Sarmiento",
-      especialidad: "Zumba",
-      imagen: MariaSarmiento,
-    },
-    {
-      nombre: "Sergio Gomez",
-      especialidad: "Musculación",
-      imagen: SergioGomez,
-    },
-    {
-      nombre: "Ludmila Diaz",
-      especialidad: "Zumba",
-      imagen: LudmilaDiaz,
-    },
-    {
-      nombre: "Marcelo Paz",
-      especialidad: "Boxeo",
-      imagen: MarceloPaz,
-    },
-    {
-      nombre: "Juliana Diaz",
-      especialidad: "Pilates",
-      imagen: JulianaDiaz,
-    },
-  ];
+  const getProfesores = async () => {
+    const response = await clienteAxios.get("/profesores/habilitados");
+    setProfesores(response.data.profesores);
+  };
 
   const [comments, setComments] = useState([
     { autor: "Jeffrey Brown", texto: "El mejor Gym que conoci, buen ambiente" },
@@ -435,7 +404,7 @@ const HomePage = () => {
                               <div className="profesor">
                                 <div className="profesor-img-container">
                                   <img
-                                    src={prof.imagen}
+                                    src={prof.foto}
                                     alt={prof.nombre}
                                     className="profesor-img"
                                   />
@@ -445,7 +414,7 @@ const HomePage = () => {
                                     {prof.nombre}
                                   </h3>
                                   <p className="profes-contentP">
-                                    {prof.especialidad}
+                                    {profesor.apellido}
                                   </p>
                                 </div>
                               </div>
@@ -463,7 +432,7 @@ const HomePage = () => {
                                   <div className="profesor">
                                     <div className="profesor-img-container">
                                       <img
-                                        src={prof.imagen}
+                                        src={prof.foto}
                                         alt={prof.nombre}
                                         className="profesor-img"
                                       />
@@ -473,7 +442,7 @@ const HomePage = () => {
                                         {prof.nombre}
                                       </h3>
                                       <p className="profes-contentP">
-                                        {prof.especialidad}
+                                        {profesor.apellido}
                                       </p>
                                     </div>
                                   </div>
@@ -493,16 +462,14 @@ const HomePage = () => {
                     <div className="profesor">
                       <div className="profesor-img-container">
                         <img
-                          src={profesor.imagen}
+                          src={profesor.foto}
                           alt={profesor.nombre}
                           className="profesor-img"
                         />
                       </div>
                       <div className="profesor-info">
                         <h3 className="profes-contentH3">{profesor.nombre}</h3>
-                        <p className="profes-contentP">
-                          {profesor.especialidad}
-                        </p>
+                        <p className="profes-contentP">{profesor.apellido}</p>
                       </div>
                     </div>
                   </Carousel.Item>
