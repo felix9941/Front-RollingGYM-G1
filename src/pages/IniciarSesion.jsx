@@ -92,7 +92,12 @@ const IniciarSesion = () => {
               break;
             }
           } catch (error) {
-            if (error.response && error.response.status !== 401) {
+            if (
+              error.response &&
+              error.response.status !== 401 &&
+              error.response &&
+              error.response.status !== 404
+            ) {
               alert("Error al iniciar sesión");
               return;
             }
