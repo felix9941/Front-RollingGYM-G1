@@ -12,7 +12,7 @@ const ModalParaNuevo = ({
   errors,
   handleChange,
   errorMessage,
-  tipo, //Tipos admitidos: clase, categoria, producto
+  tipo, //Tipos admitidos: clase, categoria, producto, plan
 }) => {
   let titleText = "";
   switch (tipo) {
@@ -24,6 +24,9 @@ const ModalParaNuevo = ({
       break;
     case "producto":
       titleText = "Nuevo Producto";
+      break;
+    case "plan":
+      titleText = "Editar Plan";
       break;
     default:
       break;
@@ -115,10 +118,25 @@ const ModalParaNuevo = ({
               </Form.Group>
             )}
           </div>
+          {tipo === "plan" && (
+            <Form.Group controlId="formBasicPrecio" className="col--12">
+              <Form.Control
+                className={errors.precio && "is-invalid"}
+                type="number"
+                placeholder="Precio"
+                onChange={handleChange}
+                name="precio"
+                value={formData.precio}
+              />
+              <div className="error-message_registro">
+                {errorMessage(errors.precio)}
+              </div>
+            </Form.Group>
+          )}
           {tipo === "clase" && (
             <div className="row">
               <Form.Group
-                controlId="formBasicApellido"
+                controlId="formBasicCapacidad"
                 className=" col-md-6 col-sm-12"
               >
                 <Form.Control
@@ -239,7 +257,7 @@ const ModalParaNuevo = ({
             </div>
           )}
 
-          {tipo !== "clase" && (
+          {tipo !== "clase" && tipo !== "plan" && (
             <div className="row">
               <Form.Group controlId="formBasicImagen" className="col-12">
                 <Form.Label>Cargar Foto</Form.Label>
@@ -251,6 +269,23 @@ const ModalParaNuevo = ({
                 />
               </Form.Group>
             </div>
+          )}
+
+          {tipo === "plan" && (
+            <Form.Group controlId="formBasicDescripcion" className="col-12">
+              <Form.Control
+                as="textarea"
+                rows={4}
+                className={errors.descripcion && "is-invalid"}
+                placeholder="Descripción"
+                onChange={handleChange}
+                name="descripcion"
+                value={formData.descripcion}
+              />
+              <div className="error-message_registro">
+                {errorMessage(errors.descripcion)}
+              </div>
+            </Form.Group>
           )}
         </Form>
       </Modal.Body>
