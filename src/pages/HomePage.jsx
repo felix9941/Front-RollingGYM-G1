@@ -41,7 +41,7 @@ const HomePage = () => {
 
   const getProductos = async () => {
     const response = await clienteAxios.get("/productos/prodHabilitados");
-    setProductos(response.data.getAllProducts);
+    setProductos(response.data.productosHabilitados);
   };
 
   const productSlidesLarge = [];
