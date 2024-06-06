@@ -44,7 +44,6 @@ const HomePage = () => {
     setProductos(response.data.getAllProducts);
   };
 
-  // Crear slides con tres productos cada uno
   const productSlidesLarge = [];
   for (let i = 0; i < productos.length; i += 3) {
     const items = productos.slice(i, i + 3).map((producto, index) => (
@@ -58,7 +57,6 @@ const HomePage = () => {
       </Col>
     ));
 
-    // Rellenar con productos repetidos si el último slide tiene menos de 3 productos
     while (items.length < 3) {
       const producto = productos[items.length % productos.length];
       items.push(
@@ -91,7 +89,7 @@ const HomePage = () => {
       </div>
     </Carousel.Item>
   ));
-  //PROFESORES
+
   const profesores = [
     {
       nombre: "Juan Perez",
@@ -129,7 +127,7 @@ const HomePage = () => {
       imagen: JulianaDiaz,
     },
   ];
-  //COMENTARIOS
+
   const [comments, setComments] = useState([
     { autor: "Jeffrey Brown", texto: "El mejor Gym que conoci, buen ambiente" },
     {
@@ -166,7 +164,7 @@ const HomePage = () => {
     const value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
     setNewComment({ ...newComment, [e.target.name]: value });
   };
-  //Publicidad
+
   const publicidades = [
     { logo: PubliNike },
     { logo: PubliAdidas },
@@ -178,25 +176,24 @@ const HomePage = () => {
   return (
     <>
       <div className="container-Ppal">
-        {/* Inicio */}
         <section className="inicio">
           <div className="inicio-content">
             <h1 className="inicio-contentH1">Tu Cuerpo Primero</h1>
             <img className="logoTitulo" src={PowerGymPpal} alt="logo" />
             <p className="inicio-contentP">Acompañándote en el proceso</p>
-            <Link to="/error404" className="btn-PlanPpal">
+            <a href="#planes" className="btn-PlanPpal">
               Ver Planes
-            </Link>
+            </a>
           </div>
         </section>
-        {/* Reservación */}
+
         <section className="reservacion">
           <h2 className="reservacion-contentH2">Reserva Tu Clase!</h2>
           <Container>
             <Row>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -209,12 +206,12 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -227,12 +224,12 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -245,14 +242,14 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
             </Row>
             <Row>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -265,12 +262,12 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -283,12 +280,12 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
               <Col xs={6} md={4} lg={4}>
                 <Card className="clase">
-                  <Nav.Link href="/reservarClases">
+                  <Link to="/reservarClases">
                     <div className="card-img-container">
                       <Card.Img
                         variant="top"
@@ -301,14 +298,14 @@ const HomePage = () => {
                         </Card.Title>
                       </div>
                     </div>
-                  </Nav.Link>
+                  </Link>
                 </Card>
               </Col>
             </Row>
           </Container>
         </section>
-        {/* Planes */}
-        <section className="planes">
+
+        <section id="planes" className="planes">
           <h2 className="planes-contentH2">Elegí tu plan!</h2>
           <div className="planes-container">
             <div className="plan">
@@ -323,9 +320,14 @@ const HomePage = () => {
                 bienestar general a su propio ritmo.
               </p>
               <p className="plan-contentPrecio">$7000/mes</p>
-              <Link to="/reservarClases" className="btn-PlanPpal">
+              <a
+                href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-PlanPpal"
+              >
                 Ver Más
-              </Link>
+              </a>
             </div>
             <div className="plan">
               <h3 className="plan-contentH3">Plan Full</h3>
@@ -339,9 +341,14 @@ const HomePage = () => {
                 holístico en su rutina de ejercicios.
               </p>
               <p className="plan-contentPrecio">$10000/mes</p>
-              <Link to="/reservarClases" className="btn-PlanPpal">
+              <a
+                href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-PlanPpal"
+              >
                 Ver Más
-              </Link>
+              </a>
             </div>
             <div className="plan">
               <h3 className="plan-contentH3">Plan Clases</h3>
@@ -355,13 +362,18 @@ const HomePage = () => {
                 en grupo.
               </p>
               <p className="plan-contentPrecio">$8000/mes</p>
-              <Link to="/reservarClases" className="btn-PlanPpal">
+              <a
+                href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-PlanPpal"
+              >
                 Ver Más
-              </Link>
+              </a>
             </div>
           </div>
         </section>
-        {/* Productos */}
+
         <section className="productos">
           <h2 className="productos-contentH2">
             Productos que podes adquirir en nuestro PowerGym
@@ -407,7 +419,6 @@ const HomePage = () => {
             </div>
           </Container>
         </section>
-        {/* Profesores */}
         <section className="profesores">
           <h2 className="profes-contentH2">Nuestros Profes</h2>
           <Container>
