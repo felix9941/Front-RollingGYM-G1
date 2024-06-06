@@ -29,37 +29,27 @@ import PubliUnderArmour from "../../public/publi-under-armour.png";
 import PowerGymLogo from "../../public/powerGymLogo.png";
 import InfiniteCarousel from "../components/InifiniteCarousel";
 import "../css/HomePage.css";
+import clienteAxios from "../helpers/clienteAxios";
 
 const HomePage = () => {
   useEffect(() => {
     document.title = "Pagina Principal";
+    getProductos();
   }, []);
 
-  const productos = [
-    {
-      icono: AdvancedWheyProtein,
-      nombre: "Advanced Whey Protein (1000 gr.) (33 sv.)",
-    },
-    {
-      icono: MancuernaVinilica,
-      nombre: "Mancuerna Vinilica 4kg (por unidad)",
-    },
-    {
-      icono: StarNutritionWhey,
-      nombre: "STAR NUTRITION Whey Platinum Protein (3000 gr.) (100 sv.)",
-    },
-    {
-      icono: MatYogaColchoneta,
-      nombre: "MAT YOGA COLCHONETA 1 CM BOLSO RANDERS PILATES FITNESS ARG-031A",
-    },
-  ];
+  const [productos, setProductos] = useState([]);
+
+  const getProductos = async () => {
+    const response = await clienteAxios.get("/productos/prodHabilitados");
+    setProductos(response.data.productosHabilitados);
+  };
 
   const productSlidesLarge = [];
   for (let i = 0; i < productos.length; i += 3) {
     const items = productos.slice(i, i + 3).map((producto, index) => (
       <Col key={index} md={4} className="producto">
         <div className="producto-img-container">
-          <img src={producto.icono} alt={producto.nombre} />
+          <img src={producto.foto} alt={producto.nombre} />
           <div className="producto-img-overlay">
             <h3 className="productos-contentH3">{producto.nombre}</h3>
           </div>
@@ -72,7 +62,7 @@ const HomePage = () => {
       items.push(
         <Col key={`${i}-${items.length}`} md={4} className="producto">
           <div className="producto-img-container">
-            <img src={producto.icono} alt={producto.nombre} />
+            <img src={producto.foto} alt={producto.nombre} />
             <div className="producto-img-overlay">
               <h3 className="productos-contentH3">{producto.nombre}</h3>
             </div>
@@ -91,7 +81,7 @@ const HomePage = () => {
     <Carousel.Item key={index}>
       <div className="producto">
         <div className="producto-img-container">
-          <img src={producto.icono} alt={producto.nombre} />
+          <img src={producto.foto} alt={producto.nombre} />
           <div className="producto-img-overlay">
             <h3 className="productos-contentH3">{producto.nombre}</h3>
           </div>
