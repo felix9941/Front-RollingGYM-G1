@@ -62,7 +62,7 @@ const IniciarSesion = () => {
       newErrors = { ...newErrors, pass: "passNoCumple" };
     } else {
       try {
-        const collections = ["clientes", "profesores"];
+        const collections = ["clientes", "profesores", "administradores"];
         let isAuthenticated = false;
         let iniciarSesion;
 
@@ -89,6 +89,7 @@ const IniciarSesion = () => {
                 text: "Bienvenido a Power Gym",
               });
               isAuthenticated = true;
+              /* Felix aca poner los redireccionamientos en base al role que se guarda en el sessionStorage */
               break;
             }
           } catch (error) {
@@ -98,7 +99,11 @@ const IniciarSesion = () => {
               error.response &&
               error.response.status !== 404
             ) {
-              alert("Error al iniciar sesión");
+              Swal.fire({
+                icon: "error",
+                title: "Error al iniciar sesión",
+                text: "Intente nuevamente",
+              });
               return;
             }
           }
@@ -106,7 +111,11 @@ const IniciarSesion = () => {
 
         if (!isAuthenticated) {
           setError("errorPassIncorrecto");
-          alert("Email o contraseña incorrectos");
+          Swal.fire({
+            icon: "error",
+            title: "Email o contraseña incorrectos",
+            text: "Verifique que los datos ingresados sean correctos",
+          });
         }
 
         /* const iniciarSesion = await clienteAxios.post(
@@ -141,7 +150,11 @@ const IniciarSesion = () => {
         } else {
           alert("Error al iniciar sesion");
         } */
-        alert("Error al iniciar sesión");
+        Swal.fire({
+          icon: "error",
+          title: "Error al iniciar sesión",
+          text: "Intente nuevamente",
+        });
       }
     }
 
