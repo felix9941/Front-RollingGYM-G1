@@ -49,7 +49,7 @@ const HomePage = () => {
     const items = productos.slice(i, i + 3).map((producto, index) => (
       <Col key={index} md={4} className="producto">
         <div className="producto-img-container">
-          <img src={producto.icono} alt={producto.nombre} />
+          <img src={producto.foto} alt={producto.nombre} />
           <div className="producto-img-overlay">
             <h3 className="productos-contentH3">{producto.nombre}</h3>
           </div>
@@ -62,7 +62,7 @@ const HomePage = () => {
       items.push(
         <Col key={`${i}-${items.length}`} md={4} className="producto">
           <div className="producto-img-container">
-            <img src={producto.icono} alt={producto.nombre} />
+            <img src={producto.foto} alt={producto.nombre} />
             <div className="producto-img-overlay">
               <h3 className="productos-contentH3">{producto.nombre}</h3>
             </div>
@@ -81,7 +81,7 @@ const HomePage = () => {
     <Carousel.Item key={index}>
       <div className="producto">
         <div className="producto-img-container">
-          <img src={producto.icono} alt={producto.nombre} />
+          <img src={producto.foto} alt={producto.nombre} />
           <div className="producto-img-overlay">
             <h3 className="productos-contentH3">{producto.nombre}</h3>
           </div>
