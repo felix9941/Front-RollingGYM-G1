@@ -156,6 +156,9 @@ const ModalParaNuevo = ({
                   <option value="categoria2">Categoría 2</option>
                   <option value="categoria3">Categoría 3</option>
                 </Form.Select>
+                <div className="error-message_registro">
+                  {errorMessage(errors.categoria)}
+                </div>
               </Form.Group>
             </div>
           )}
@@ -163,23 +166,38 @@ const ModalParaNuevo = ({
             <div className="row">
               <Form.Group
                 controlId="exampleForm.SelectDia"
-                className=" col-md-6 col-sm-12"
+                className={
+                  " col-md-6 col-sm-12" || (errors.capacidad && "is-invalid")
+                }
               >
-                <Form.Control as="select" onChange={manejarCambioSeleccion}>
+                <Form.Control
+                  as="select"
+                  onChange={handleChange}
+                  name="dia"
+                  value={formData.dia}
+                >
                   <option value="">Seleccione Dia</option>
-                  <option value="1">Lunes</option>
-                  <option value="2">Martes</option>
-                  <option value="3">Miércoles</option>
-                  <option value="4">Jueves</option>
-                  <option value="5">Viernes</option>
-                  <option value="6">Sábado</option>
+                  <option value="lunes">Lunes</option>
+                  <option value="martes">Martes</option>
+                  <option value="miercoles">Miércoles</option>
+                  <option value="jueves">Jueves</option>
+                  <option value="viernes">Viernes</option>
+                  <option value="sabado">Sábado</option>
                 </Form.Control>
+                <div className="error-message_registro">
+                  {errorMessage(errors.dia)}
+                </div>
               </Form.Group>
               <Form.Group
                 controlId="exampleForm.SelectHora"
                 className=" col-md-6 col-sm-12"
               >
-                <Form.Control as="select" onChange={manejarCambioSeleccion}>
+                <Form.Control
+                  as="select"
+                  onChange={handleChange}
+                  name="hora"
+                  value={formData.hora}
+                >
                   <option value="">Seleccione hora</option>
                   {horas.map((hora, index) => (
                     <option key={index} value={index}>
@@ -187,6 +205,9 @@ const ModalParaNuevo = ({
                     </option>
                   ))}
                 </Form.Control>
+                <div className="error-message_registro">
+                  {errorMessage(errors.hora)}
+                </div>
               </Form.Group>
             </div>
           )}

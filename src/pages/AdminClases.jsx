@@ -16,11 +16,7 @@ const AdminClases = () => {
     nombre: "",
     apellido: "",
     capacidad: "",
-    categoria: {
-      Boxeo: false,
-      Crossfit: false,
-      Zumba: false,
-    },
+    categoria: "",
     dia: "",
     hora: "",
   });
@@ -29,11 +25,7 @@ const AdminClases = () => {
     nombre: "",
     apellido: "",
     capacidad: "",
-    categoria: {
-      Boxeo: false,
-      Crossfit: false,
-      Zumba: false,
-    },
+    categoria: "",
     dia: "",
     hora: "",
   });
@@ -64,9 +56,9 @@ const AdminClases = () => {
       newErrors = { ...newErrors, capacidad: "capacidadInvalido" };
     }
 
-    // if (!categoria) {
-    //   newErrors = { ...newErrors, categoria: "categoriaInvalido" };
-    // }
+    if (!categoria) {
+      newErrors = { ...newErrors, categoria: "categoriaInvalido" };
+    }
 
     if (!dia) {
       newErrors = { ...newErrors, dia: "diaInvalido" };
