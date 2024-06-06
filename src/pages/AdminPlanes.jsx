@@ -1,6 +1,9 @@
 import styles from "../css/AdminPages.module.css";
 
 const AdminPlanes = () => {
+  useEffect(() => {
+    document.title = "Administrar Planes";
+  }, []);
   return (
     <>
       <div className={styles.contenedorAdmins}>
