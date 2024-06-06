@@ -10,7 +10,7 @@ function atras() {
 const Error404 = () => {
   return (
     <div className="fondo-blanco">
-      <div className="tamanio my-5 d-flex flex-column">
+      <div className="tamanio d-flex flex-column">
         <img src={Error404Img} alt="" className="img-tamanio mt-5" />
 
         <div>
@@ -20,7 +20,7 @@ const Error404 = () => {
             className=" square-button_e my-5 custom-button_e"
             onClick={atras}
           >
-            Volver al GYM
+            VOLVER
           </Button>
         </div>
       </div>
