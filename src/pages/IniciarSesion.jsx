@@ -93,7 +93,20 @@ const IniciarSesion = () => {
                 text: "Bienvenido a Power Gym",
               });
               isAuthenticated = true;
-              /* Felix aca poner los redireccionamientos en base al role que se guarda en el sessionStorage */
+              const role = iniciarSesion.data.role;
+              switch (role) {
+                case "admin":
+                  window.location.href = "/adminAdmins";
+                  break;
+                case "usuario":
+                  window.location.href = "/principal";
+                  break;
+                case "profesor":
+                  window.location.href = "/misClases";
+                  break;
+                default:
+                  window.location.href = "/";
+              }
               break;
             }
           } catch (error) {
@@ -121,39 +134,7 @@ const IniciarSesion = () => {
             text: "Verifique que los datos ingresados sean correctos",
           });
         }
-
-        /* const iniciarSesion = await clienteAxios.post(
-          "/clientes/login",
-          {
-            email,
-            contrasenia: pass,
-          },
-          config
-        );
-        if (iniciarSesion.status === 200) {
-          sessionStorage.setItem(
-            "token",
-            JSON.stringify(iniciarSesion.data.token)
-          );
-          sessionStorage.setItem(
-            "role",
-            JSON.stringify(iniciarSesion.data.role)
-          );
-          Swal.fire({
-            icon: "success",
-            title: "Inicio de sesion exitoso",
-            text: "Bienvenido a Power Gym",
-          });
-        } */
       } catch (error) {
-        /* if (error.response.status === 401) {
-          setError("errorPassIncorrecto");
-          alert(error.response.data.message);
-          setIsLoading(false);
-          return;
-        } else {
-          alert("Error al iniciar sesion");
-        } */
         Swal.fire({
           icon: "error",
           title: "Error al iniciar sesión",
@@ -163,7 +144,6 @@ const IniciarSesion = () => {
     }
 
     setErrors((prevState) => ({ ...prevState, ...newErrors }));
-    //toma un estado anterior y con newErrors actualiza de ser necesario lo que no conbine
   };
 
   const mostrarMensajeErrorMail = mensajeError(errors.email);
