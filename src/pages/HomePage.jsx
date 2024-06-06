@@ -29,30 +29,20 @@ import PubliUnderArmour from "../../public/publi-under-armour.png";
 import PowerGymLogo from "../../public/powerGymLogo.png";
 import InfiniteCarousel from "../components/InifiniteCarousel";
 import "../css/HomePage.css";
+import clienteAxios from "../helpers/clienteAxios";
 
 const HomePage = () => {
   useEffect(() => {
     document.title = "Pagina Principal";
+    getProductos();
   }, []);
 
-  const productos = [
-    {
-      icono: AdvancedWheyProtein,
-      nombre: "Advanced Whey Protein (1000 gr.) (33 sv.)",
-    },
-    {
-      icono: MancuernaVinilica,
-      nombre: "Mancuerna Vinilica 4kg (por unidad)",
-    },
-    {
-      icono: StarNutritionWhey,
-      nombre: "STAR NUTRITION Whey Platinum Protein (3000 gr.) (100 sv.)",
-    },
-    {
-      icono: MatYogaColchoneta,
-      nombre: "MAT YOGA COLCHONETA 1 CM BOLSO RANDERS PILATES FITNESS ARG-031A",
-    },
-  ];
+  const [productos, setProductos] = useState([]);
+
+  const getProductos = async () => {
+    const response = await clienteAxios.get("/productos/prodHabilitados");
+    setProductos(response.data.getAllProducts);
+  };
 
   // Crear slides con tres productos cada uno
   const productSlidesLarge = [];
