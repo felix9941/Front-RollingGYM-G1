@@ -21,6 +21,7 @@ import AdminPlanes from "../pages/AdminPlanes";
 import AdminProfesores from "../pages/AdminProfesores";
 
 import AdminClientes from "../pages/AdminClientes";
+import AdminCategorias from "../pages/AdminCategorias";
 
 import MisReservas from "../pages/MisReservas";
 import MisDatos from "../pages/MisDatos";
@@ -41,6 +42,7 @@ const RoutesViews = () => {
         <Route path="/adminProductos" element={<AdminProductos />} />
         <Route path="/adminProfesores" element={<AdminProfesores />} />
         <Route path="/adminClientes" element={<AdminClientes />} />
+        <Route path="/adminCategorias" element={<AdminCategorias />} />
         <Route path="/adminAdmins" element={<AdminAdministradores />} />
         <Route path="/misReservas" element={<MisReservas />} />
         <Route path="/misDatos" element={<MisDatos />} />
