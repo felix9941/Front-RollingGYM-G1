@@ -12,7 +12,7 @@ const ModalParaNuevo = ({
   errors,
   handleChange,
   errorMessage,
-  tipo, //Tipos adminitos: clase, categoria, producto
+  tipo, //Tipos admitidos: clase, categoria, producto
 }) => {
   let titleText = "";
   switch (tipo) {
@@ -29,48 +29,34 @@ const ModalParaNuevo = ({
       break;
   }
 
-  // e.preventDefault();
-  // if (!file) {
-  //   alert("Por favor, selecciona una imagen");
-  //   return;
-  // }
-
   const horas = [
-    "7:00 AM",
-    "8:00 AM",
-    "9:00 AM",
-    "10:00 AM",
-    "11:00 AM",
-    "12:00 PM",
-    "1:00 PM",
-    "2:00 PM",
-    "3:00 PM",
-    "4:00 PM",
-    "5:00 PM",
-    "6:00 PM",
-    "7:00 PM",
-    "8:00 PM",
-    "9:00 PM",
-    "10:00 PM",
+    "7:00",
+    "8:00",
+    "9:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+    "21:00",
   ];
 
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [error, setError] = useState("");
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
-  const [options, setOptions] = useState({
-    option1: false,
-    option2: false,
-    option3: false,
+  const [planes, setPlanes] = useState({
+    full: false,
+    aparatos: false,
+    clases: false,
   });
 
-  const handleCheckboxChange = (option) => {
+  const handleCheckboxChange = (planElegido) => {
     setOptions({
-      ...options,
-      [option]: !options[option],
+      ...planes,
+      [planElegido]: !planes[planElegido],
     });
   };
 
@@ -150,14 +136,22 @@ const ModalParaNuevo = ({
 
               <Form.Group
                 controlId="exampleForm.SelectCustom"
-                className=" col-md-6 col-sm-12"
+                className="col-md-6 col-sm-12"
               >
-                <Form.Select onChange={manejarCambioSeleccion}>
-                  <option value="">Seleccione categoria</option>
-                  <option value="1">Categoría 1</option>
-                  <option value="2">Categoría 2</option>
-                  <option value="3">Categoría 3</option>
+                <Form.Select
+                  onChange={handleChange}
+                  name="categoria"
+                  value={formData.categoria}
+                  className={errors.categoria && "is-invalid"}
+                >
+                  <option value="">Seleccione categoría</option>
+                  <option value="categoria1">Categoría 1</option>
+                  <option value="categoria2">Categoría 2</option>
+                  <option value="categoria3">Categoría 3</option>
                 </Form.Select>
+                <div className="error-message_registro">
+                  {errorMessage(errors.categoria)}
+                </div>
               </Form.Group>
             </div>
           )}
@@ -165,30 +159,50 @@ const ModalParaNuevo = ({
             <div className="row">
               <Form.Group
                 controlId="exampleForm.SelectDia"
-                className=" col-md-6 col-sm-12"
+                className={
+                  " col-md-6 col-sm-12" || (errors.capacidad && "is-invalid")
+                }
               >
-                <Form.Select onChange={manejarCambioSeleccion}>
+                <Form.Control
+                  as="select"
+                  onChange={handleChange}
+                  name="dia"
+                  value={formData.dia}
+                  className={errors.dia && "is-invalid"}
+                >
                   <option value="">Seleccione Dia</option>
-                  <option value="1">Lunes</option>
-                  <option value="2">Martes</option>
-                  <option value="3">Miércoles</option>
-                  <option value="4">Jueves</option>
-                  <option value="5">Viernes</option>
-                  <option value="6">Sábado</option>
-                </Form.Select>
+                  <option value="lunes">Lunes</option>
+                  <option value="martes">Martes</option>
+                  <option value="miercoles">Miércoles</option>
+                  <option value="jueves">Jueves</option>
+                  <option value="viernes">Viernes</option>
+                  <option value="sabado">Sábado</option>
+                </Form.Control>
+                <div className="error-message_registro">
+                  {errorMessage(errors.dia)}
+                </div>
               </Form.Group>
               <Form.Group
                 controlId="exampleForm.SelectHora"
                 className=" col-md-6 col-sm-12"
               >
-                <Form.Select onChange={manejarCambioSeleccion}>
+                <Form.Control
+                  as="select"
+                  onChange={handleChange}
+                  name="hora"
+                  value={formData.hora}
+                  className={errors.hora && "is-invalid"}
+                >
                   <option value="">Seleccione hora</option>
                   {horas.map((hora, index) => (
-                    <option key={index} value={index}>
+                    <option key={index} value={hora}>
                       {hora}
                     </option>
                   ))}
-                </Form.Select>
+                </Form.Control>
+                <div className="error-message_registro">
+                  {errorMessage(errors.hora)}
+                </div>
               </Form.Group>
             </div>
           )}
@@ -196,29 +210,32 @@ const ModalParaNuevo = ({
           {tipo === "categoria" && (
             <div className="row mb-3">
               <p className="">Plan al que pertenece</p>
-              <Form className="row d-flex justify-content-center  ps-5">
+              <Form.Group
+                controlId="formBasicCheckbox"
+                className="row d-flex justify-content-center  ps-5"
+              >
                 <Form.Check
                   type="checkbox"
-                  label="Opción 1"
-                  checked={options.option1}
-                  onChange={() => handleCheckboxChange("option1")}
+                  label="FULL"
+                  checked={planes.full}
+                  onChange={() => handleCheckboxChange("full")}
                   className="col-4"
                 />
                 <Form.Check
                   type="checkbox"
-                  label="Opción 2"
-                  checked={options.option2}
-                  onChange={() => handleCheckboxChange("option2")}
+                  label="Aparatos"
+                  checked={planes.aparatos}
+                  onChange={() => handleCheckboxChange("aparatos")}
                   className="col-4"
                 />
                 <Form.Check
                   type="checkbox"
-                  label="Opción 3"
-                  checked={options.option3}
-                  onChange={() => handleCheckboxChange("option3")}
+                  label="Clases"
+                  checked={planes.clases}
+                  onChange={() => handleCheckboxChange("clases")}
                   className="col-4"
                 />
-              </Form>
+              </Form.Group>
             </div>
           )}
 
