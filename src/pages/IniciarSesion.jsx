@@ -87,18 +87,13 @@ const IniciarSesion = () => {
                 "role",
                 JSON.stringify(iniciarSesion.data.role)
               );
-              Swal.fire({
-                icon: "success",
-                title: "Inicio de sesión exitoso",
-                text: "Bienvenido a Power Gym",
-              });
               isAuthenticated = true;
               const role = iniciarSesion.data.role;
               switch (role) {
                 case "admin":
                   window.location.href = "/adminAdmins";
                   break;
-                case "usuario":
+                case "cliente":
                   window.location.href = "/principal";
                   break;
                 case "profesor":
