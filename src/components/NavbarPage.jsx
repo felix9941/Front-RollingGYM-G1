@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
+import { useNavigate } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -55,21 +56,29 @@ const NavbarPage = () => {
   }, []);
 
   useEffect(() => {
-    const role = localStorage.getItem("userRole");
+    const role =
+      sessionStorage.getItem("role") || localStorage.getItem("userRole");
     setUserRole(role);
   }, []);
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.removeItem("userRole");
+    sessionStorage.removeItem("role");
     setUserRole(null);
+    navigate("/iniciarSesion");
   };
 
   const getWeatherIconUrl = (iconCode) => {
     return `http://openweathermap.org/img/wn/${iconCode}.png`;
   };
 
-  const handleNavLinkClick = () => {
-    setExpanded(false);
+  const handleNavLinkClick = (e) => {
+    if (isResponsive && expanded) {
+      e.preventDefault();
+      setExpanded(false);
+    }
   };
 
   return (
@@ -98,9 +107,27 @@ const NavbarPage = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav
             className={isResponsive ? "ms-auto" : "ms-auto align-items-center"}
-            onClick={handleNavLinkClick}
           >
-            {!isResponsive && <span className={styles.navbarText}>|</span>}
+            {userRole && (
+              <>
+                <Nav.Link
+                  as={Link}
+                  to={
+                    userRole === "administrador"
+                      ? "/adminAdmins"
+                      : userRole === "profesor"
+                      ? "/misClases"
+                      : "/principal"
+                  }
+                  className={`${styles.navLink} ${
+                    isScrolling ? styles.navbarScrollingNavLink : ""
+                  }`}
+                >
+                  INICIO
+                </Nav.Link>
+                {!isResponsive && <span className={styles.navbarText}>|</span>}
+              </>
+            )}
             <Nav.Link
               as={Link}
               to="/sobreNosotros"
@@ -121,35 +148,64 @@ const NavbarPage = () => {
               CONTACTO
             </Nav.Link>
             {!isResponsive && <span className={styles.navbarText}>|</span>}
-
-            {userRole === "admin" && (
+            {userRole === "administrador" && (
               <>
-                <Nav.Link
-                  as={Link}
-                  to="/principal"
-                  className={`${styles.navLink} ${
-                    isScrolling ? styles.navbarScrollingNavLink : ""
-                  }`}
+                <NavDropdown
+                  title={
+                    <span className={styles.navbarScrollingDropdown}>
+                      ADMINISTRACIÓN ↓
+                    </span>
+                  }
+                  id="admin-nav-dropdown"
+                  className={styles.navbarDropdown}
                 >
-                  INICIO
-                </Nav.Link>
-                <NavDropdown title="Admin" id="admin-nav-dropdown">
-                  <NavDropdown.Item as={Link} to="/adminClases">
-                    Admin de Clases
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/adminProfesores">
-                    Admin de Profesores
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/adminClientes">
-                    Admin de Clientes
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/adminAdmins">
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/adminAdmins"
+                    className={styles.navbarDropdownItem}
+                  >
                     Admin de Administradores
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/adminPlanes">
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/adminCategorias"
+                    className={styles.navbarDropdownItem}
+                  >
+                    Admin Categorias
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/adminClases"
+                    className={styles.navbarDropdownItem}
+                  >
+                    Admin de Clases
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/adminClientes"
+                    className={styles.navbarDropdownItem}
+                  >
+                    Admin de Clientes
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/adminProfesores"
+                    className={styles.navbarDropdownItem}
+                  >
+                    Admin de Profesores
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/adminPlanes"
+                    className={styles.navbarDropdownItem}
+                  >
                     Admin de Planes
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/adminProductos">
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/adminProductos"
+                    className={styles.navbarDropdownItem}
+                  >
                     Admin Productos
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -165,29 +221,29 @@ const NavbarPage = () => {
                 </Nav.Link>
               </>
             )}
-
-            {userRole === "user" && (
+            {userRole === "profesor" && (
               <>
-                <Nav.Link
-                  as={Link}
-                  to="/principal"
-                  className={`${styles.navLink} ${
-                    isScrolling ? styles.navbarScrollingNavLink : ""
-                  }`}
+                <NavDropdown
+                  title={
+                    <span className={styles.navbarScrollingDropdown}>
+                      MI CUENTA ↓
+                    </span>
+                  }
+                  id="user-nav-dropdown"
+                  className={styles.navbarDropdown}
                 >
-                  INICIO
-                </Nav.Link>
-                <NavDropdown title="Mi Cuenta" id="user-nav-dropdown">
-                  <NavDropdown.Item as={Link} to="/misClases">
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/misClases"
+                    className={styles.navbarDropdownItem}
+                  >
                     Mis Clases
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/reservarClases">
-                    Reservar una Clase
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/misReservas">
-                    Mis Reservas
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/misDatos">
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/misDatos"
+                    className={styles.navbarDropdownItem}
+                  >
                     Mis Datos
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -203,7 +259,58 @@ const NavbarPage = () => {
                 </Nav.Link>
               </>
             )}
-
+            {userRole === "cliente" && (
+              <>
+                <NavDropdown
+                  title={
+                    <span className={styles.navbarScrollingDropdown}>
+                      MI CUENTA ↓
+                    </span>
+                  }
+                  id="user-nav-dropdown"
+                  className={styles.navbarDropdown}
+                >
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/misClases"
+                    className={styles.navbarDropdownItem}
+                  >
+                    Mis Clases
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/reservarClases"
+                    className={styles.navbarDropdownItem}
+                  >
+                    Reservar una Clase
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/misReservas"
+                    className={styles.navbarDropdownItem}
+                  >
+                    Mis Reservas
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/misDatos"
+                    className={styles.navbarDropdownItem}
+                  >
+                    Mis Datos
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Link
+                  as={Link}
+                  to="/logout"
+                  className={`${styles.navLink} ${
+                    isScrolling ? styles.navbarScrollingNavLink : ""
+                  }`}
+                  onClick={handleLogout}
+                >
+                  CERRAR SESIÓN
+                </Nav.Link>
+              </>
+            )}
             {!userRole && (
               <>
                 <Nav.Link
@@ -227,7 +334,6 @@ const NavbarPage = () => {
                 </Nav.Link>
               </>
             )}
-
             {weather && weather.weather && weather.weather.length > 0 && (
               <span className={styles.navbarText}>
                 <img
@@ -245,4 +351,5 @@ const NavbarPage = () => {
     </Navbar>
   );
 };
+
 export default NavbarPage;
