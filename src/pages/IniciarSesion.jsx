@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Swal from "sweetalert2"; // para instalar la libreria poner npm install sweetalert2
+import Swal from "sweetalert2";
 import "../css/IniciarSesion.css";
 import clienteAxios, { config } from "../helpers/clienteAxios";
 
@@ -22,10 +22,9 @@ const IniciarSesion = () => {
   });
 
   const cambioDatosUsuario = (ev) => {
-    const { email, pass } = formData; //Desestructuramiento
+    const { email, pass } = formData;
     let newErrors = {};
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
-    /* Creo que error deberia estar en cambio de datos porque trabajaria con el onchange y se podria hacer una validacion en tiempo real */
     if (formData.email) {
       newErrors = { ...newErrors, email: email };
     }
@@ -83,14 +82,12 @@ const IniciarSesion = () => {
                 "token",
                 JSON.stringify(iniciarSesion.data.token)
               );
-              sessionStorage.setItem(
-                "role",
-                JSON.stringify(iniciarSesion.data.role)
-              );
+              sessionStorage.setItem("role", iniciarSesion.data.role);
+              localStorage.setItem("userRole", iniciarSesion.data.role);
               isAuthenticated = true;
               const role = iniciarSesion.data.role;
               switch (role) {
-                case "admin":
+                case "administrador":
                   window.location.href = "/adminAdmins";
                   break;
                 case "cliente":
@@ -122,7 +119,7 @@ const IniciarSesion = () => {
         }
 
         if (!isAuthenticated) {
-          setError("errorPassIncorrecto");
+          setErrors({ pass: "errorPassIncorrecto" });
           Swal.fire({
             icon: "error",
             title: "Email o contraseña incorrectos",
@@ -151,7 +148,7 @@ const IniciarSesion = () => {
       "d-flex justify-content-center align-items-center h-100"*/}
         <div className="mt-5">
           <h2 className="text-center pb-4 pt-5 mt-5">Iniciar Sesion</h2>
-          <Form className="ancho-input_i mx-auto">
+          <Form className="ancho-input_i mx-auto" onSubmit={enviarFormulario}>
             <Form.Group className="" controlId="formBasicEmail">
               <Form.Control
                 className={errors.email && "is-invalid"}
@@ -192,7 +189,6 @@ const IniciarSesion = () => {
               variant=""
               type="submit"
               className="w-100 square-button_i mt-2 custom-button_i"
-              onClick={enviarFormulario}
             >
               Iniciar Sesion
             </Button>

@@ -26,6 +26,7 @@ import AdminCategorias from "../pages/AdminCategorias";
 import MisReservas from "../pages/MisReservas";
 import MisDatos from "../pages/MisDatos";
 import ReservarClases from "../pages/ReservarClases";
+import LogoutPage from "../components/LogoutPage";
 
 const RoutesViews = () => {
   return (
@@ -47,6 +48,7 @@ const RoutesViews = () => {
         <Route path="/misReservas" element={<MisReservas />} />
         <Route path="/misDatos" element={<MisDatos />} />
         <Route path="/reservarClases" element={<ReservarClases />} />
+        <Route path="/logout" element={<LogoutPage />} />
         <Route path="/" element={<HeroPage />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
