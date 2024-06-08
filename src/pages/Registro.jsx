@@ -132,7 +132,7 @@ const RegisterPage = () => {
           Swal.fire({
             icon: "error",
             title: "Registro Fallido",
-            text: `${error.response.data.errors[0].message}`,
+            text: `${error.response.data.message}`,
           });
           setIsLoading(false);
         }
@@ -186,6 +186,7 @@ const RegisterPage = () => {
                       onChange={cambioDatosUsuario}
                       name="nombre"
                       value={formData.nombre}
+                      maxLength={50}
                     />
                     <div className="error-message_registro">
                       {mostrarMensajeErrorNombre && (
@@ -206,6 +207,7 @@ const RegisterPage = () => {
                       onChange={cambioDatosUsuario}
                       name="apellido"
                       value={formData.apellido}
+                      maxLength={50}
                     />
                     <div className="error-message_registro">
                       {mostrarMensajeErrorApellido && (
@@ -228,6 +230,7 @@ const RegisterPage = () => {
                       onChange={cambioDatosUsuario}
                       name="celular"
                       value={formData.celular}
+                      maxLength={10}
                     />
                     <div className="error-message_registro">
                       {mostrarMensajeErrorCelular && (
@@ -248,6 +251,7 @@ const RegisterPage = () => {
                       onChange={cambioDatosUsuario}
                       name="email"
                       value={formData.email}
+                      maxLength={70}
                     />
                     <div className="error-message_registro">
                       {mostrarMensajeErrorMail && (
@@ -275,6 +279,7 @@ const RegisterPage = () => {
                       onChange={cambioDatosUsuario}
                       name="pass"
                       value={formData.pass}
+                      maxLength={50}
                     />
                     <div className="error-message_registro">
                       {mostrarMensajeErrorPass && (
@@ -300,6 +305,7 @@ const RegisterPage = () => {
                       onChange={cambioDatosUsuario}
                       name="rpass"
                       value={formData.rpass}
+                      maxLength={50}
                     />
                     <div className="error-message_registro">
                       {mostrarMensajeErrorRpass && (
