@@ -62,7 +62,7 @@ const RegisterPage = () => {
       case "passVacio":
         return "Ingresar contraseña";
       case "passNoCumple":
-        return "La contraseña contener almenos 6 caracteres alfanumericos";
+        return "Debe contener 8 caracteres, mayuscula, minuscula, numero y simbolo";
       case "passNoCoincide":
         return "La contraseña no coincide";
       default:
@@ -75,7 +75,7 @@ const RegisterPage = () => {
     const { nombre, apellido, celular, email, pass, rpass } = formData;
     let newErrors = {};
     const passExpReg =
-      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{6,}$/;
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{8,}$/;
     const nombreApellidoExpReg = /^(?=.*[a-zA-Z])[A-Za-z\s]{3,}$/;
 
     const emailExpReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -112,24 +112,27 @@ const RegisterPage = () => {
       } else {
         setIsLoading(true);
 
-        const createUser = await clienteAxios.post(
-          "/clientes/register",
-          { nombre, apellido, telefono: celular, email, contrasenia: pass },
-          config
-        );
+        try {
+          const createUser = await clienteAxios.post(
+            "/clientes/register",
+            { nombre, apellido, telefono: celular, email, contrasenia: pass },
+            config
+          );
 
-        if (createUser.status === 200) {
-          setIsLoading(false);
-          Swal.fire({
-            icon: "success",
-            title: "Envío Exitoso",
-            text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
-          });
-        } else {
+          if (createUser.status === 200) {
+            setIsLoading(false);
+            Swal.fire({
+              icon: "success",
+              title: "Envío Exitoso",
+              text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
+            });
+          }
+        } catch (error) {
+          console.log(error);
           Swal.fire({
             icon: "error",
             title: "Registro Fallido",
-            text: "Intente nuevamente el registro",
+            text: `${error.response.data.errors[0].message}`,
           });
           setIsLoading(false);
         }
