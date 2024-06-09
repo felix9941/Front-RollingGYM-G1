@@ -65,6 +65,7 @@ const NavbarPage = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("userRole");
+    sessionStorage.removeItem("token");
     sessionStorage.removeItem("role");
     setUserRole(null);
     navigate("/iniciarSesion");
