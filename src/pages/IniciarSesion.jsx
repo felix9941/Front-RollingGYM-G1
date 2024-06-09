@@ -22,15 +22,8 @@ const IniciarSesion = () => {
   });
 
   const cambioDatosUsuario = (ev) => {
-    const { email, pass } = formData;
     let newErrors = {};
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
-    // if (formData.email) {
-    //   newErrors = { ...newErrors, email: email };
-    // }
-    // if (formData.pass) {
-    //   newErrors = { ...newErrors, pass: pass };
-    // }
     setErrors(newErrors);
   };
 
@@ -136,7 +129,6 @@ const IniciarSesion = () => {
         }
       }
     }
-
     setErrors((prevState) => ({ ...prevState, ...newErrors }));
   };
 
@@ -157,6 +149,7 @@ const IniciarSesion = () => {
                 onChange={cambioDatosUsuario}
                 name="email"
                 value={formData.email}
+                maxLength={70}
               />
               <div className="error-message_i">
                 {mostrarMensajeErrorMail && (
@@ -177,6 +170,7 @@ const IniciarSesion = () => {
                 onChange={cambioDatosUsuario}
                 name="pass"
                 value={formData.pass}
+                maxLength={50}
               />
               <div className="error-message_i">
                 {mostrarMensajeErrorPass && (
