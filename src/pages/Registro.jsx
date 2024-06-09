@@ -34,18 +34,8 @@ const RegisterPage = () => {
   });
 
   const cambioDatosUsuario = (ev) => {
-    const { user, pass, rpass } = formData;
     let newErrors = {};
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
-    if (formData.user) {
-      newErrors = { ...newErrors, user: user };
-    }
-    if (formData.pass) {
-      newErrors = { ...newErrors, pass: pass };
-    }
-    if (formData.rpass) {
-      newErrors = { ...newErrors, rpass: rpass };
-    }
     setErrors(newErrors);
   };
 
@@ -84,19 +74,15 @@ const RegisterPage = () => {
     if (!nombreApellidoExpReg.test(nombre)) {
       newErrors = { ...newErrors, nombre: "nombreInvalido" };
     }
-
     if (!nombreApellidoExpReg.test(apellido)) {
       newErrors = { ...newErrors, apellido: "apellidoInvalido" };
     }
-
     if (!celularExpReg.test(celular)) {
       newErrors = { ...newErrors, celular: "celularInvalido" };
     }
-
     if (!emailExpReg.test(email)) {
       newErrors = { ...newErrors, email: "mailInvalido" };
     }
-
     if (!pass) {
       newErrors = { ...newErrors, pass: "passVacio" };
     } else if (!passExpReg.test(pass)) {
@@ -110,31 +96,38 @@ const RegisterPage = () => {
       if (pass !== rpass) {
         newErrors = { ...newErrors, rpass: "passNoCoincide" };
       } else {
-        setIsLoading(true);
+        if (
+          nombreApellidoExpReg.test(nombre) &&
+          nombreApellidoExpReg.test(apellido) &&
+          celularExpReg.test(celular) &&
+          emailExpReg.test(email)
+        ) {
+          setIsLoading(true);
 
-        try {
-          const createUser = await clienteAxios.post(
-            "/clientes/register",
-            { nombre, apellido, telefono: celular, email, contrasenia: pass },
-            config
-          );
+          try {
+            const createUser = await clienteAxios.post(
+              "/clientes/register",
+              { nombre, apellido, telefono: celular, email, contrasenia: pass },
+              config
+            );
 
-          if (createUser.status === 200) {
-            setIsLoading(false);
+            if (createUser.status === 200) {
+              setIsLoading(false);
+              Swal.fire({
+                icon: "success",
+                title: "Envío Exitoso",
+                text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
+              });
+            }
+          } catch (error) {
+            console.log(error);
             Swal.fire({
-              icon: "success",
-              title: "Envío Exitoso",
-              text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
+              icon: "error",
+              title: "Registro Fallido",
+              text: `${error.response.data.message}`,
             });
+            setIsLoading(false);
           }
-        } catch (error) {
-          console.log(error);
-          Swal.fire({
-            icon: "error",
-            title: "Registro Fallido",
-            text: `${error.response.data.message}`,
-          });
-          setIsLoading(false);
         }
       }
     }
@@ -148,17 +141,6 @@ const RegisterPage = () => {
   const mostrarMensajeErrorMail = mensajeError(errors.email);
   const mostrarMensajeErrorPass = mensajeError(errors.pass);
   const mostrarMensajeErrorRpass = mensajeError(errors.rpass);
-
-  //Sweet
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    enviarFormulario();
-    Swal.fire({
-      icon: "success",
-      title: "Envío Exitoso",
-      text: "El formulario se ha enviado correctamente.",
-    });
-  };
 
   return (
     <>
@@ -326,7 +308,7 @@ const RegisterPage = () => {
                 >
                   Enviar Registro
                 </Button>
-                <div className="text-center m-2 mt-2 ">
+                <div className="text-center m-2 mt-3 ">
                   <NavLink className="text-white" to="/iniciarSesion">
                     ¿Ya tiene una cuenta?
                   </NavLink>
