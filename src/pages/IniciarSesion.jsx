@@ -25,12 +25,12 @@ const IniciarSesion = () => {
     const { email, pass } = formData;
     let newErrors = {};
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
-    if (formData.email) {
-      newErrors = { ...newErrors, email: email };
-    }
-    if (formData.pass) {
-      newErrors = { ...newErrors, pass: pass };
-    }
+    // if (formData.email) {
+    //   newErrors = { ...newErrors, email: email };
+    // }
+    // if (formData.pass) {
+    //   newErrors = { ...newErrors, pass: pass };
+    // }
     setErrors(newErrors);
   };
 
@@ -41,7 +41,7 @@ const IniciarSesion = () => {
       case "passVacio":
         return "Ingresar contraseña";
       case "passNoCumple":
-        return "La contraseña contener almenos 6 caracteres alfanumericos";
+        return "Debe contener 8 caracteres, mayuscula, minuscula, numero y simbolo";
       default:
         break;
     }
@@ -64,74 +64,76 @@ const IniciarSesion = () => {
     } else if (!passExpReg.test(pass)) {
       newErrors = { ...newErrors, pass: "passNoCumple" };
     } else {
-      try {
-        const collections = ["clientes", "profesores", "administradores"];
-        let isAuthenticated = false;
-        let iniciarSesion;
+      if (emailExpReg.test(email)) {
+        try {
+          const collections = ["clientes", "profesores", "administradores"];
+          let isAuthenticated = false;
+          let iniciarSesion;
 
-        for (let collection of collections) {
-          try {
-            iniciarSesion = await clienteAxios.post(
-              `/${collection}/login`,
-              { email, contrasenia: pass },
-              config
-            );
-
-            if (iniciarSesion.status === 200) {
-              sessionStorage.setItem(
-                "token",
-                JSON.stringify(iniciarSesion.data.token)
+          for (let collection of collections) {
+            try {
+              iniciarSesion = await clienteAxios.post(
+                `/${collection}/login`,
+                { email, contrasenia: pass },
+                config
               );
-              sessionStorage.setItem("role", iniciarSesion.data.role);
-              localStorage.setItem("userRole", iniciarSesion.data.role);
-              isAuthenticated = true;
-              const role = iniciarSesion.data.role;
-              switch (role) {
-                case "administrador":
-                  window.location.href = "/adminAdmins";
-                  break;
-                case "cliente":
-                  window.location.href = "/principal";
-                  break;
-                case "profesor":
-                  window.location.href = "/misClases";
-                  break;
-                default:
-                  window.location.href = "/";
+
+              if (iniciarSesion.status === 200) {
+                sessionStorage.setItem(
+                  "token",
+                  JSON.stringify(iniciarSesion.data.token)
+                );
+                sessionStorage.setItem("role", iniciarSesion.data.role);
+                localStorage.setItem("userRole", iniciarSesion.data.role);
+                isAuthenticated = true;
+                const role = iniciarSesion.data.role;
+                switch (role) {
+                  case "administrador":
+                    window.location.href = "/adminAdmins";
+                    break;
+                  case "cliente":
+                    window.location.href = "/principal";
+                    break;
+                  case "profesor":
+                    window.location.href = "/misClases";
+                    break;
+                  default:
+                    window.location.href = "/";
+                }
+                break;
               }
-              break;
-            }
-          } catch (error) {
-            if (
-              error.response &&
-              error.response.status !== 401 &&
-              error.response &&
-              error.response.status !== 404
-            ) {
-              Swal.fire({
-                icon: "error",
-                title: "Error al iniciar sesión",
-                text: "Intente nuevamente",
-              });
-              return;
+            } catch (error) {
+              if (
+                error.response &&
+                error.response.status !== 401 &&
+                error.response &&
+                error.response.status !== 404
+              ) {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error al iniciar sesión",
+                  text: "Intente nuevamente",
+                });
+                return;
+              }
             }
           }
-        }
 
-        if (!isAuthenticated) {
-          setErrors({ pass: "errorPassIncorrecto" });
+          if (!isAuthenticated) {
+            setErrors({ pass: "errorPassIncorrecto" });
+            Swal.fire({
+              icon: "error",
+              title: "Email o contraseña incorrectos",
+              text: "Verifique que los datos ingresados sean correctos",
+            });
+          }
+        } catch (error) {
           Swal.fire({
             icon: "error",
-            title: "Email o contraseña incorrectos",
-            text: "Verifique que los datos ingresados sean correctos",
+            title: "Error al iniciar sesión",
+            text: "Intente nuevamente",
           });
         }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Error al iniciar sesión",
-          text: "Intente nuevamente",
-        });
       }
     }
 
@@ -144,8 +146,6 @@ const IniciarSesion = () => {
   return (
     <div className="background_i d-flex justify-content-center align-items-center h-100">
       <div className="form-container_i centrado_vertical_i">
-        {/* Muy importante el h-100 que es equivalente a poner height de 100% para centrar verticalmente
-      "d-flex justify-content-center align-items-center h-100"*/}
         <div className="mt-5">
           <h2 className="text-center pb-4 pt-5 mt-5">Iniciar Sesion</h2>
           <Form className="ancho-input_i mx-auto" onSubmit={enviarFormulario}>
