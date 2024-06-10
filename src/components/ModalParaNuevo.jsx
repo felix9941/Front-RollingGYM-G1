@@ -8,29 +8,21 @@ const ModalParaNuevo = ({
   show,
   handleClose,
   handleSubmit,
+  handleFileChange,
   formData,
   errors,
   handleChange,
   errorMessage,
   tipo, //Tipos admitidos: clase, categoria, producto, plan
 }) => {
-  let titleText = "";
-  switch (tipo) {
-    case "clase":
-      titleText = "Nueva Clase";
-      break;
-    case "categoria":
-      titleText = "Nueva Categoria";
-      break;
-    case "producto":
-      titleText = "Nuevo Producto";
-      break;
-    case "plan":
-      titleText = "Editar Plan";
-      break;
-    default:
-      break;
-  }
+  const titles = {
+    clase: "Nueva Clase",
+    categoria: "Nueva Categoria",
+    producto: "Nuevo Producto",
+    plan: "Editar Plan",
+  };
+
+  const titleText = titles[tipo] || "";
 
   const horas = [
     "7:00",
@@ -57,16 +49,10 @@ const ModalParaNuevo = ({
   });
 
   const handleCheckboxChange = (planElegido) => {
-    setOptions({
+    setPlanes({
       ...planes,
       [planElegido]: !planes[planElegido],
     });
-  };
-
-  const [file, setFile] = useState(null);
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
   };
 
   const [opcionSeleccionada, setOpcionSeleccionada] = useState("");
@@ -74,6 +60,7 @@ const ModalParaNuevo = ({
   const manejarCambioSeleccion = (e) => {
     setOpcionSeleccionada(e.target.value);
   };
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -119,7 +106,7 @@ const ModalParaNuevo = ({
             )}
           </div>
           {tipo === "plan" && (
-            <Form.Group controlId="formBasicPrecio" className="col--12">
+            <Form.Group controlId="formBasicPrecio" className="col-12">
               <Form.Control
                 className={errors.precio && "is-invalid"}
                 type="number"
@@ -177,9 +164,7 @@ const ModalParaNuevo = ({
             <div className="row">
               <Form.Group
                 controlId="exampleForm.SelectDia"
-                className={
-                  " col-md-6 col-sm-12" || (errors.capacidad && "is-invalid")
-                }
+                className="col-md-6 col-sm-12"
               >
                 <Form.Control
                   as="select"
@@ -263,7 +248,7 @@ const ModalParaNuevo = ({
                 <Form.Label>Cargar Foto</Form.Label>
                 <Form.Control
                   type="file"
-                  accept="image/*"
+                  accept=".jpg,.jpeg,.png"
                   onChange={handleFileChange}
                   required
                 />
