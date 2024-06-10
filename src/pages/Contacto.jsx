@@ -64,7 +64,7 @@ const Contacto = () => {
   };
 
   return (
-    <div className="containerContacto my-5">
+    <div className="contenedor-md-contacto">
       <div className="container mx-auto">
         <div className="row justify-content-between gap-5">
           <div className="col-12 d-flex flex-column">
