@@ -29,21 +29,50 @@ import PubliUnderArmour from "../../public/publi-under-armour.png";
 import PowerGymLogo from "../../public/powerGymLogo.png";
 import InfiniteCarousel from "../components/InifiniteCarousel";
 import "../css/HomePage.css";
-import clienteAxios from "../helpers/clienteAxios";
+import clienteAxios, { config } from "../helpers/clienteAxios";
 
 const HomePage = () => {
   useEffect(() => {
     document.title = "Pagina Principal";
     getProductos();
     getProfesores();
+    getCategorias();
   }, []);
 
   const [productos, setProductos] = useState([]);
   const [profesores, setProfesores] = useState([]);
+  const [categorias, setCategorias] = useState([]);
 
   const getProductos = async () => {
     const response = await clienteAxios.get("/productos/prodHabilitados");
     setProductos(response.data.productosHabilitados);
+  };
+
+  const role = sessionStorage.getItem("role");
+
+  const getCategorias = async () => {
+    if (role === "cliente") {
+      try {
+        const response = await clienteAxios.get(
+          "/categorias/categoriasPlan",
+          config
+        );
+        setCategorias(response.data.categoria);
+        console.log(response.data.categoria);
+      } catch (error) {
+        console.error("error al obtener las categorias", error);
+      }
+    } else if (role === "administrador" || role === "profesor") {
+      try {
+        const response = await clienteAxios.get(
+          "/categorias/categoriasHabilitadas"
+        );
+        setCategorias(response.data.categoria);
+        console.log(response.data.categoria);
+      } catch (error) {
+        console.error("error al obtener las categorias", error);
+      }
+    }
   };
 
   const productSlidesLarge = [];
