@@ -189,116 +189,27 @@ const HomePage = () => {
           <h2 className="reservacion-contentH2">Reserva Tu Clase!</h2>
           <Container>
             <Row>
-              <Col xs={6} md={4} lg={4}>
-                <Card className="clase">
-                  <Link to="/reservarClases">
-                    <div className="card-img-container">
-                      <Card.Img
-                        variant="top"
-                        src={PesasReservación}
-                        alt="Pesas"
-                      />
-                      <div className="card-img-overlay">
-                        <Card.Title className="reservacion-contentH3">
-                          Pesas
-                        </Card.Title>
+              {categorias.map((cat, index) => (
+                <Col xs={12} sm={6} lg={4} key={index}>
+                  <Card className="clase">
+                    <Link to="/reservarClases">
+                      <div className="card-img-container">
+                        <Card.Img
+                          className="categoria-image"
+                          variant="top"
+                          src={cat.foto}
+                          alt={cat.nombre}
+                        />
+                        <div className="card-img-overlay">
+                          <Card.Title className="reservacion-contentH3">
+                            {cat.nombre}
+                          </Card.Title>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </Card>
-              </Col>
-              <Col xs={6} md={4} lg={4}>
-                <Card className="clase">
-                  <Link to="/reservarClases">
-                    <div className="card-img-container">
-                      <Card.Img
-                        variant="top"
-                        src={BoxeoReservación}
-                        alt="Boxeo"
-                      />
-                      <div className="card-img-overlay">
-                        <Card.Title className="reservacion-contentH3">
-                          Boxeo
-                        </Card.Title>
-                      </div>
-                    </div>
-                  </Link>
-                </Card>
-              </Col>
-              <Col xs={6} md={4} lg={4}>
-                <Card className="clase">
-                  <Link to="/reservarClases">
-                    <div className="card-img-container">
-                      <Card.Img
-                        variant="top"
-                        src={CrossfitReservación}
-                        alt="Crossfit"
-                      />
-                      <div className="card-img-overlay">
-                        <Card.Title className="reservacion-contentH3">
-                          Crossfit
-                        </Card.Title>
-                      </div>
-                    </div>
-                  </Link>
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={6} md={4} lg={4}>
-                <Card className="clase">
-                  <Link to="/reservarClases">
-                    <div className="card-img-container">
-                      <Card.Img
-                        variant="top"
-                        src={MusculaconReservación}
-                        alt="Musculación"
-                      />
-                      <div className="card-img-overlay">
-                        <Card.Title className="reservacion-contentH3">
-                          Musculación
-                        </Card.Title>
-                      </div>
-                    </div>
-                  </Link>
-                </Card>
-              </Col>
-              <Col xs={6} md={4} lg={4}>
-                <Card className="clase">
-                  <Link to="/reservarClases">
-                    <div className="card-img-container">
-                      <Card.Img
-                        variant="top"
-                        src={PilatesReservación}
-                        alt="Pilates"
-                      />
-                      <div className="card-img-overlay">
-                        <Card.Title className="reservacion-contentH3">
-                          Pilates
-                        </Card.Title>
-                      </div>
-                    </div>
-                  </Link>
-                </Card>
-              </Col>
-              <Col xs={6} md={4} lg={4}>
-                <Card className="clase">
-                  <Link to="/reservarClases">
-                    <div className="card-img-container">
-                      <Card.Img
-                        variant="top"
-                        src={CalisteniaReservación}
-                        alt="Calistenia"
-                      />
-                      <div className="card-img-overlay">
-                        <Card.Title className="reservacion-contentH3">
-                          Calistenia
-                        </Card.Title>
-                      </div>
-                    </div>
-                  </Link>
-                </Card>
-              </Col>
+                    </Link>
+                  </Card>
+                </Col>
+              ))}
             </Row>
           </Container>
         </section>

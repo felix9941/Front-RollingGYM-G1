@@ -55,7 +55,6 @@
 }
 
 .reservacion {
-  padding: 2rem;
   text-align: center;
 }
 
@@ -76,6 +75,11 @@
   transform: translate(-50%, -50%);
   z-index: 2;
   transition: opacity 0.3s ease-in-out;
+}
+.categoria-image {
+  width: 100%;
+  height: 30vh;
+  object-fit: cover;
 }
 
 .card-img-container {
@@ -98,15 +102,15 @@
 }
 
 .card-img-top {
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px;
 }
 
 .clase {
   margin-bottom: 1.5rem;
   transition: transform 0.3s;
   border: none;
-  width: 70%;
-  margin-left: 15%;
+  width: 100%;
+  margin-left: 0%;
 }
 
 .clase a {
@@ -444,6 +448,7 @@
 
   .clase:hover .reservacion-contentH3 {
     opacity: 1 !important;
+    color: #000;
   }
 
   .clase {
