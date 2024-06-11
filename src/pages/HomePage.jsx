@@ -37,11 +37,13 @@ const HomePage = () => {
     getProductos();
     getProfesores();
     getCategorias();
+    getPlanes();
   }, []);
 
   const [productos, setProductos] = useState([]);
   const [profesores, setProfesores] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [planes, setPlanes] = useState([]);
 
   const getProductos = async () => {
     const response = await clienteAxios.get("/productos/prodHabilitados");
@@ -72,6 +74,15 @@ const HomePage = () => {
       } catch (error) {
         console.error("error al obtener las categorias", error);
       }
+    }
+  };
+
+  const getPlanes = async () => {
+    try {
+      const response = await clienteAxios.get("/planes/planesHabilitados");
+      setPlanes(response.data.planesHabilitados);
+    } catch (error) {
+      console.log("error al obtener los planes", error);
     }
   };
 
@@ -217,69 +228,21 @@ const HomePage = () => {
         <section id="planes" className="planes">
           <h2 className="planes-contentH2">Elegí tu plan!</h2>
           <div className="planes-container">
-            <div className="plan">
-              <h3 className="plan-contentH3">Plan Aparatos</h3>
-              <p className="plan-contentP">
-                Este plan está diseñado para aquellos que prefieren enfocarse en
-                el uso de máquinas y equipos de alta calidad para su
-                entrenamiento. Con el Plan Aparatos, tendrás acceso ilimitado a
-                nuestra zona de pesas y máquinas cardiovasculares, incluyendo
-                cintas de correr, elípticas, bicicletas estáticas y mucho más.
-                Ideal para quienes desean mejorar su fuerza, resistencia y
-                bienestar general a su propio ritmo.
-              </p>
-              <p className="plan-contentPrecio">$7000/mes</p>
-              <a
-                href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-PlanPpal"
-              >
-                Ver Más
-              </a>
-            </div>
-            <div className="plan">
-              <h3 className="plan-contentH3">Plan Full</h3>
-              <p className="plan-contentP">
-                El Plan FULL es nuestra opción más completa, ideal para quienes
-                buscan una experiencia integral en el gimnasio. Este plan
-                incluye todos los beneficios del Plan Aparatos, además de acceso
-                ilimitado a nuestras diversas clases grupales, zona de
-                entrenamiento funcional y otros servicios exclusivos. Es
-                perfecto para aquellos que buscan variedad y un enfoque
-                holístico en su rutina de ejercicios.
-              </p>
-              <p className="plan-contentPrecio">$10000/mes</p>
-              <a
-                href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-PlanPpal"
-              >
-                Ver Más
-              </a>
-            </div>
-            <div className="plan">
-              <h3 className="plan-contentH3">Plan Clases</h3>
-              <p className="plan-contentP">
-                El Plan Clases está especialmente diseñado para los amantes de
-                las actividades grupales y dirigidas. Con este plan, podrás
-                asistir a todas nuestras clases programadas, desde clases de
-                alta intensidad como HIIT y CrossFit hasta sesiones más
-                relajantes como yoga y pilates. Es perfecto para aquellos que
-                disfrutan de la motivación y energía que brinda el entrenamiento
-                en grupo.
-              </p>
-              <p className="plan-contentPrecio">$8000/mes</p>
-              <a
-                href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-PlanPpal"
-              >
-                Ver Más
-              </a>
-            </div>
+            {planes.map((plan, index) => (
+              <div className="plan" key={index}>
+                <h3 className="plan-contentH3">{plan.nombre}</h3>
+                <p className="plan-contentP">{plan.descripcion}</p>
+                <p className="plan-contentPrecio">{`$${plan.precio}/mes`}</p>
+                <a
+                  href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-PlanPpal"
+                >
+                  Ver Más
+                </a>
+              </div>
+            ))}
           </div>
         </section>
 
