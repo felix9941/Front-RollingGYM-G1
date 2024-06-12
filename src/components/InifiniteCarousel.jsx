@@ -5,6 +5,10 @@ const InfiniteCarousel = ({ children, autoPlaySpeed = 3000 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const length = children.length;
   const carouselRef = useRef(null);
+  const isTransitioning = useRef(false);
+
+  // Clone the first and last elements for smooth transition
+  const clonedChildren = [...children, ...children];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -15,8 +19,16 @@ const InfiniteCarousel = ({ children, autoPlaySpeed = 3000 }) => {
   }, [autoPlaySpeed]);
 
   useEffect(() => {
+    if (isTransitioning.current) return;
+
     if (currentIndex >= length) {
-      setCurrentIndex(0);
+      setTimeout(() => {
+        isTransitioning.current = true;
+        setCurrentIndex(currentIndex - length);
+        setTimeout(() => {
+          isTransitioning.current = false;
+        }, 50); // Small delay to allow resetting transition
+      }, 500); // Duration of the transition
     }
   }, [currentIndex, length]);
 
@@ -26,11 +38,11 @@ const InfiniteCarousel = ({ children, autoPlaySpeed = 3000 }) => {
         className="infinite-carousel-inner"
         style={{
           transform: `translateX(-${(currentIndex * 100) / length}%)`,
-          transition: "transform 0.5s ease",
-          width: `${length * 50}%`,
+          transition: isTransitioning.current ? "none" : "transform 0.5s ease",
+          width: `${clonedChildren.length * 15}%`,
         }}
       >
-        {children.concat(children).map((child, index) => (
+        {clonedChildren.map((child, index) => (
           <div
             className="infinite-carousel-item"
             key={index}

@@ -161,12 +161,12 @@ const HomePage = () => {
     e.preventDefault();
     Swal.fire({
       title: "Perfecto!",
-      text: "Tu comentario fue enviado con éxito!",
+      text: "Tu comentario sera revisado por un administrador antes de ser publicado",
       icon: "success",
-    }).then(() => {
+    }); /* .then(() => {
       setComments([...comments, newComment]);
       setNewComment({ autor: "", texto: "" });
-    });
+    }); */
   };
 
   const handleNameInput = (e) => {
