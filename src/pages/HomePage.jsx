@@ -198,6 +198,13 @@ const HomePage = () => {
 
         <section className="reservacion">
           <h2 className="reservacion-contentH2">Reserva Tu Clase!</h2>
+          <h2
+            className={`reservacion-contentH2 ${
+              categorias.length > 0 ? "d-none" : ""
+            }`}
+          >
+            No Hay Clases Disponibles
+          </h2>
           <Container>
             <Row>
               {categorias.map((cat, index) => (
