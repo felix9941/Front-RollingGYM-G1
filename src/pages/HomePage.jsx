@@ -5,23 +5,6 @@ import "react-multi-carousel/lib/styles.css";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PowerGymPpal from "../../public/POWERGYMPpal.png";
-import PesasReservación from "../../public/pesas-reservación.png";
-import BoxeoReservación from "../../public/boxeo-reservación.png";
-import CrossfitReservación from "../../public/Crossfit-reservación.png";
-import MusculaconReservación from "../../public/musculación-reservación.png";
-import PilatesReservación from "../../public/pilates-reservación.png";
-import CalisteniaReservación from "../../public/calistenia-reservación.png";
-import AdvancedWheyProtein from "../../public/Advanced Whey Protein (1000 gr.) (33 sv.).png";
-import MancuernaVinilica from "../../public/Mancuerna Vinilica 4kg (por unidad).jpg";
-import StarNutritionWhey from "../../public/STAR NUTRITION Whey Platinum Protein (3000 gr.) (100 sv.).png";
-import MatYogaColchoneta from "../../public/MAT YOGA COLCHONETA 1 CM BOLSO RANDERS PILATES FITNESS ARG-031A.webp";
-import JuanPerez from "../../public/juan-perez-musculacion.png";
-import RobertoMayan from "../../public/iconoPowerGym.png";
-import MariaSarmiento from "../../public/profe-maria-zumba.png";
-import SergioGomez from "../../public/musculación-reservación.png";
-import LudmilaDiaz from "../../public/iconoPowerGym.png";
-import MarceloPaz from "../../public/enrique-boxeo.png";
-import JulianaDiaz from "../../public/profe-pilates.png";
 import PubliNike from "../../public/publi-nike.png";
 import PubliAdidas from "../../public/publi-adidas.png";
 import PubliColegym from "../../public/publi-colegym.png";
@@ -240,14 +223,9 @@ const HomePage = () => {
                 <h3 className="plan-contentH3">{plan.nombre}</h3>
                 <p className="plan-contentP">{plan.descripcion}</p>
                 <p className="plan-contentPrecio">{`$${plan.precio}/mes`}</p>
-                <a
-                  href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-PlanPpal"
-                >
+                <Link to={`/detallePlan/${plan._id}`} className="btn-PlanPpal">
                   Ver Más
-                </a>
+                </Link>
               </div>
             ))}
           </div>
