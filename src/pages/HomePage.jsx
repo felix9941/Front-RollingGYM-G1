@@ -240,14 +240,9 @@ const HomePage = () => {
                 <h3 className="plan-contentH3">{plan.nombre}</h3>
                 <p className="plan-contentP">{plan.descripcion}</p>
                 <p className="plan-contentPrecio">{`$${plan.precio}/mes`}</p>
-                <a
-                  href="https://wa.me/3815896119?text=Hola!%20Me%20interesa%20inscribirme%20en%20el%20Plan%20FULL"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-PlanPpal"
-                >
+                <Link to={`/detallePlan/${plan._id}`} className="btn-PlanPpal">
                   Ver Más
-                </a>
+                </Link>
               </div>
             ))}
           </div>
