@@ -5,6 +5,7 @@ import emailjs from "@emailjs/browser";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import "../css/DetallePlan.css";
+import config from "../config/confi";
 
 const DetallePlanes = () => {
   const { id } = useParams();
@@ -62,22 +63,22 @@ const DetallePlanes = () => {
 
     try {
       const result = await emailjs.sendForm(
-        "service_jemddsf",
-        "template_ukriywk",
+        config.EMAILJS_SERVICE_ID,
+        config.EMAILJS_TEMPLATE_ID,
         e.target,
-        "Da77wCqrNgf7MAbSe"
+        config.EMAILJS_USER_ID
       );
 
       await emailjs.send(
-        "service_jemddsf", // Asegúrate de usar el mismo service ID
-        "template_288a6gj", // Usa el ID del nuevo template
+        config.EMAILJS_SERVICE_ID,
+        config.EMAILJS_AUTO_REPLY_TEMPLATE_ID,
         {
           to_name: formData.nombre,
           to_email: formData.email,
           message:
             "¡Gracias por contactarnos! Próximamente nos pondremos en contacto para informarle más sobre el plan.",
         },
-        "Da77wCqrNgf7MAbSe"
+        config.EMAILJS_USER_ID
       );
 
       Swal.fire({
