@@ -131,6 +131,7 @@ const RoutesViews = () => {
             </PrivateRoute>
           }
         />
+
         <Route
           path="/detallePlan/:id"
           element={
