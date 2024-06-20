@@ -1,90 +1,209 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import ReactPaginate from "react-paginate";
+import { useLocation } from "react-router-dom";
+import clienteAxios from "../helpers/clienteAxios";
 import "../css/ReservarClases.css";
 
 const ReservarClases = () => {
   const [show, setShow] = useState(false);
+  const [clases, setClases] = useState([]);
+  const [profesores, setProfesores] = useState([]);
+  const [selectedClase, setSelectedClase] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [filterDia, setFilterDia] = useState(""); // Estado para filtrar por día
+  const [noClasesMessage, setNoClasesMessage] = useState(""); // Mensaje cuando no hay clases
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const categoryId = searchParams.get("id");
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (clase) => {
+    setSelectedClase(clase);
+    setShow(true);
+  };
+
+  useEffect(() => {
+    document.title = "Reservar Clase";
+    getClases();
+    getProfesores();
+  }, []);
+
+  const getClases = async () => {
+    try {
+      const response = await clienteAxios.get("/clases/habilitadas");
+      console.log("Clases obtenidas:", response.data.clases);
+      setClases(response.data.clases);
+    } catch (error) {
+      console.error("Error al obtener las clases:", error);
+    }
+  };
+
+  const getProfesores = async () => {
+    try {
+      const response = await clienteAxios.get("/profesores");
+      console.log("Profesores obtenidos:", response.data.profesores);
+      setProfesores(response.data.profesores);
+    } catch (error) {
+      console.error("Error al obtener los profesores:", error);
+    }
+  };
+
+  const getProfesorNombre = (idProfesor) => {
+    const profesor = profesores.find((prof) => prof._id === idProfesor);
+    return profesor ? `${profesor.nombre} ${profesor.apellido}` : "S/N";
+  };
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
+  console.log("ID de categoría:", categoryId);
+  console.log("Clases antes del filtrado:", clases);
+
+  const filteredClases = categoryId
+    ? clases.filter((clase) => {
+        console.log("Comparando:", clase.categoria, "con", categoryId); // Debug
+        return clase.categoria === categoryId;
+      })
+    : clases;
+
+  const handleFilterChange = (e) => {
+    const selectedDay = e.target.value;
+    setFilterDia(selectedDay);
+
+    // Verificar si hay clases para el día seleccionado
+    const clasesParaDia = clases.filter((clase) => clase.dia === selectedDay);
+    if (clasesParaDia.length === 0) {
+      setNoClasesMessage(`No hay clases para ${selectedDay}`);
+    } else {
+      setNoClasesMessage("");
+    }
+  };
+
+  const handleMostrarTodos = () => {
+    setFilterDia("");
+    setNoClasesMessage("");
+  };
+
+  // const handleBuscar = () => {
+  //   console.log("Buscar clases para el día:", filterDia);
+  // };
+
+  // Filtrar clases según el día seleccionado
+  const filteredClase = filterDia
+    ? clases.filter((clase) => clase.dia === filterDia)
+    : clases;
+
+  const offset = currentPage * 6;
+  const currentItems = filteredClase.slice(offset, offset + 6);
+  const pageCount = Math.ceil(filteredClase.length / 6);
 
   return (
-    <div className="contenedor-rc">
-      <div className="contenedor-hijo-rc">
-        <h1 className="titulo-izquierda">Reservar Clases</h1>
-        <div className="titulo-izquierda d-flex">
-          <div className="my-2 me-2">Dia</div>
-          <div className="m-2">Todos los dias</div>
-          <div className="m-2">Buscar</div>
-        </div>
-        <div className="tabla-reserva-clase">
-          {" "}
-          <Table bordered hover>
-            <thead className="table-header">
-              <tr>
-                <th>Dia</th>
-                <th>Hora</th>
-                <th>Profesor</th>
-                <th className="reservar-ancho text-center">Reservar</th>
-              </tr>
-            </thead>
-            <tbody className="table-body">
-              <tr>
-                <td>Jueves</td>
-                <td>10:00</td>
-                <td>Mariano Ocampos</td>
-                <td className="reservar-ancho text-center">
-                  <Button className="boton-tabla-reserva" onClick={handleShow}>
-                    Reservar
-                  </Button>
-                  <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Clase de ...</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      Estas seguro de querer reservar esta clase?
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>
-                        No
+    <div className="contenedor-md">
+      <div className="contenedor-rc">
+        <div className="contenedor-hijo-rc">
+          <h1 className="titulo-izquierda">Reservar Clases</h1>
+          <div className="titulo-izquierda d-flex">
+            <div className="my-2 me-2">
+              {/* Desplegable para días */}
+              <select className="form-select" onChange={handleFilterChange}>
+                <option value="">Seleccione un día</option>
+                <option value="Lunes">Lunes</option>
+                <option value="Martes">Martes</option>
+                <option value="Miércoles">Miércoles</option>
+                <option value="Jueves">Jueves</option>
+                <option value="Viernes">Viernes</option>
+                <option value="Sábado">Sábado</option>
+              </select>
+              {noClasesMessage && (
+                <p className="text-danger">{noClasesMessage}</p>
+              )}
+            </div>
+
+            {/* Botón para mostrar todos los días */}
+            <div className="m-2">
+              <Button className="boton-Dia-Clase" onClick={handleMostrarTodos}>
+                Mostrar Todos los Días
+              </Button>
+            </div>
+
+            {/* Botón para buscar */}
+            {/* <div className="m-2">
+              <Button variant="primary" onClick={handleBuscar}>
+                Buscar
+              </Button>
+            </div> */}
+          </div>
+          <div className="tabla-reserva-clase">
+            <Table bordered hover>
+              <thead className="table-header">
+                <tr>
+                  <th>Día</th>
+                  <th>Hora</th>
+                  <th>Categoría</th>
+                  <th>Profesor</th>
+                  <th>Cupos</th>
+                  <th className="reservar-ancho text-center">Reservar</th>
+                </tr>
+              </thead>
+              <tbody className="table-body">
+                {currentItems.map((clase) => (
+                  <tr key={clase._id}>
+                    <td>{clase.dia}</td>
+                    <td>{clase.hora}</td>
+                    <td>{clase.categoria}</td>
+                    <td>{getProfesorNombre(clase.idProfesor)}</td>
+                    <td>{clase.cupo}</td>
+                    <td className="reservar-ancho text-center">
+                      <Button
+                        className="boton-tabla-reserva"
+                        onClick={() => handleShow(clase)}
+                      >
+                        Reservar
                       </Button>
-                      <Button variant="primary" onClick={handleClose}>
-                        Si!
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                </td>
-              </tr>
-              <tr>
-                <td>Jueves</td>
-                <td>10:00</td>
-                <td>Mariano Ocampos</td>
-                <td className="reservar-ancho text-center">
-                  <Button className="boton-tabla-reserva" onClick={handleShow}>
-                    Reservar
-                  </Button>
-                  <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Clase de ...</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      Estas seguro de querer reservar esta clase?
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>
-                        No
-                      </Button>
-                      <Button variant="primary" onClick={handleClose}>
-                        Si!
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
+                      <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>{`Clase de ${selectedClase?.categoria}`}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          {`¿Estás seguro de querer reservar esta clase de ${
+                            selectedClase?.categoria
+                          } con el profesor ${getProfesorNombre(
+                            selectedClase?.idProfesor
+                          )}?`}
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleClose}>
+                            No
+                          </Button>
+                          <Button variant="primary" onClick={handleClose}>
+                            Sí!
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <ReactPaginate
+              previousLabel={"Anterior"}
+              nextLabel={"Siguiente"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
+          </div>
         </div>
       </div>
     </div>
