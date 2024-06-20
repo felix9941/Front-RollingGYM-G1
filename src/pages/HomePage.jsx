@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Carousel, Container, Row, Col, Card, Nav } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Carousel, Container, Row, Col, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -193,7 +193,7 @@ const HomePage = () => {
               {categorias.map((cat, index) => (
                 <Col xs={12} sm={6} lg={4} key={index}>
                   <Card className="clase">
-                    <Link to="/reservarClases">
+                    <Link to={`/reservarClases/?id=${cat._id}`}>
                       <div className="card-img-container">
                         <Card.Img
                           className="categoria-image"
@@ -302,7 +302,7 @@ const HomePage = () => {
                                     {prof.nombre}
                                   </h3>
                                   <p className="profes-contentP">
-                                    {profesor.apellido}
+                                    {prof.apellido}
                                   </p>
                                 </div>
                               </div>
@@ -330,7 +330,7 @@ const HomePage = () => {
                                         {prof.nombre}
                                       </h3>
                                       <p className="profes-contentP">
-                                        {profesor.apellido}
+                                        {prof.apellido}
                                       </p>
                                     </div>
                                   </div>
