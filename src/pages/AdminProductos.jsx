@@ -3,11 +3,13 @@ import Button from "react-bootstrap/Button";
 import ModalParaNuevo from "../components/ModalParaNuevo";
 import styles from "../css/AdminPages.module.css";
 import DynamicTable from "../components/Tablas";
+import clienteAxios from "../helpers/clienteAxios";
+import Swal from "sweetalert2";
 
 const AdminProductos = () => {
   useEffect(() => {
     document.title = "Administrar Productos";
-    fetchProductos();
+    getProducts();
   }, []);
 
   const [show, setShow] = useState(false);
@@ -35,13 +37,12 @@ const AdminProductos = () => {
     setFormData({ ...formData, foto: ev.target.files[0] });
   };
 
-  const fetchProductos = async () => {
+  const getProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3002/api/productos");
-      const data = await response.json();
-      setProductos(data.productos);
+      const response = await clienteAxios.get("/productos");
+      setProductos(response.data.productos);
     } catch (error) {
-      console.error("Error fetching productos:", error);
+      console.error("Error obteniendo productos:", error);
     }
   };
 
@@ -50,50 +51,56 @@ const AdminProductos = () => {
     const { nombre, foto } = formData;
     let newErrors = {};
 
-    const nombreApellidoExpReg = /^(?=.*[a-zA-Z])[A-Za-z\s]{3,}$/;
+    const nombreExpReg = /^(?=.*[a-zA-Z])[A-Za-z\s]{3,}$/;
+    if (!foto) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Debes ingresar una foto del producto",
+      });
+      return;
+    }
 
-    if (!nombreApellidoExpReg.test(nombre)) {
+    if (!nombreExpReg.test(nombre)) {
       newErrors = { ...newErrors, nombre: "nombreInvalido" };
     } else {
       if (foto) {
-        const formData = new FormData();
-        formData.append("nombre", nombre);
-        formData.append("foto", foto);
+        try {
+          const formData = new FormData();
+          formData.append("nombre", nombre);
+          formData.append("foto", foto);
 
-        const cargarProducto = await fetch(
-          "http://localhost:3002/api/productos",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        fetchProductos();
+          const response = await clienteAxios.post("/productos", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        } catch (error) {
+          console.error("Error al cargar el producto:", error);
+        }
+        getProducts();
+        setShow(false);
       }
     }
 
     setErrors((prevState) => ({ ...prevState, ...newErrors }));
-    console.log({ ...formData, ...newErrors });
-
-    console.log(foto);
   };
 
   const handleToggleEstado = async (producto) => {
     try {
-      const response = await fetch(
-        `http://localhost:3002/api/productos/cambioEstadoProducto/${producto._id}`,
-        {
-          method: "PUT",
-        }
+      const response = await clienteAxios.put(
+        `/productos/cambioEstadoProducto/${producto._id}`,
+        {}
       );
 
-      if (response.ok) {
-        const updatedProducto = await response.json();
+      if (response.status === 200) {
+        const updatedProducto = response.data;
         setProductos((prevProductos) =>
           prevProductos.map((p) =>
             p._id === producto._id ? { ...p, ...updatedProducto } : p
           )
         );
-        fetchProductos();
+        getProducts();
       } else {
         console.error("Error al cambiar el estado del producto");
       }
@@ -103,24 +110,27 @@ const AdminProductos = () => {
   };
 
   const handleDeleteProducto = async (producto) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3002/api/productos/${producto._id}`,
-        {
-          method: "DELETE",
+    Swal.fire({
+      title: `Estas seguro de eliminar ${producto.nombre}`,
+      text: "No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await clienteAxios.delete(
+            `/productos/${producto._id}`
+          );
+        } catch (error) {
+          console.error("Error al borrar el producto", error);
         }
-      );
-
-      if (response.ok) {
-        setProductos((prevProductos) =>
-          prevProductos.filter((p) => p._id !== producto._id)
-        );
-      } else {
-        console.error("Error al borrar el producto");
+        Swal.fire("Eliminado!", "El producto ha sido eliminada.", "success");
+        getProducts();
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    });
   };
 
   const errorMessage = (error) => {
