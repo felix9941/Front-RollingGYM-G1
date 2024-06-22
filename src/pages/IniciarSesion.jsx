@@ -82,7 +82,7 @@ const IniciarSesion = () => {
                 const role = iniciarSesion.data.role;
                 switch (role) {
                   case "administrador":
-                    window.location.href = "/adminAdmins";
+                    window.location.href = "/principalAdmin";
                     break;
                   case "cliente":
                     window.location.href = "/principal";
