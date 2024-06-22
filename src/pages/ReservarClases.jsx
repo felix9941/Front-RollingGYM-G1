@@ -13,8 +13,8 @@ const ReservarClases = () => {
   const [profesores, setProfesores] = useState([]);
   const [selectedClase, setSelectedClase] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const [filterDia, setFilterDia] = useState(""); // Estado para filtrar por día
-  const [noClasesMessage, setNoClasesMessage] = useState(""); // Mensaje cuando no hay clases
+  const [filterDia, setFilterDia] = useState("");
+  const [noClasesMessage, setNoClasesMessage] = useState("");
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -109,7 +109,6 @@ const ReservarClases = () => {
           <h1 className="titulo-izquierda">Reservar Clases</h1>
           <div className="titulo-izquierda d-flex">
             <div className="my-2 me-2">
-              {/* Desplegable para días */}
               <select className="form-select" onChange={handleFilterChange}>
                 <option value="">Seleccione un día</option>
                 <option value="Lunes">Lunes</option>
@@ -124,7 +123,6 @@ const ReservarClases = () => {
               )}
             </div>
 
-            {/* Botón para mostrar todos los días */}
             <div className="m-2">
               <Button className="boton-Dia-Clase" onClick={handleMostrarTodos}>
                 Mostrar Todos los Días
