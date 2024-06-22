@@ -115,7 +115,7 @@ const NavbarPage = () => {
                   as={Link}
                   to={
                     userRole === "administrador"
-                      ? "/principalAdmin"
+                      ? "/adminAdmins"
                       : userRole === "profesor"
                       ? "/misClases"
                       : "/principal"
@@ -160,20 +160,6 @@ const NavbarPage = () => {
                   id="admin-nav-dropdown"
                   className={styles.navbarDropdown}
                 >
-                  <NavDropdown.Item
-                    as={Link}
-                    to="/principalAdmin"
-                    className={styles.navbarDropdownItem}
-                  >
-                    Menú de Administrador
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    as={Link}
-                    to="/principal"
-                    className={styles.navbarDropdownItem}
-                  >
-                    Home Page POWERGYM
-                  </NavDropdown.Item>
                   <NavDropdown.Item
                     as={Link}
                     to="/adminAdmins"
