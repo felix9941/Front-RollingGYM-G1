@@ -29,6 +29,7 @@ import ReservarClases from "../pages/ReservarClases";
 import LogoutPage from "../components/LogoutPage";
 import PrivateRoute from "../components/PrivateRoute";
 import DetallePlanes from "../pages/DetallePlanes";
+import PrincipalAdmin from "../pages/PrincipalAdmin";
 
 const RoutesViews = () => {
   return (
@@ -104,7 +105,22 @@ const RoutesViews = () => {
             </PrivateRoute>
           }
         />
-        <Route path="/adminAdmins" element={<AdminAdministradores />} />
+        <Route
+          path="/adminAdmins"
+          element={
+            <PrivateRoute allowedRoles={["administrador"]}>
+              <AdminAdministradores />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/principalAdmin"
+          element={
+            <PrivateRoute allowedRoles={["administrador"]}>
+              <PrincipalAdmin />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/misReservas"
           element={

@@ -66,7 +66,7 @@ const Footer = () => {
         <div className="container-fluid">
           <div className="row">
             <h6 className="text-center mt-3">
-              &copy; 2024 PowerGym Grupo 2 . Todos los derechos reservados.
+              &copy; 2024 PowerGym G1. Todos los derechos reservados.
             </h6>
           </div>
         </div>
