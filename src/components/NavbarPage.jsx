@@ -223,6 +223,13 @@ const NavbarPage = () => {
                   >
                     Admin Productos
                   </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/misDatos"
+                    className={styles.navbarDropdownItem}
+                  >
+                    Mis Datos Admin
+                  </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link
                   as={Link}
