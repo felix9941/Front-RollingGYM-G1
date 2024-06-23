@@ -6,8 +6,6 @@ import Swal from "sweetalert2";
 import "../css/MisDatos.css";
 import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 import clienteAxios, { config } from "../helpers/clienteAxios";
-// import jwt from "jsonwebtoken";
-// import * as jwtDecode from "jwt-decode";
 
 const MisDatos = () => {
   const [formData, setFormData] = useState({
@@ -135,34 +133,38 @@ const MisDatos = () => {
   const role = sessionStorage.getItem("role");
   const token = sessionStorage.getItem("token");
 
-  // const obtenerDatosUsuario = async () => {
-  //   try {
-  //     const token = sessionStorage.getItem("token");
-  //     const response = await clienteAxios.get("/administradores/datosUsuario", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     const data = response.data;
-  //     console.log("Datos del usuario:", data.usuario);
-  //   } catch (error) {
-  //     console.error("Error:", error.message);
-  //   }
-  // };
-
   const obtenerDatosUsuario = async () => {
     try {
       const token = sessionStorage.getItem("token");
+      const role = sessionStorage.getItem("role");
+
       if (!token) {
         throw new Error("No se encontró el token en el sessionStorage");
       }
-      const response = await clienteAxios.get(
-        "/administradores/datosUsuario",
-        config
-      );
+
+      if (!role) {
+        throw new Error("No se encontró el rol en el sessionStorage");
+      }
+
+      let url = "";
+      switch (role) {
+        case "administrador":
+          url = "/administradores/datosUsuario";
+          break;
+        case "profesor":
+          url = "/profesores/datosUsuario";
+          break;
+        case "cliente":
+          url = "/clientes/datosUsuario";
+          break;
+        default:
+          throw new Error("Rol desconocido");
+      }
+
+      const response = await clienteAxios.get(url, config);
       console.log(response.data.usuario);
     } catch (error) {
-      console.error("error al obtener datos usuario", error);
+      console.log("Error al obtener datos usuario", error);
     }
   };
 
