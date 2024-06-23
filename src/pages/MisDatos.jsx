@@ -5,6 +5,9 @@ import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 import "../css/MisDatos.css";
 import { height } from "@fortawesome/free-solid-svg-icons/fa0";
+import clienteAxios, { config } from "../helpers/clienteAxios";
+// import jwt from "jsonwebtoken";
+// import * as jwtDecode from "jwt-decode";
 
 const MisDatos = () => {
   const [formData, setFormData] = useState({
@@ -30,10 +33,10 @@ const MisDatos = () => {
   const usersLocalStorage = JSON.parse(localStorage.getItem("users")) || [];
 
   const cambioDatosUsuario = (ev) => {
-    const { user, pass, rpass } = formData; //Desestructuramiento
+    const { user, pass, rpass } = formData;
     let newErrors = {};
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
-    /* Creo que error deberia estar en cambio de datos porque trabajaria con el onchange y se podria hacer una validacion en tiempo real */
+
     if (formData.user) {
       newErrors = { ...newErrors, user: user };
     }
@@ -104,18 +107,10 @@ const MisDatos = () => {
     } else {
       if (pass !== rpass) {
         newErrors = { ...newErrors, rpass: "passNoCoincide" };
-      } else {
-        //Envio exitoso - Sweet alert - Podria aplicar un trycach
-        Swal.fire({
-          icon: "success",
-          title: "Envío Exitoso",
-          text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
-        });
       }
     }
 
     setErrors((prevState) => ({ ...prevState, ...newErrors }));
-    //toma un estado anterior y con newErrors actualiza de ser necesario lo que no conbine
     console.log({ ...formData, ...newErrors });
   };
 
@@ -136,6 +131,46 @@ const MisDatos = () => {
       text: "El formulario se ha enviado correctamente.",
     });
   };
+
+  const role = sessionStorage.getItem("role");
+  const token = sessionStorage.getItem("token");
+
+  // const obtenerDatosUsuario = async () => {
+  //   try {
+  //     const token = sessionStorage.getItem("token");
+  //     const response = await clienteAxios.get("/administradores/datosUsuario", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     const data = response.data;
+  //     console.log("Datos del usuario:", data.usuario);
+  //   } catch (error) {
+  //     console.error("Error:", error.message);
+  //   }
+  // };
+
+  const obtenerDatosUsuario = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        throw new Error("No se encontró el token en el sessionStorage");
+      }
+      const response = await clienteAxios.get(
+        "/administradores/datosUsuario",
+        config
+      );
+      console.log(response.data.usuario);
+    } catch (error) {
+      console.error("error al obtener datos usuario", error);
+    }
+  };
+
+  if (role === "administrador") {
+    console.log("El rol del usuario es:", role);
+    obtenerDatosUsuario();
+  }
+
   return (
     <div className="contenedor-md">
       <div className="contenedor-hijo-md">
