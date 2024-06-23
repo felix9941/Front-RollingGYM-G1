@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
@@ -15,7 +15,6 @@ const MisDatos = () => {
     celular: "",
     pass: "",
     rpass: "",
-    textArea: "",
   });
 
   const [errors, setErrors] = useState({
@@ -25,7 +24,6 @@ const MisDatos = () => {
     celular: "",
     pass: "",
     rpass: "",
-    textArea: "",
   });
 
   const usersLocalStorage = JSON.parse(localStorage.getItem("users")) || [];
@@ -133,19 +131,56 @@ const MisDatos = () => {
   const role = sessionStorage.getItem("role");
   const token = sessionStorage.getItem("token");
 
+  // const obtenerDatosUsuario = async () => {
+  //   try {
+  //     const token = sessionStorage.getItem("token");
+  //     const role = sessionStorage.getItem("role");
+
+  //     if (!token) {
+  //       throw new Error("No se encontró el token en el sessionStorage");
+  //     }
+
+  //     if (!role) {
+  //       throw new Error("No se encontró el rol en el sessionStorage");
+  //     }
+
+  //     let url = "";
+  //     switch (role) {
+  //       case "administrador":
+  //         url = "/administradores/datosUsuario";
+  //         break;
+  //       case "profesor":
+  //         url = "/profesores/datosUsuario";
+  //         break;
+  //       case "cliente":
+  //         url = "/clientes/datosUsuario";
+  //         break;
+  //       default:
+  //         throw new Error("Rol desconocido");
+  //     }
+
+  //     const response = await clienteAxios.get(url, config);
+  //     console.log(response.data.usuario);
+  //   } catch (error) {
+  //     console.log("Error al obtener datos usuario", error);
+  //   }
+  // };
+
+  // if (role === "administrador") {
+  //   console.log("El rol del usuario es:", role);
+  //   obtenerDatosUsuario();
+  // }
+  ///*********** */
   const obtenerDatosUsuario = async () => {
     try {
       const token = sessionStorage.getItem("token");
       const role = sessionStorage.getItem("role");
-
       if (!token) {
         throw new Error("No se encontró el token en el sessionStorage");
       }
-
       if (!role) {
         throw new Error("No se encontró el rol en el sessionStorage");
       }
-
       let url = "";
       switch (role) {
         case "administrador":
@@ -160,18 +195,24 @@ const MisDatos = () => {
         default:
           throw new Error("Rol desconocido");
       }
-
       const response = await clienteAxios.get(url, config);
-      console.log(response.data.usuario);
+      const usuario = response.data.usuario;
+      setFormData({
+        nombre: usuario.nombre,
+        apellido: usuario.apellido,
+        email: usuario.email,
+        celular: usuario.telefono,
+        pass: "",
+        rpass: "",
+      });
     } catch (error) {
       console.log("Error al obtener datos usuario", error);
     }
   };
 
-  if (role === "administrador") {
-    console.log("El rol del usuario es:", role);
+  useEffect(() => {
     obtenerDatosUsuario();
-  }
+  }, []);
 
   return (
     <div className="contenedor-md">
