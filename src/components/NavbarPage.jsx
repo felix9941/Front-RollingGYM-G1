@@ -72,7 +72,7 @@ const NavbarPage = () => {
   };
 
   const getWeatherIconUrl = (iconCode) => {
-    return `http://openweathermap.org/img/wn/${iconCode}.png`;
+    return `https://openweathermap.org/img/wn/${iconCode}.png`;
   };
 
   const handleNavLinkClick = (e) => {
