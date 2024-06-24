@@ -4,8 +4,9 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ReactPaginate from "react-paginate";
 import { useSearchParams } from "react-router-dom";
-import clienteAxios from "../helpers/clienteAxios";
+import clienteAxios, { config } from "../helpers/clienteAxios";
 import "../css/ReservarClases.css";
+import Swal from "sweetalert2";
 
 const ReservarClases = () => {
   const [show, setShow] = useState(false);
@@ -78,6 +79,34 @@ const ReservarClases = () => {
     setNoClasesMessage("");
   };
 
+  const handleReservar = async (clase) => {
+    try {
+      const response = await clienteAxios.post(
+        `/reservas/${clase._id}`,
+        {},
+        config
+      );
+      const respuesta = await clienteAxios.put(`/clases/reserva/${clase._id}`);
+    } catch (error) {
+      console.error(error);
+      if (error.response.status === 405) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error al generar la reserva",
+        });
+      }
+    }
+    getClases();
+    handleClose();
+  };
+
   // const handleBuscar = () => {
   //   console.log("Buscar clases para el día:", filterDia);
   // };
@@ -144,11 +173,12 @@ const ReservarClases = () => {
                     <td>{clase.hora}</td>
                     <td>{clase.categoria}</td>
                     <td>{getProfesorNombre(clase.idProfesor)}</td>
-                    <td>{clase.cupo}</td>
+                    <td>{clase.cupo - clase.reservas}</td>
                     <td className="reservar-ancho text-center">
                       <Button
                         className="boton-tabla-reserva"
                         onClick={() => handleShow(clase)}
+                        disabled={clase.cupo - clase.reservas < 1}
                       >
                         Reservar
                       </Button>
@@ -167,7 +197,10 @@ const ReservarClases = () => {
                           <Button variant="secondary" onClick={handleClose}>
                             No
                           </Button>
-                          <Button variant="primary" onClick={handleClose}>
+                          <Button
+                            variant="primary"
+                            onClick={() => handleReservar(selectedClase)}
+                          >
                             Sí!
                           </Button>
                         </Modal.Footer>
