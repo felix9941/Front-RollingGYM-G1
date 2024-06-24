@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import ModalParaNuevo from "../components/ModalParaNuevo";
 import styles from "../css/AdminPages.module.css";
-import { config } from "@fortawesome/fontawesome-svg-core";
+import DynamicTable from "../components/Tablas";
 
 const AdminProductos = () => {
   useEffect(() => {
     document.title = "Administrar Productos";
+    fetchProductos();
   }, []);
 
   const [show, setShow] = useState(false);
   const [file, setFile] = useState(null);
-
+  const [productos, setProductos] = useState([]);
   const [formData, setFormData] = useState({
     nombre: "",
   });
@@ -32,6 +33,16 @@ const AdminProductos = () => {
   const handleFileChange = (ev) => {
     setFile(ev.target.files[0]);
     setFormData({ ...formData, foto: ev.target.files[0] });
+  };
+
+  const fetchProductos = async () => {
+    try {
+      const response = await fetch("http://localhost:3002/api/productos");
+      const data = await response.json();
+      setProductos(data.productos);
+    } catch (error) {
+      console.error("Error fetching productos:", error);
+    }
   };
 
   const handleSubmit = async (ev) => {
@@ -56,7 +67,7 @@ const AdminProductos = () => {
             body: formData,
           }
         );
-        console.log("Producto cargado?", cargarProducto);
+        fetchProductos();
       }
     }
 
@@ -64,6 +75,52 @@ const AdminProductos = () => {
     console.log({ ...formData, ...newErrors });
 
     console.log(foto);
+  };
+
+  const handleToggleEstado = async (producto) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3002/api/productos/cambioEstadoProducto/${producto._id}`,
+        {
+          method: "PUT",
+        }
+      );
+
+      if (response.ok) {
+        const updatedProducto = await response.json();
+        setProductos((prevProductos) =>
+          prevProductos.map((p) =>
+            p._id === producto._id ? { ...p, ...updatedProducto } : p
+          )
+        );
+        fetchProductos();
+      } else {
+        console.error("Error al cambiar el estado del producto");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleDeleteProducto = async (producto) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3002/api/productos/${producto._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        setProductos((prevProductos) =>
+          prevProductos.filter((p) => p._id !== producto._id)
+        );
+      } else {
+        console.error("Error al borrar el producto");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const errorMessage = (error) => {
@@ -77,6 +134,14 @@ const AdminProductos = () => {
     }
   };
 
+  const columns = [
+    { key: "_id", header: "Cod." },
+    { key: "foto", header: "Foto", type: "image" },
+    { key: "nombre", header: "Nombre" },
+    { key: "deleted", header: "Estado", type: "boolean" },
+    { key: "delete", header: "Borrar", type: "delete" },
+  ];
+
   return (
     <>
       <div className={styles.contenedorAdmins}>
@@ -85,6 +150,12 @@ const AdminProductos = () => {
           <Button onClick={handleShow} className={styles.buttonAdmins}>
             Nuevo Producto
           </Button>
+          <DynamicTable
+            columns={columns}
+            data={productos}
+            onToggle={handleToggleEstado}
+            onDelete={handleDeleteProducto}
+          />
         </div>
       </div>
       <ModalParaNuevo

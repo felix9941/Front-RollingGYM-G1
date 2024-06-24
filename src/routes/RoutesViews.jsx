@@ -28,6 +28,7 @@ import MisDatos from "../pages/MisDatos";
 import ReservarClases from "../pages/ReservarClases";
 import LogoutPage from "../components/LogoutPage";
 import PrivateRoute from "../components/PrivateRoute";
+import DetallePlanes from "../pages/DetallePlanes";
 
 const RoutesViews = () => {
   return (
@@ -127,6 +128,15 @@ const RoutesViews = () => {
           element={
             <PrivateRoute allowedRoles={["cliente", "administrador"]}>
               <ReservarClases />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/detallePlan/:id"
+          element={
+            <PrivateRoute allowedRoles={["cliente"]}>
+              <DetallePlanes />
             </PrivateRoute>
           }
         />
