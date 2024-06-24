@@ -59,6 +59,19 @@ const ReservarClases = () => {
     setCurrentPage(data.selected);
   };
 
+  const handleFilterChange = (e) => {
+    const selectedDay = e.target.value;
+    setFilterDia(selectedDay);
+
+    // Verificar si hay clases para el día seleccionado
+    const clasesParaDia = clases.filter((clase) => clase.dia === selectedDay);
+    if (clasesParaDia.length === 0) {
+      setNoClasesMessage(`No hay clases para ${selectedDay}`);
+    } else {
+      setNoClasesMessage("");
+    }
+  };
+
   const handleMostrarTodos = () => {
     setFilterDia("");
     setNoClasesMessage("");
