@@ -38,9 +38,7 @@ const RoutesViews = () => {
         <Route
           path="/principal"
           element={
-            <PrivateRoute
-              allowedRoles={["cliente", "profesor", "administrador"]}
-            >
+            <PrivateRoute allowedRoles={["cliente", "administrador"]}>
               <HomePage />
             </PrivateRoute>
           }
