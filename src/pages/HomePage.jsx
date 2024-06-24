@@ -193,7 +193,7 @@ const HomePage = () => {
               {categorias.map((cat, index) => (
                 <Col xs={12} sm={6} lg={4} key={index}>
                   <Card className="clase">
-                    <Link to={`/reservarClases/?id=${cat._id}`}>
+                    <Link to={`/reservarClases?id=${cat._id}`}>
                       <div className="card-img-container">
                         <Card.Img
                           className="categoria-image"
