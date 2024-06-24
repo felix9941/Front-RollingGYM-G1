@@ -294,17 +294,10 @@ const NavbarPage = () => {
                 >
                   <NavDropdown.Item
                     as={Link}
-                    to="/misClases"
+                    to="/misDatos"
                     className={styles.navbarDropdownItem}
                   >
-                    Mis Clases
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    as={Link}
-                    to="/reservarClases"
-                    className={styles.navbarDropdownItem}
-                  >
-                    Reservar una Clase
+                    Mis Datos
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     as={Link}
@@ -315,10 +308,10 @@ const NavbarPage = () => {
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     as={Link}
-                    to="/misDatos"
+                    to="/reservarClases"
                     className={styles.navbarDropdownItem}
                   >
-                    Mis Datos
+                    Reservar una Clase
                   </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link
