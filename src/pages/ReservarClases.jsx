@@ -3,7 +3,7 @@ import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import ReactPaginate from "react-paginate";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import clienteAxios from "../helpers/clienteAxios";
 import "../css/ReservarClases.css";
 
@@ -15,10 +15,6 @@ const ReservarClases = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [filterDia, setFilterDia] = useState("");
   const [noClasesMessage, setNoClasesMessage] = useState("");
-
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const categoryId = searchParams.get("id");
 
   const handleClose = () => setShow(false);
   const handleShow = (clase) => {
@@ -33,8 +29,10 @@ const ReservarClases = () => {
   }, []);
 
   const getClases = async () => {
+    const [searchParams] = useSearchParams();
+    const nombreCat = searchParams.get("nombre");
     try {
-      const response = await clienteAxios.get("/clases/habilitadas");
+      const response = await clienteAxios.get(`/clases/${nombreCat}`);
       console.log("Clases obtenidas:", response.data.clases);
       setClases(response.data.clases);
     } catch (error) {
@@ -59,29 +57,6 @@ const ReservarClases = () => {
 
   const handlePageClick = (data) => {
     setCurrentPage(data.selected);
-  };
-
-  console.log("ID de categoría:", categoryId);
-  console.log("Clases antes del filtrado:", clases);
-
-  const filteredClases = categoryId
-    ? clases.filter((clase) => {
-        console.log("Comparando:", clase.categoria, "con", categoryId); // Debug
-        return clase.categoria === categoryId;
-      })
-    : clases;
-
-  const handleFilterChange = (e) => {
-    const selectedDay = e.target.value;
-    setFilterDia(selectedDay);
-
-    // Verificar si hay clases para el día seleccionado
-    const clasesParaDia = clases.filter((clase) => clase.dia === selectedDay);
-    if (clasesParaDia.length === 0) {
-      setNoClasesMessage(`No hay clases para ${selectedDay}`);
-    } else {
-      setNoClasesMessage("");
-    }
   };
 
   const handleMostrarTodos = () => {
