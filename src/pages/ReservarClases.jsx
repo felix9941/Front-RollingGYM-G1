@@ -28,9 +28,10 @@ const ReservarClases = () => {
     getProfesores();
   }, []);
 
+  const [searchParams] = useSearchParams();
+  const nombreCat = searchParams.get("nombre");
+
   const getClases = async () => {
-    const [searchParams] = useSearchParams();
-    const nombreCat = searchParams.get("nombre");
     try {
       const response = await clienteAxios.get(`/clases/${nombreCat}`);
       console.log("Clases obtenidas:", response.data.clases);
@@ -94,7 +95,7 @@ const ReservarClases = () => {
     <div className="contenedor-md">
       <div className="contenedor-rc">
         <div className="contenedor-hijo-rc">
-          <h1 className="titulo-izquierda">Reservar Clases</h1>
+          <h1 className="titulo-izquierda">{`Reservar clase de ${nombreCat}`}</h1>
           <div className="titulo-izquierda d-flex">
             <div className="my-2 me-2">
               <select className="form-select" onChange={handleFilterChange}>
