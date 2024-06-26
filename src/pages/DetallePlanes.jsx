@@ -118,7 +118,9 @@ const DetallePlanes = () => {
             <p className="detallePlan-contentP">{`${plan.descripcion}`}</p>
             <p className="detallePlan-contentPrecio">{`Precio: $${plan.precio}/mes`}</p>
             <div className="col-12 col-md-6 mb-4">
-              <h2 className="detallePlan-contentH2">Categorías:</h2>
+              <h2 className="detallePlan-contentH2">
+                Clases disponibles con tu plan :
+              </h2>
               <ul>
                 {categorias.length > 0 ? (
                   categorias.map((categoria, index) => (
