@@ -12,7 +12,7 @@ const MisDatos = () => {
     nombre: "",
     apellido: "",
     email: "",
-    celular: "",
+    telefono: "",
     pass: "",
     rpass: "",
   });
@@ -21,7 +21,7 @@ const MisDatos = () => {
     nombre: "",
     apellido: "",
     email: "",
-    celular: "",
+    telefono: "",
     pass: "",
     rpass: "",
   });
@@ -51,14 +51,14 @@ const MisDatos = () => {
         return "Ingresar nombre";
       case "apellidoInvalido":
         return "Ingresar apellido";
-      case "celularInvalido":
-        return "Ingresar celular. Ej: 3815896118";
+      case "telefonoInvalido":
+        return "Ingresar telefono. Ej: 3815896118";
       case "mailInvalido":
         return "Ingresar e-mail";
       case "passVacio":
         return "Ingresar contraseña";
       case "passNoCumple":
-        return "La contraseña contener almenos 6 caracteres alfanumericos";
+        return "Debe contener 8 caracteres, mayuscula, minuscula, numero y simbolo";
       case "passNoCoincide":
         return "La contraseña no coincide";
       default:
@@ -66,14 +66,15 @@ const MisDatos = () => {
     }
   };
 
-  const enviarFormulario = (ev) => {
+  const enviarFormulario = async (ev) => {
     ev.preventDefault();
-    const { user, nombre, apellido, celular, email, pass, rpass } = formData;
+    const { user, nombre, apellido, telefono, email, pass, rpass } = formData;
     let newErrors = {};
-    const passExpReg = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const passExpReg =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{8,}$/;
     const nombreApellidoExpReg = /^(?=.*[a-zA-Z\s])[A-Za-z]{3,}$/;
     const emailExpReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const celularExpReg = /^\d{10}$/;
+    const telefonoExpReg = /^\d{10}$/;
 
     if (!nombreApellidoExpReg.test(nombre)) {
       newErrors = { ...newErrors, nombre: "nombreInvalido" };
@@ -83,8 +84,8 @@ const MisDatos = () => {
       newErrors = { ...newErrors, apellido: "apellidoInvalido" };
     }
 
-    if (!celularExpReg.test(celular)) {
-      newErrors = { ...newErrors, celular: "celularInvalido" };
+    if (!telefonoExpReg.test(telefono)) {
+      newErrors = { ...newErrors, telefono: "telefonoInvalido" };
     }
 
     if (!emailExpReg.test(email)) {
@@ -103,6 +104,54 @@ const MisDatos = () => {
     } else {
       if (pass !== rpass) {
         newErrors = { ...newErrors, rpass: "passNoCoincide" };
+      } else {
+        if (
+          nombreApellidoExpReg.test(nombre) &&
+          nombreApellidoExpReg.test(apellido) &&
+          telefonoExpReg.test(telefono) &&
+          emailExpReg.test(email)
+        ) {
+          Swal.fire({
+            title: "Estás seguro?",
+            text: "Se actualizaran tus datos",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, actualizar!",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              try {
+                let idusuario;
+                idusuario = await obtenerIdUsuario();
+                const response = await clienteAxios.put(
+                  `/administradores/editar/${idusuario}`,
+                  formData
+                );
+              } catch (error) {
+                console.error("error al editar el administrador", error);
+                if (error.response.request.status === 400) {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `${error.response.data.errors[0].msg}`,
+                  });
+
+                  return;
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Error al editar el administrador",
+                  });
+
+                  return;
+                }
+              } //fin cat
+              Swal.fire("Hecho!", "Tus datos fueron actualizados.", "success");
+            }
+          });
+        }
       }
     }
 
@@ -112,7 +161,7 @@ const MisDatos = () => {
 
   const mostrarMensajeErrorNombre = mensajeError(errors.nombre);
   const mostrarMensajeErrorApellido = mensajeError(errors.apellido);
-  const mostrarMensajeErrorCelular = mensajeError(errors.celular);
+  const mostrarMensajeErrortelefono = mensajeError(errors.telefono);
   const mostrarMensajeErrorMail = mensajeError(errors.email);
   const mostrarMensajeErrorPass = mensajeError(errors.pass);
   const mostrarMensajeErrorRpass = mensajeError(errors.rpass);
@@ -131,46 +180,39 @@ const MisDatos = () => {
   const role = sessionStorage.getItem("role");
   const token = sessionStorage.getItem("token");
 
-  // const obtenerDatosUsuario = async () => {
-  //   try {
-  //     const token = sessionStorage.getItem("token");
-  //     const role = sessionStorage.getItem("role");
+  const obtenerIdUsuario = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const role = sessionStorage.getItem("role");
+      if (!token) {
+        throw new Error("No se encontró el token en el sessionStorage");
+      }
+      if (!role) {
+        throw new Error("No se encontró el rol en el sessionStorage");
+      }
+      let url = "";
+      switch (role) {
+        case "administrador":
+          url = "/administradores/datosUsuario";
+          break;
+        case "profesor":
+          url = "/profesores/datosUsuario";
+          break;
+        case "cliente":
+          url = "/clientes/datosUsuario";
+          break;
+        default:
+          throw new Error("Rol desconocido");
+      }
+      const response = await clienteAxios.get(url, config);
+      const usuario = response.data.usuario;
+      return usuario._id;
+    } catch (error) {
+      console.log("Error al obtener datos usuario", error);
+      return null; // Retornar null en caso de error
+    }
+  };
 
-  //     if (!token) {
-  //       throw new Error("No se encontró el token en el sessionStorage");
-  //     }
-
-  //     if (!role) {
-  //       throw new Error("No se encontró el rol en el sessionStorage");
-  //     }
-
-  //     let url = "";
-  //     switch (role) {
-  //       case "administrador":
-  //         url = "/administradores/datosUsuario";
-  //         break;
-  //       case "profesor":
-  //         url = "/profesores/datosUsuario";
-  //         break;
-  //       case "cliente":
-  //         url = "/clientes/datosUsuario";
-  //         break;
-  //       default:
-  //         throw new Error("Rol desconocido");
-  //     }
-
-  //     const response = await clienteAxios.get(url, config);
-  //     console.log(response.data.usuario);
-  //   } catch (error) {
-  //     console.log("Error al obtener datos usuario", error);
-  //   }
-  // };
-
-  // if (role === "administrador") {
-  //   console.log("El rol del usuario es:", role);
-  //   obtenerDatosUsuario();
-  // }
-  ///*********** */
   const obtenerDatosUsuario = async () => {
     try {
       const token = sessionStorage.getItem("token");
@@ -197,11 +239,12 @@ const MisDatos = () => {
       }
       const response = await clienteAxios.get(url, config);
       const usuario = response.data.usuario;
+
       setFormData({
         nombre: usuario.nombre,
         apellido: usuario.apellido,
         email: usuario.email,
-        celular: usuario.telefono,
+        telefono: usuario.telefono,
         pass: "",
         rpass: "",
       });
@@ -265,19 +308,19 @@ const MisDatos = () => {
                 </Form.Group>
               </div>
               <div className="row">
-                <Form.Group className="col-12" controlId="formBasicCelular">
+                <Form.Group className="col-12" controlId="formBasictelefono">
                   <Form.Control
-                    className={errors.celular && "is-invalid"}
+                    className={errors.telefono && "is-invalid"}
                     type="text"
-                    placeholder="Celular"
+                    placeholder="telefono"
                     onChange={cambioDatosUsuario}
-                    name="celular"
-                    value={formData.celular}
+                    name="telefono"
+                    value={formData.telefono}
                   />
                   <div className="error-message_registro">
-                    {mostrarMensajeErrorCelular && (
+                    {mostrarMensajeErrortelefono && (
                       <p className="text-danger m-0">
-                        {mostrarMensajeErrorCelular}
+                        {mostrarMensajeErrortelefono}
                       </p>
                     )}
                   </div>
@@ -322,6 +365,28 @@ const MisDatos = () => {
                     {mostrarMensajeErrorPass && (
                       <p className="text-danger m-0">
                         {mostrarMensajeErrorPass}
+                      </p>
+                    )}
+                  </div>
+                </Form.Group>
+                <Form.Group className="col-12" controlId="formBasicRpass">
+                  <Form.Control
+                    className={
+                      errors.rpass === "passVacio" ||
+                      errors.rpass === "passNoCumple"
+                        ? "is-invalid"
+                        : ""
+                    }
+                    type="password"
+                    placeholder="Contraseña"
+                    onChange={cambioDatosUsuario}
+                    name="rpass"
+                    value={formData.rpass}
+                  />
+                  <div className="error-message_registro">
+                    {mostrarMensajeErrorRpass && (
+                      <p className="text-danger m-0">
+                        {mostrarMensajeErrorRpass}
                       </p>
                     )}
                   </div>
