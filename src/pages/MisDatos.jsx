@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 import "../css/MisDatos.css";
-import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 import clienteAxios, { config } from "../helpers/clienteAxios";
 
 const MisDatos = () => {
@@ -26,22 +25,9 @@ const MisDatos = () => {
     rpass: "",
   });
 
-  const usersLocalStorage = JSON.parse(localStorage.getItem("users")) || [];
-
   const cambioDatosUsuario = (ev) => {
-    const { user, pass, rpass } = formData;
     let newErrors = {};
     setFormData({ ...formData, [ev.target.name]: ev.target.value });
-
-    if (formData.user) {
-      newErrors = { ...newErrors, user: user };
-    }
-    if (formData.pass) {
-      newErrors = { ...newErrors, pass: pass };
-    }
-    if (formData.rpass) {
-      newErrors = { ...newErrors, rpass: rpass };
-    }
     setErrors(newErrors);
   };
 
@@ -68,7 +54,7 @@ const MisDatos = () => {
 
   const enviarFormulario = async (ev) => {
     ev.preventDefault();
-    const { user, nombre, apellido, telefono, email, pass, rpass } = formData;
+    const { nombre, apellido, telefono, email, pass, rpass } = formData;
     let newErrors = {};
     const passExpReg =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{8,}$/;
@@ -79,19 +65,15 @@ const MisDatos = () => {
     if (!nombreApellidoExpReg.test(nombre)) {
       newErrors = { ...newErrors, nombre: "nombreInvalido" };
     }
-
     if (!nombreApellidoExpReg.test(apellido)) {
       newErrors = { ...newErrors, apellido: "apellidoInvalido" };
     }
-
     if (!telefonoExpReg.test(telefono)) {
       newErrors = { ...newErrors, telefono: "telefonoInvalido" };
     }
-
     if (!emailExpReg.test(email)) {
       newErrors = { ...newErrors, email: "mailInvalido" };
     }
-
     if (!pass) {
       newErrors = { ...newErrors, pass: "passVacio" };
     } else if (!passExpReg.test(pass)) {
@@ -104,59 +86,69 @@ const MisDatos = () => {
     } else {
       if (pass !== rpass) {
         newErrors = { ...newErrors, rpass: "passNoCoincide" };
-      } else {
-        if (
-          nombreApellidoExpReg.test(nombre) &&
-          nombreApellidoExpReg.test(apellido) &&
-          telefonoExpReg.test(telefono) &&
-          emailExpReg.test(email)
-        ) {
-          Swal.fire({
-            title: "Estás seguro?",
-            text: "Se actualizaran tus datos",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, actualizar!",
-          }).then(async (result) => {
-            if (result.isConfirmed) {
-              try {
-                let idusuario;
-                idusuario = await obtenerIdUsuario();
-                const response = await clienteAxios.put(
-                  `/administradores/editar/${idusuario}`,
-                  formData
-                );
-              } catch (error) {
-                console.error("error al editar el administrador", error);
-                if (error.response.request.status === 400) {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: `${error.response.data.errors[0].msg}`,
-                  });
-
-                  return;
-                } else {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Error al editar el administrador",
-                  });
-
-                  return;
-                }
-              } //fin cat
-              Swal.fire("Hecho!", "Tus datos fueron actualizados.", "success");
-            }
-          });
-        }
       }
     }
 
-    setErrors((prevState) => ({ ...prevState, ...newErrors }));
-    console.log({ ...formData, ...newErrors });
+    if (Object.keys(newErrors).length === 0) {
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Se actualizarán tus datos",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, actualizar!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            let idusuario = await obtenerIdUsuario();
+            const role = sessionStorage.getItem("role");
+            let url = "";
+            switch (role) {
+              case "administrador":
+                url = "/administradores/editarDatosPropios/";
+                break;
+              case "profesor":
+                url = "/profesores/editarDatosPropios/";
+                break;
+              case "cliente":
+                url = "/clientes/editarDatosPropios/";
+                break;
+              default:
+                throw new Error("Rol desconocido");
+            }
+
+            const response = await clienteAxios.put(url + idusuario, {
+              nombre,
+              apellido,
+              email,
+              telefono,
+              contrasenia: pass,
+            });
+            Swal.fire("Hecho!", "Tus datos fueron actualizados.", "success");
+            obtenerDatosUsuario();
+          } catch (error) {
+            console.error("Error al editar el administrador", error);
+            if (error.response && error.response.status === 400) {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `${error.response.data.errors[0].msg}`,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Error al editar el administrador",
+              });
+            }
+          }
+        }
+      });
+    } else {
+      setErrors((prevState) => ({ ...prevState, ...newErrors }));
+      console.log({ ...formData, ...newErrors });
+    }
   };
 
   const mostrarMensajeErrorNombre = mensajeError(errors.nombre);
@@ -166,7 +158,6 @@ const MisDatos = () => {
   const mostrarMensajeErrorPass = mensajeError(errors.pass);
   const mostrarMensajeErrorRpass = mensajeError(errors.rpass);
 
-  //Sweet
   const handleSubmit = (e) => {
     e.preventDefault();
     enviarFormulario();
@@ -209,7 +200,7 @@ const MisDatos = () => {
       return usuario._id;
     } catch (error) {
       console.log("Error al obtener datos usuario", error);
-      return null; // Retornar null en caso de error
+      return null;
     }
   };
 
