@@ -128,7 +128,7 @@ const MisDatos = () => {
             Swal.fire("Hecho!", "Tus datos fueron actualizados.", "success");
             obtenerDatosUsuario();
           } catch (error) {
-            console.error("Error al editar el administrador", error);
+            console.error(`Error al editar el ${role}`, error);
             if (error.response && error.response.status === 400) {
               Swal.fire({
                 icon: "error",
@@ -139,7 +139,7 @@ const MisDatos = () => {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Error al editar el administrador",
+                text: `Error al editar el ${role}`,
               });
             }
           }
