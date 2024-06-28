@@ -58,7 +58,7 @@ const MisDatos = () => {
     let newErrors = {};
     const passExpReg =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{8,}$/;
-    const nombreApellidoExpReg = /^(?=.*[a-zA-Z\s])[A-Za-z]{3,}$/;
+    const nombreApellidoExpReg = /^(?=.*[a-zA-Z])[A-Za-z\s]{3,}$/;
     const emailExpReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const telefonoExpReg = /^\d{10}$/;
 
