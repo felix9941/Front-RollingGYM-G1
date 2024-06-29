@@ -2,7 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "../css/Tablas.module.css";
 
-const DynamicTable = ({ columns, data, onToggle, onDelete, onEdit }) => {
+const DynamicTable = ({
+  columns,
+  data,
+  onToggle,
+  onDelete,
+  onAccion,
+  onEdit,
+}) => {
   const renderCellContent = (column, item) => {
     const value = item[column.key];
 
@@ -25,6 +32,12 @@ const DynamicTable = ({ columns, data, onToggle, onDelete, onEdit }) => {
             Eliminar
           </button>
         );
+      case "accion":
+        return (
+          <button className={styles.buttonTable} onClick={() => onAccion(item)}>
+            {`${column.key}`}
+          </button>
+        );
       case "edit":
         return (
           <button className={styles.buttonTable} onClick={() => onEdit(item)}>
@@ -32,6 +45,9 @@ const DynamicTable = ({ columns, data, onToggle, onDelete, onEdit }) => {
           </button>
         );
       default:
+        if (Array.isArray(value)) {
+          return value.join(", ");
+        }
         return value;
     }
   };
@@ -67,13 +83,14 @@ DynamicTable.propTypes = {
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       header: PropTypes.string.isRequired,
-      type: PropTypes.string, // 'text', 'image', 'boolean', 'action'
+      type: PropTypes.string,
     })
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onToggle: PropTypes.func.isRequired, // Para manejar la activación/desactivación
-  onDelete: PropTypes.func.isRequired, // Para manejar la eliminación
-  onEdit: PropTypes.func.isRequired, // Para manejar la edicion
+  onToggle: PropTypes.func,
+  onDelete: PropTypes.func,
+  onAccion: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 export default DynamicTable;
