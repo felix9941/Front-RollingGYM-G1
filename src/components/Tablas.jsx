@@ -2,7 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "../css/Tablas.module.css";
 
-const DynamicTable = ({ columns, data, onToggle, onDelete, onEdit }) => {
+const DynamicTable = ({
+  columns,
+  data,
+  onToggle,
+  onDelete,
+  onAccion,
+  onEdit,
+}) => {
   const renderCellContent = (column, item) => {
     const value = item[column.key];
 
@@ -23,6 +30,12 @@ const DynamicTable = ({ columns, data, onToggle, onDelete, onEdit }) => {
         return (
           <button className={styles.buttonTable} onClick={() => onDelete(item)}>
             Eliminar
+          </button>
+        );
+      case "accion":
+        return (
+          <button className={styles.buttonTable} onClick={() => onAccion(item)}>
+            {`${column.key}`}
           </button>
         );
       case "edit":
@@ -74,9 +87,10 @@ DynamicTable.propTypes = {
     })
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onToggle: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onToggle: PropTypes.func,
+  onDelete: PropTypes.func,
+  onAccion: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 export default DynamicTable;
