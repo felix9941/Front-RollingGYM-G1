@@ -1,0 +1,70 @@
+.contenedor-md {
+  padding-top: 100px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+}
+
+.contenedor-rc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+  min-height: 70vh;
+}
+
+.contenedor-hijo-rc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.table-header th {
+  background-color: RGB(255, 102, 0);
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.table-body td {
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tabla-reserva-clase {
+  width: 50%;
+}
+
+.titulo-izquierda {
+  text-align: left;
+  width: 100%;
+  padding-left: 10px;
+}
+
+.eliminar-reserva {
+  width: 200px;
+  text-align: center;
+}
+
+.eliminar-reserva-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 1400px) {
+  .tabla-reserva-clase {
+    max-width: 80vw;
+    min-width: 80vw;
+  }
+
+  .titulo-izquierda {
+    text-align: left;
+    width: 100%;
+    padding-left: 10vw;
+  }
+}
