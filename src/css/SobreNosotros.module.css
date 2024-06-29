@@ -1,0 +1,184 @@
+body,
+html {
+  height: 100%;
+}
+
+body {
+  background-color: #000 !important;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backgroundImage {
+  width: 100%;
+  height: 70%;
+  position: absolute;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  mask-image: linear-gradient(#000000, transparent) !important;
+}
+
+.textOverlay {
+  margin-top: 10vh;
+  width: 80vw;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 0px;
+  border-radius: 10px;
+}
+
+.h1SN {
+  margin: 0;
+  font-size: 3rem !important;
+}
+
+.pSN {
+  font-size: 1rem;
+}
+
+.card {
+  width: 100%;
+  height: 100% !important;
+  border: 1px solid rgb(255, 255, 255) !important;
+  border-radius: 10px;
+  background: linear-gradient(to bottom, white 50%, black 50%);
+  text-align: center;
+  margin: 20px auto;
+  padding: 20px;
+}
+.card img {
+  border-radius: 50%;
+  border: 5px solid white;
+  width: 65%;
+  align-self: center;
+}
+.h3SN {
+  margin: 10px 0;
+  height: 4.5rem;
+  overflow: hidden;
+}
+
+.card .h2SN,
+.card .h3SN {
+  margin: 10px 0;
+}
+.card .pSN {
+  color: white;
+  margin: 20px 0 0;
+}
+
+.cardContainer {
+  background-color: #000;
+  padding-bottom: 10vh !important;
+}
+
+@media (min-width: 650px) {
+  .h4SN {
+    margin-bottom: 10vh !important;
+  }
+}
+
+@media (min-width: 581px) {
+  .imageM {
+    display: none;
+  }
+  .fundM {
+    display: none;
+  }
+}
+@media (max-width: 580px) {
+  .fundM {
+    margin-bottom: 6vh;
+    margin-top: 5vh;
+    color: #fff;
+  }
+  .imageD {
+    display: none;
+  }
+  .fundD {
+    display: none;
+  }
+  .h1SN {
+    font-size: 2rem !important;
+  }
+  .h4SN {
+    font-size: 1.2rem !important;
+  }
+  .pSN {
+    font-size: 0.8rem;
+  }
+  .imageContainer {
+    height: 50vh;
+  }
+  .backgroundImage {
+    height: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .h1SN {
+    font-size: 1.9rem !important;
+  }
+  .h4SN {
+    font-size: 1.1rem !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .h1SN {
+    font-size: 1.6rem !important;
+  }
+  .h4SN {
+    font-size: 1rem !important;
+    margin-bottom: 0 !important;
+  }
+  .pSN {
+    font-size: 0.6rem;
+  }
+  .fundM {
+    margin-top: 10vh;
+  }
+}
+
+@media (max-width: 275px) {
+  .h1SN {
+    font-size: 1.4rem !important;
+  }
+  .h4SN {
+    font-size: 0.8rem !important;
+    margin-bottom: 0 !important;
+  }
+  .textOverlay {
+    margin-top: 7vh;
+  }
+}
+
+@media (min-width: 670px) and (max-width: 740px) {
+  .card .h2SN,
+  .card .h3SN {
+    margin: 20px 0;
+  }
+  .card .pSN {
+    margin: 10px 0 0;
+  }
+}
+
+@media (min-width: 581px) and (max-width: 669px) {
+  .card .h2SN,
+  .card .h3SN {
+    margin: 25px 0;
+  }
+  .card .pSN {
+    margin: 5px 0 0;
+  }
+}

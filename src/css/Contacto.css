@@ -1,20 +1,28 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.contenedor-md-contacto {
+  padding-top: 100px;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 100%;
 }
 
-.container {
-  margin-top: 60px;
-}
-
-h2 {
+.textContactoH1 {
   font-weight: bold;
+  color: black;
+}
+.textContactoH5 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1em;
+  color: black;
 }
 
-p {
+.textContactoP {
   font-size: 1em;
   margin-bottom: 1em;
+  color: black;
 }
 
 .telefono-mail {

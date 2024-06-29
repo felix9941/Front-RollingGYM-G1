@@ -1,0 +1,22 @@
+/* Estilos para el carrusel infinito */
+.infinite-carousel {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.infinite-carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease;
+  width: 150%;
+}
+
+.infinite-carousel-item {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% / 10);
+  padding: 0;
+  margin: 0;
+}

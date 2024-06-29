@@ -1,0 +1,81 @@
+.navbarInitial {
+  position: fixed;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbarScrolling {
+  position: fixed;
+  width: 100%;
+  background-color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navLink {
+  color: white !important;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: rgb(255, 102, 0) !important;
+}
+
+.navbarScrollingNavLink {
+  color: white !important;
+}
+
+.navbarText {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.navbarScrollingText {
+  color: white !important;
+}
+
+.navbarToggler,
+.navbarTogglerIcon {
+  border-color: transparent;
+}
+
+.navbarScrollingToggler {
+  color: rgb(255, 102, 0);
+  border-color: rgb(255, 102, 0);
+}
+
+.navbarInitialToggler {
+  color: rgb(255, 102, 0);
+  border-color: rgb(255, 102, 0);
+}
+
+.navbarDropdown {
+  color: white !important;
+  border: none;
+}
+
+.navbarScrollingDropdown {
+  color: white !important;
+}
+
+.navbarDropdownItem {
+  color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbarDropdownItem:hover {
+  background-color: rgb(255, 102, 0);
+  color: black !important;
+}
+
+.navbarDropdown .dropdown-toggle::after {
+  color: rgb(255, 102, 0);
+}
+
+@media (max-width: 999px) {
+  .navbarInitial {
+    position: fixed;
+    width: 100%;
+    background-color: black;
+  }
+}
