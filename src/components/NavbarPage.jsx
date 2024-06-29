@@ -306,13 +306,6 @@ const NavbarPage = () => {
                   >
                     Mis Reservas
                   </NavDropdown.Item>
-                  <NavDropdown.Item
-                    as={Link}
-                    to="/reservarClases"
-                    className={styles.navbarDropdownItem}
-                  >
-                    Reservar una Clase
-                  </NavDropdown.Item>
                 </NavDropdown>
                 <Nav.Link
                   as={Link}
