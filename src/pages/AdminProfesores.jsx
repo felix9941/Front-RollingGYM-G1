@@ -170,7 +170,7 @@ const AdminProfesores = () => {
     { key: "email", header: "E-mail" },
     { key: "telefono", header: "Celular", type: "number" },
     { key: "foto", header: "Foto", type: "image" },
-    { key: "deleted", header: "Desabilitar", type: "boolean" },
+    { key: "deleted", header: "Deshabilitar", type: "boolean" },
     { key: "edit", header: "Editar", type: "edit" },
     { key: "delete", header: "Borrar", type: "delete" },
   ];
