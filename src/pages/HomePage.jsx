@@ -5,10 +5,11 @@ import "react-multi-carousel/lib/styles.css";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PowerGymPpal from "../../public/POWERGYMPpal.png";
-import PubliNike from "../../public/publi-nike.png";
-import PubliAdidas from "../../public/publi-adidas.png";
-import PubliColegym from "../../public/publi-colegym.png";
-import PubliUnderArmour from "../../public/publi-under-armour.png";
+import PubliBunker from "../../public/bunkerSuplementos.png";
+import PubliEna from "../../public/enaSuplementos.png";
+import PubliGatorade from "../../public/gatorade.png";
+import PubliGaceta from "../../public/gaceta.png";
+import PubliPalpitos from "../../public/palpitos24.jpg";
 import PowerGymLogo from "../../public/powerGymLogo.png";
 import InfiniteCarousel from "../components/InifiniteCarousel";
 import "../css/HomePage.css";
@@ -195,10 +196,7 @@ const HomePage = () => {
       title: "Perfecto!",
       text: "Tu comentario sera revisado por un administrador antes de ser publicado",
       icon: "success",
-    }); /* .then(() => {
-      setComments([...comments, newComment]);
-      setNewComment({ autor: "", texto: "" });
-    }); */
+    });
   };
 
   const handleNameInput = (e) => {
@@ -207,10 +205,11 @@ const HomePage = () => {
   };
 
   const publicidades = [
-    { logo: PubliNike },
-    { logo: PubliAdidas },
-    { logo: PubliColegym },
-    { logo: PubliUnderArmour },
+    { logo: PubliBunker },
+    { logo: PubliGaceta },
+    { logo: PubliGatorade },
+    { logo: PubliPalpitos },
+    { logo: PubliEna },
     { logo: PowerGymLogo },
   ];
 
