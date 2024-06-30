@@ -26,7 +26,6 @@ const MisReservas = () => {
           auth: `Bearer ${token}`,
         },
       });
-      console.log("Clases obtenidas:", response.data.clases);
       setClases(response.data.clases);
     } catch (error) {
       console.log("Error al obtener las reservas:", error);
@@ -35,7 +34,6 @@ const MisReservas = () => {
 
   const eliminarReserva = async (idClase) => {
     try {
-      console.log("clase", idClase);
       const token = JSON.parse(sessionStorage.getItem("token"));
       const response = await clienteAxios.delete("/reservas/eliminar", {
         headers: {
@@ -43,9 +41,6 @@ const MisReservas = () => {
         },
         data: { idClase },
       });
-
-      console.log("Reserva eliminada:", response.data);
-
       setClases(clases.filter((clase) => clase._id !== idClase));
     } catch (error) {
       console.log("Error al eliminar la reserva:", error);
@@ -55,7 +50,6 @@ const MisReservas = () => {
   const getProfesores = async () => {
     try {
       const response = await clienteAxios.get("/profesores");
-      console.log("Profesores obtenidos:", response.data.profesores);
       setProfesores(response.data.profesores);
     } catch (error) {
       console.error("Error al obtener los profesores:", error);
