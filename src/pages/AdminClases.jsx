@@ -89,7 +89,6 @@ const AdminClases = () => {
     try {
       const response = await clienteAxios.get("/profesores/");
       setProfesores(response.data.profesores);
-      console.log("Profesores obtenidos:", profesores);
     } catch (error) {
       console.error("error al obtener los profesores", error);
     }
@@ -99,7 +98,6 @@ const AdminClases = () => {
     try {
       const response = await clienteAxios.get("/categorias/");
       setCategorias(response.data.categorias);
-      console.log("Categorias obtenidas:", categorias);
     } catch (error) {
       console.error("error al obtener las categorias", error);
     }
@@ -207,7 +205,6 @@ const AdminClases = () => {
         text: "Error al crear la clase",
       });
     }
-    console.log(modalData);
     handleHideModal();
   };
 
