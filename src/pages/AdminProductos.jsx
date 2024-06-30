@@ -145,10 +145,9 @@ const AdminProductos = () => {
   };
 
   const columns = [
-    { key: "_id", header: "Cod." },
     { key: "foto", header: "Foto", type: "image" },
     { key: "nombre", header: "Nombre" },
-    { key: "deleted", header: "Estado", type: "boolean" },
+    { key: "deleted", header: "Deshabilitar", type: "boolean" },
     { key: "delete", header: "Borrar", type: "delete" },
   ];
 
