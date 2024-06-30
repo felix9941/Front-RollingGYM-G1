@@ -18,8 +18,6 @@ const AdminClases = () => {
   const [categorias, setCategorias] = useState([]);
   const [clases, setClases] = useState([]);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [modalData, setModalData] = useState({
     dia: "",
     hora: "",
@@ -72,7 +70,7 @@ const AdminClases = () => {
               `Error al obtener el profesor con id ${clase.idProfesor}`,
               error
             );
-            return { ...clase, nombreProfe: "Desconocido" }; // Puedes manejar errores de diferentes maneras
+            return { ...clase, nombreProfe: "Desconocido" };
           }
         })
       );
@@ -213,7 +211,6 @@ const AdminClases = () => {
   };
 
   const columns = [
-    { key: "_id", header: "ID" },
     { key: "dia", header: "Dia" },
     { key: "hora", header: "Hora" },
     { key: "categoria", header: "Categoria" },
