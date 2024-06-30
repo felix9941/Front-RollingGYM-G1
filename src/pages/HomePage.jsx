@@ -60,7 +60,6 @@ const HomePage = () => {
       );
       mensajeVencimiento = `vence en ${diferenciaDias} días`;
     }
-    console.log(mensajeVencimiento);
     setMensajeVencimiento(mensajeVencimiento);
     if (mensajeVencimiento === "vencido") {
       try {
