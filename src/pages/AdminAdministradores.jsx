@@ -224,24 +224,7 @@ const AdminAdministradores = () => {
     }
   };
 
-  const handleChangeTelefono = (e) => {
-    const { value } = e.target;
-    // Permitir solo números y limitar la longitud a 10
-    if (/^\d*$/.test(value) && value.length <= 10) {
-      setModalData({ ...modalData, telefono: value });
-    }
-  };
-
-  const handleChangeTelefono2 = (e) => {
-    const { value } = e.target;
-    // Permitir solo números y limitar la longitud a 10
-    if (/^\d*$/.test(value) && value.length <= 10) {
-      setModalData2({ ...modalData2, telefono: value });
-    }
-  };
-
   const adminsColumns = [
-    { key: "_id", header: "ID" },
     { key: "nombre", header: "Nombre" },
     { key: "apellido", header: "Apellido" },
     { key: "email", header: "Email" },
@@ -250,11 +233,6 @@ const AdminAdministradores = () => {
     { key: "delete", header: "Borrar", type: "delete" },
     { key: "edit", header: "Editar", type: "edit" },
   ];
-
-  /* const passExpReg = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
-    const nombreApellidoExpReg = /^(?=.*[a-zA-Z])[A-Za-z\s]{3,}$/;
-    const emailExpReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const celularExpReg = /^\d{10}$/; */
 
   return (
     <>
@@ -313,9 +291,11 @@ const AdminAdministradores = () => {
                 <Form.Group>
                   <Form.Label>Telefono</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     value={modalData.telefono}
-                    onChange={handleChangeTelefono}
+                    onChange={(e) =>
+                      setModalData({ ...modalData, telefono: e.target.value })
+                    }
                   />
                 </Form.Group>
                 <Form.Group>
@@ -393,9 +373,11 @@ const AdminAdministradores = () => {
                 <Form.Group>
                   <Form.Label>Telefono</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     value={modalData2.telefono}
-                    onChange={handleChangeTelefono2}
+                    onChange={(e) =>
+                      setModalData2({ ...modalData2, telefono: e.target.value })
+                    }
                   />
                 </Form.Group>
               </Form>
