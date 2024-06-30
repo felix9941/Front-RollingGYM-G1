@@ -19,6 +19,7 @@ const Admincategorias = () => {
   const [file2, setFile2] = useState(null);
   const [planes, setPlanes] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [categorias2, setCategorias2] = useState([]);
 
   const [modalData, setModalData] = useState({
     nombre: "",
@@ -88,7 +89,7 @@ const Admincategorias = () => {
     ev.preventDefault();
     const formData = new FormData();
     formData.append("nombre", modalData.nombre);
-    formData.append("foto", modalData.foto); // Asegúrate de que `modalData.foto` sea el archivo
+    formData.append("foto", modalData.foto);
     modalData.idPlanes.forEach((plan) => formData.append("idPlanes", plan));
     if (
       modalData.nombre === "" ||
@@ -174,12 +175,28 @@ const Admincategorias = () => {
     }
   };
 
+  useEffect(() => {
+    planesCategorias();
+  }, [categorias, planes]);
+
+  const planesCategorias = () => {
+    const updatedCategorias = categorias.map((categoria) => {
+      const updatedIdPlanes = categoria.idPlanes.map((idPlan) => {
+        const plan = planes.find((plan) => plan._id === idPlan);
+        return plan ? plan.nombre : idPlan;
+      });
+
+      return { ...categoria, idPlanes: updatedIdPlanes };
+    });
+
+    setCategorias2(updatedCategorias);
+  };
+
   const columns = [
-    { key: "_id", header: "ID" },
     { key: "nombre", header: "Nombre" },
     { key: "idPlanes", header: "Planes al que pertenece", type: "text" },
     { key: "foto", header: "Foto", type: "image" },
-    { key: "deleted", header: "Estado", type: "boolean" },
+    { key: "deleted", header: "Deshabilitar", type: "boolean" },
     { key: "edit", header: "Editar", type: "edit" },
     { key: "delete", header: "Borrar", type: "delete" },
   ];
@@ -196,7 +213,7 @@ const Admincategorias = () => {
         </Button>
         <DynamicTable
           columns={columns}
-          data={categorias}
+          data={categorias2}
           onToggle={handleToggleestado}
           onDelete={handleDeleteCategory}
           onEdit={handleShowModal2}
