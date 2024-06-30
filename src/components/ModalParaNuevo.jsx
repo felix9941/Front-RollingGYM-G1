@@ -13,7 +13,7 @@ const ModalParaNuevo = ({
   errors,
   handleChange,
   errorMessage,
-  tipo, //Tipos admitidos: clase, categoria, producto, plan
+  tipo,
 }) => {
   const titles = {
     clase: "Nueva Clase",
