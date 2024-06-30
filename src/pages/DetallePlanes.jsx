@@ -29,7 +29,6 @@ const DetallePlanes = () => {
         `/categorias/categoriasPorPlanId/${id}`
       );
       setCategorias(response.data.categoria);
-      console.log(response.data.categoria);
     } catch (error) {
       console.error("error al obtener las categorias", error);
     }
