@@ -15,18 +15,27 @@ import "../css/HomePage.css";
 import clienteAxios, { config } from "../helpers/clienteAxios";
 
 const HomePage = () => {
+  const [productos, setProductos] = useState([]);
+  const [profesores, setProfesores] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [planes, setPlanes] = useState([]);
+  const [plan, setPlan] = useState("");
+  const [id, setId] = useState("");
+  const [vencimiento, setVencimiento] = useState("");
+  const [mensajeVencimiento, setMensajeVencimiento] = useState("");
+
   useEffect(() => {
     document.title = "Pagina Principal";
     getProductos();
     getProfesores();
     getCategorias();
     getPlanes();
+    getDatos();
   }, []);
 
-  const [productos, setProductos] = useState([]);
-  const [profesores, setProfesores] = useState([]);
-  const [categorias, setCategorias] = useState([]);
-  const [planes, setPlanes] = useState([]);
+  useEffect(() => {
+    controlVencimiento();
+  }, [plan]);
 
   const getProductos = async () => {
     const response = await clienteAxios.get("/productos/prodHabilitados");
@@ -34,6 +43,48 @@ const HomePage = () => {
   };
 
   const role = sessionStorage.getItem("role");
+
+  const controlVencimiento = async () => {
+    const today = Date.now();
+    if (vencimiento === "") {
+      return;
+    }
+    const diferenciaMilisegundos = vencimiento - today;
+    let mensajeVencimiento;
+    if (diferenciaMilisegundos <= 0) {
+      mensajeVencimiento = "vencido";
+    } else {
+      const diferenciaDias = Math.ceil(
+        diferenciaMilisegundos / (1000 * 60 * 60 * 24)
+      );
+      mensajeVencimiento = `vence en ${diferenciaDias} días`;
+    }
+    console.log(mensajeVencimiento);
+    setMensajeVencimiento(mensajeVencimiento);
+    if (mensajeVencimiento === "vencido") {
+      try {
+        const response = await clienteAxios.put(
+          `/clientes/vencimiento/${id}`,
+          {}
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const getDatos = async () => {
+    if (role === "cliente") {
+      try {
+        const response = await clienteAxios.get("/clientes/datos", config);
+        setId(response.data.id);
+        setVencimiento(response.data.vencimiento);
+        setPlan(response.data.plan);
+      } catch (error) {
+        console.error("error al obtener los datos", error);
+      }
+    }
+  };
 
   const getCategorias = async () => {
     if (role === "cliente") {
@@ -43,7 +94,6 @@ const HomePage = () => {
           config
         );
         setCategorias(response.data.categoria);
-        console.log(response.data.categoria);
       } catch (error) {
         console.error("error al obtener las categorias", error);
       }
@@ -53,7 +103,6 @@ const HomePage = () => {
           "/categorias/categoriasHabilitadas"
         );
         setCategorias(response.data.categoria);
-        console.log(response.data.categoria);
       } catch (error) {
         console.error("error al obtener las categorias", error);
       }
@@ -180,7 +229,13 @@ const HomePage = () => {
         </section>
 
         <section className="reservacion">
-          <h2 className="reservacion-contentH2">Reserva Tu Clase!</h2>
+          <h2
+            className={`reservacion-contentH2 ${
+              categorias.length <= 0 ? "d-none" : ""
+            }`}
+          >
+            Reserva Tu Clase!
+          </h2>
           <h2
             className={`reservacion-contentH2 ${
               categorias.length > 0 ? "d-none" : ""
@@ -188,29 +243,36 @@ const HomePage = () => {
           >
             No Hay Clases Disponibles
           </h2>
+          <h5 className="text-white">
+            {mensajeVencimiento === "vencido"
+              ? `Su plan esta vencido`
+              : `Su plan es ${plan} y ${mensajeVencimiento}`}
+          </h5>
           <Container>
             <Row>
-              {categorias.map((cat, index) => (
-                <Col xs={12} sm={6} lg={4} key={index}>
-                  <Card className="clase">
-                    <Link to={`/reservarClases?nombre=${cat.nombre}`}>
-                      <div className="card-img-container">
-                        <Card.Img
-                          className="categoria-image"
-                          variant="top"
-                          src={cat.foto}
-                          alt={cat.nombre}
-                        />
-                        <div className="card-img-overlay">
-                          <Card.Title className="reservacion-contentH3">
-                            {cat.nombre}
-                          </Card.Title>
-                        </div>
-                      </div>
-                    </Link>
-                  </Card>
-                </Col>
-              ))}
+              {mensajeVencimiento != "vencido"
+                ? categorias.map((cat, index) => (
+                    <Col xs={12} sm={6} lg={4} key={index}>
+                      <Card className="clase">
+                        <Link to={`/reservarClases?nombre=${cat.nombre}`}>
+                          <div className="card-img-container">
+                            <Card.Img
+                              className="categoria-image"
+                              variant="top"
+                              src={cat.foto}
+                              alt={cat.nombre}
+                            />
+                            <div className="card-img-overlay">
+                              <Card.Title className="reservacion-contentH3">
+                                {cat.nombre}
+                              </Card.Title>
+                            </div>
+                          </div>
+                        </Link>
+                      </Card>
+                    </Col>
+                  ))
+                : null}
             </Row>
           </Container>
         </section>
