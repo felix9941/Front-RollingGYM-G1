@@ -165,7 +165,6 @@ const AdminProfesores = () => {
   };
 
   const columns = [
-    { key: "_id", header: "Cod." },
     { key: "nombre", header: "Nombre" },
     { key: "apellido", header: "Apellido" },
     { key: "email", header: "E-mail" },
