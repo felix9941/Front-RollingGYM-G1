@@ -3,6 +3,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import styles from "../css/AdminPages.module.css";
 import clienteAxios from "../helpers/clienteAxios";
 import DynamicTable from "../components/Tablas";
+import ReactPaginate from "react-paginate";
 import Swal from "sweetalert2";
 
 const AdminClases = () => {
@@ -17,7 +18,7 @@ const AdminClases = () => {
   const [profesores, setProfesores] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [clases, setClases] = useState([]);
-  const [show, setShow] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
   const [modalData, setModalData] = useState({
     dia: "",
     hora: "",
@@ -221,6 +222,15 @@ const AdminClases = () => {
     { key: "delete", header: "Borrar", type: "delete" },
   ];
 
+  const itemsPerPage = 4;
+  const offset = currentPage * itemsPerPage;
+  const currentItems = clases.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(clases.length / itemsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
   return (
     <>
       <div className={styles.contenedorAdmins}>
@@ -231,10 +241,23 @@ const AdminClases = () => {
           </Button>
           <DynamicTable
             columns={columns}
-            data={clases}
+            data={currentItems}
             onToggle={estadoF}
             onDelete={deleteF}
             onEdit={editF}
+          />
+          <ReactPaginate
+            previousLabel={"Anterior"}
+            nextLabel={"Siguiente"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
           />
           <Modal show={showModal} onHide={handleHideModal}>
             <Modal.Header closeButton>
@@ -290,9 +313,9 @@ const AdminClases = () => {
                     }
                   >
                     <option>Seleccione el Profesor</option>
-                    {profesores.map((prof) => (
-                      <option key={prof._id} value={prof._id}>
-                        {`${prof.nombre} ${prof.apellido}`}
+                    {profesores.map((profesor) => (
+                      <option key={profesor._id} value={profesor._id}>
+                        {profesor.nombre} {profesor.apellido}
                       </option>
                     ))}
                   </Form.Select>
@@ -310,10 +333,10 @@ const AdminClases = () => {
               </Form>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={handleHideModal} className={styles.buttonAdmins}>
+              <Button variant="secondary" onClick={handleHideModal}>
                 Cancelar
               </Button>
-              <Button onClick={handleCrear} className={styles.buttonAdmins}>
+              <Button variant="primary" onClick={handleCrear}>
                 Crear
               </Button>
             </Modal.Footer>
