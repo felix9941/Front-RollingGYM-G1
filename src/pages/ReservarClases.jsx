@@ -65,18 +65,15 @@ const ReservarClases = () => {
     const selectedDay = e.target.value;
     setFilterDia(selectedDay);
 
-    // Verificar si hay clases para el día seleccionado
     const clasesParaDia = clases.filter((clase) => clase.dia === selectedDay);
     if (clasesParaDia.length === 0) {
       setNoClasesMessage(`No hay clases para ${selectedDay}`);
+      if (selectedDay === "") {
+        setNoClasesMessage("");
+      }
     } else {
       setNoClasesMessage("");
     }
-  };
-
-  const handleMostrarTodos = () => {
-    setFilterDia("");
-    setNoClasesMessage("");
   };
 
   const handleReservar = async (clase) => {
@@ -107,11 +104,6 @@ const ReservarClases = () => {
     handleClose();
   };
 
-  // const handleBuscar = () => {
-  //   console.log("Buscar clases para el día:", filterDia);
-  // };
-
-  // Filtrar clases según el día seleccionado
   const filteredClase = filterDia
     ? clases.filter((clase) => clase.dia === filterDia)
     : clases;
@@ -128,7 +120,7 @@ const ReservarClases = () => {
           <div className="titulo-izquierda d-flex">
             <div className="my-2 me-2">
               <select className="form-select" onChange={handleFilterChange}>
-                <option value="">Seleccione un día</option>
+                <option value="">Todos los días</option>
                 <option value="Lunes">Lunes</option>
                 <option value="Martes">Martes</option>
                 <option value="Miércoles">Miércoles</option>
@@ -140,19 +132,6 @@ const ReservarClases = () => {
                 <p className="text-danger">{noClasesMessage}</p>
               )}
             </div>
-
-            <div className="m-2">
-              <Button className="boton-Dia-Clase" onClick={handleMostrarTodos}>
-                Mostrar Todos los Días
-              </Button>
-            </div>
-
-            {/* Botón para buscar */}
-            {/* <div className="m-2">
-              <Button variant="primary" onClick={handleBuscar}>
-                Buscar
-              </Button>
-            </div> */}
           </div>
           <div className="tabla-reserva-clase">
             <Table bordered hover>
