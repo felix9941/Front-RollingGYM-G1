@@ -1,13 +1,13 @@
 .carousel-inner {
-  height: 100%; /* Asegúrate de que el contenido interno del Carousel ocupe el 100% de su altura */
+  height: 100%;
 }
 
 .carousel-item {
-  height: 100%; /* Asegúrate de que cada item del Carousel ocupe el 100% de la altura */
+  height: 100%;
 }
 
 .carousel-item img {
-  object-fit: cover; /* Ajusta la imagen para que cubra todo el área del item */
+  object-fit: cover;
   height: 100%;
   width: 100%;
 }

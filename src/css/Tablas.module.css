@@ -1,9 +1,9 @@
 .tableContainer {
-  width: 90%; /* Ajusta esto según el ancho deseado */
-  margin: auto; /* Centra la tabla horizontalmente */
-  border-radius: 10px; /* Ajusta el valor para más o menos border-radius */
-  overflow: hidden; /* Asegura que el contenido no se salga de los bordes redondeados */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Añade una sombra para darle un efecto de elevación */
+  width: 90%;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 .tableC {
