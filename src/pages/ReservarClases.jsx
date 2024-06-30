@@ -35,7 +35,6 @@ const ReservarClases = () => {
   const getClases = async () => {
     try {
       const response = await clienteAxios.get(`/clases/${nombreCat}`);
-      console.log("Clases obtenidas:", response.data.clases);
       setClases(response.data.clases);
     } catch (error) {
       console.error("Error al obtener las clases:", error);
@@ -45,7 +44,6 @@ const ReservarClases = () => {
   const getProfesores = async () => {
     try {
       const response = await clienteAxios.get("/profesores");
-      console.log("Profesores obtenidos:", response.data.profesores);
       setProfesores(response.data.profesores);
     } catch (error) {
       console.error("Error al obtener los profesores:", error);
