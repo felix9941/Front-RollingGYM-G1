@@ -108,11 +108,10 @@ const AdminPlanes = () => {
   }, [modalData]);
 
   const columns = [
-    { key: "_id", header: "Cod." },
     { key: "nombre", header: "Nombre" },
     { key: "descripcion", header: "Descripcion" },
     { key: "precio", header: "Precio" },
-    { key: "deleted", header: "Estado", type: "boolean" },
+    { key: "deleted", header: "Deshabilitar", type: "boolean" },
     { key: "edit", header: "Editar", type: "edit" },
   ];
 
