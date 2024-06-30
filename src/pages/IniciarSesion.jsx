@@ -1,192 +1,198 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 import "../css/IniciarSesion.css";
 import clienteAxios, { config } from "../helpers/clienteAxios";
+import * as yup from "yup";
+import { Formik } from "formik";
 
 const IniciarSesion = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Iniciar Sesión";
   }, []);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    pass: "",
+  const yupSchemaLogin = yup.object().shape({
+    email: yup
+      .string()
+      .required("Completa el campo vacío")
+      .email("El email no es válido"),
+    pass: yup
+      .string()
+      .required("Completa el campo vacío")
+      .matches(
+        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{8,}$/,
+        "Debe contener 8 caracteres, mayúscula, minúscula, número y símbolo"
+      ),
   });
 
-  const [errors, setErrors] = useState({
-    email: "",
-    pass: "",
-  });
+  const handleSubmitForm = async (values, actions) => {
+    try {
+      const collections = ["clientes", "profesores", "administradores"];
+      let isAuthenticated = false;
 
-  const cambioDatosUsuario = (ev) => {
-    let newErrors = {};
-    setFormData({ ...formData, [ev.target.name]: ev.target.value });
-    setErrors(newErrors);
-  };
-
-  const mensajeError = (error) => {
-    switch (error) {
-      case "mailInvalido":
-        return "Ingresar e-mail";
-      case "passVacio":
-        return "Ingresar contraseña";
-      case "passNoCumple":
-        return "Debe contener 8 caracteres, mayuscula, minuscula, numero y simbolo";
-      default:
-        break;
-    }
-  };
-
-  const enviarFormulario = async (ev) => {
-    ev.preventDefault();
-    const { email, pass } = formData;
-    let newErrors = {};
-    const passExpReg =
-      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{6,}$/;
-    const emailExpReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailExpReg.test(email)) {
-      newErrors = { ...newErrors, email: "mailInvalido" };
-    }
-
-    if (!pass) {
-      newErrors = { ...newErrors, pass: "passVacio" };
-    } else if (!passExpReg.test(pass)) {
-      newErrors = { ...newErrors, pass: "passNoCumple" };
-    } else {
-      if (emailExpReg.test(email)) {
+      for (let collection of collections) {
         try {
-          const collections = ["clientes", "profesores", "administradores"];
-          let isAuthenticated = false;
-          let iniciarSesion;
+          const iniciarSesion = await clienteAxios.post(
+            `/${collection}/login`,
+            { email: values.email, contrasenia: values.pass },
+            config
+          );
 
-          for (let collection of collections) {
-            try {
-              iniciarSesion = await clienteAxios.post(
-                `/${collection}/login`,
-                { email, contrasenia: pass },
-                config
-              );
+          if (iniciarSesion.status === 200) {
+            sessionStorage.setItem(
+              "token",
+              JSON.stringify(iniciarSesion.data.token)
+            );
+            sessionStorage.setItem("role", iniciarSesion.data.role);
+            localStorage.setItem("userRole", iniciarSesion.data.role);
+            isAuthenticated = true;
 
-              if (iniciarSesion.status === 200) {
-                sessionStorage.setItem(
-                  "token",
-                  JSON.stringify(iniciarSesion.data.token)
-                );
-                sessionStorage.setItem("role", iniciarSesion.data.role);
-                localStorage.setItem("userRole", iniciarSesion.data.role);
-                isAuthenticated = true;
-                const role = iniciarSesion.data.role;
-                switch (role) {
-                  case "administrador":
-                    window.location.href = "/principalAdmin";
-                    break;
-                  case "cliente":
-                    window.location.href = "/principal";
-                    break;
-                  case "profesor":
-                    window.location.href = "/misClases";
-                    break;
-                  default:
-                    window.location.href = "/";
-                }
-                break;
-              }
-            } catch (error) {
-              if (
-                error.response &&
-                error.response.status !== 401 &&
-                error.response &&
-                error.response.status !== 404
-              ) {
+            const role = iniciarSesion.data.role;
+            switch (role) {
+              case "administrador":
                 Swal.fire({
-                  icon: "error",
-                  title: "Error al iniciar sesión",
-                  text: "Intente nuevamente",
+                  title: "Administrador Logueado con Éxito",
+                  text: "Bienvenido a PowerGYM",
+                  icon: "success",
+                }).then(() => {
+                  setTimeout(() => {
+                    navigate("/principalAdmin");
+                    window.location.reload();
+                  }, 2000);
                 });
-                return;
-              }
+                break;
+              case "cliente":
+                Swal.fire({
+                  title: "Cliente Logueado con Éxito",
+                  text: "Bienvenido a PowerGYM",
+                  icon: "success",
+                }).then(() => {
+                  setTimeout(() => {
+                    navigate("/principal");
+                    window.location.reload();
+                  }, 2000);
+                });
+                break;
+              case "profesor":
+                Swal.fire({
+                  title: "Profesor Logueado con Éxito",
+                  text: "Bienvenido a PowerGYM",
+                  icon: "success",
+                }).then(() => {
+                  setTimeout(() => {
+                    navigate("/misClases");
+                    window.location.reload();
+                  }, 2000);
+                });
+                break;
+              default:
+                navigate("/");
             }
           }
-
-          if (!isAuthenticated) {
-            setErrors({ pass: "errorPassIncorrecto" });
+        } catch (error) {
+          if (
+            error.response &&
+            error.response.status !== 401 &&
+            error.response.status !== 404
+          ) {
             Swal.fire({
               icon: "error",
-              title: "Email o contraseña incorrectos",
-              text: "Verifique que los datos ingresados sean correctos",
+              title: "Error al iniciar sesión",
+              text: "Intente nuevamente",
             });
+            return;
           }
-        } catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: "Error al iniciar sesión",
-            text: "Intente nuevamente",
-          });
         }
       }
-    }
-    setErrors((prevState) => ({ ...prevState, ...newErrors }));
-  };
 
-  const mostrarMensajeErrorMail = mensajeError(errors.email);
-  const mostrarMensajeErrorPass = mensajeError(errors.pass);
+      if (!isAuthenticated) {
+        Swal.fire({
+          icon: "error",
+          title: "Email o contraseña incorrectos",
+          text: "Verifique que los datos ingresados sean correctos",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error al iniciar sesión",
+        text: "Intente nuevamente",
+      });
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
 
   return (
     <div className="background_i d-flex justify-content-center align-items-center h-100">
       <div className="form-container_i centrado_vertical_i">
         <div className="mt-5">
           <h2 className="text-center pb-4 pt-5 mt-5">Iniciar Sesion</h2>
-          <Form className="ancho-input_i mx-auto" onSubmit={enviarFormulario}>
-            <Form.Group className="" controlId="formBasicEmail">
-              <Form.Control
-                className={errors.email && "is-invalid"}
-                type="email"
-                placeholder="E-Mail"
-                onChange={cambioDatosUsuario}
-                name="email"
-                value={formData.email}
-                maxLength={70}
-              />
-              <div className="error-message_i">
-                {mostrarMensajeErrorMail && (
-                  <p className="text-danger m-0">{mostrarMensajeErrorMail}</p>
-                )}
-              </div>
-            </Form.Group>
+          <Formik
+            initialValues={{ email: "", pass: "" }}
+            validationSchema={yupSchemaLogin}
+            onSubmit={handleSubmitForm}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <Form className="ancho-input_i mx-auto" onSubmit={handleSubmit}>
+                <Form.Group className="" controlId="formBasicEmail">
+                  <Form.Control
+                    className={
+                      errors.email && touched.email ? "is-invalid" : ""
+                    }
+                    type="email"
+                    placeholder="E-Mail"
+                    onChange={handleChange}
+                    name="email"
+                    value={values.email}
+                    maxLength={70}
+                  />
+                  <div className="error-message_i">
+                    {errors.email && touched.email && (
+                      <p className="text-danger m-0">{errors.email}</p>
+                    )}
+                  </div>
+                </Form.Group>
 
-            <Form.Group className="" controlId="formBasicPass">
-              <Form.Control
-                className={
-                  errors.pass === "passVacio" || errors.pass === "passNoCumple"
-                    ? "is-invalid"
-                    : ""
-                }
-                type="password"
-                placeholder="Contraseña"
-                onChange={cambioDatosUsuario}
-                name="pass"
-                value={formData.pass}
-                maxLength={50}
-              />
-              <div className="error-message_i">
-                {mostrarMensajeErrorPass && (
-                  <p className="text-danger m-0">{mostrarMensajeErrorPass}</p>
-                )}
-              </div>
-            </Form.Group>
+                <Form.Group className="" controlId="formBasicPass">
+                  <Form.Control
+                    className={errors.pass && touched.pass ? "is-invalid" : ""}
+                    type="password"
+                    placeholder="Contraseña"
+                    onChange={handleChange}
+                    name="pass"
+                    value={values.pass}
+                    maxLength={50}
+                  />
+                  <div className="error-message_i">
+                    {errors.pass && touched.pass && (
+                      <p className="text-danger m-0">{errors.pass}</p>
+                    )}
+                  </div>
+                </Form.Group>
 
-            <Button
-              variant=""
-              type="submit"
-              className="w-100 square-button_i mt-2 custom-button_i"
-            >
-              Iniciar Sesion
-            </Button>
-          </Form>
+                <Button
+                  variant=""
+                  type="submit"
+                  className="w-100 square-button_i mt-2 custom-button_i"
+                  disabled={isSubmitting}
+                >
+                  Iniciar Sesion
+                </Button>
+              </Form>
+            )}
+          </Formik>
           <div className="text-center m-2 mt-4 ">
             <NavLink className="text-white" to="/registro">
               ¿No tiene una cuenta?

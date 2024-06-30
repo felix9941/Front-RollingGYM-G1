@@ -18,6 +18,8 @@ const NavbarPage = () => {
   const [userRole, setUserRole] = useState(null);
   const [expanded, setExpanded] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolling(window.scrollY > 0);
@@ -61,7 +63,15 @@ const NavbarPage = () => {
     setUserRole(role);
   }, []);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const role =
+        sessionStorage.getItem("role") || localStorage.getItem("userRole");
+      setUserRole(role);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("userRole");
