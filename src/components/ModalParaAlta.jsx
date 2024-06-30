@@ -10,7 +10,7 @@ const ModalParaAlta = ({
   errors,
   handleChange,
   errorMessage,
-  tipo, //Tipos adminitos: administrados, cliente, profesor
+  tipo,
 }) => {
   let titleText = "";
   switch (tipo) {

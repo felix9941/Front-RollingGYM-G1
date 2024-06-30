@@ -7,7 +7,6 @@ const InfiniteCarousel = ({ children, autoPlaySpeed = 3000 }) => {
   const carouselRef = useRef(null);
   const isTransitioning = useRef(false);
 
-  // Clone the first and last elements for smooth transition
   const clonedChildren = [...children, ...children];
 
   useEffect(() => {
@@ -27,8 +26,8 @@ const InfiniteCarousel = ({ children, autoPlaySpeed = 3000 }) => {
         setCurrentIndex(currentIndex - length);
         setTimeout(() => {
           isTransitioning.current = false;
-        }, 50); // Small delay to allow resetting transition
-      }, 500); // Duration of the transition
+        }, 50);
+      }, 500);
     }
   }, [currentIndex, length]);
 
