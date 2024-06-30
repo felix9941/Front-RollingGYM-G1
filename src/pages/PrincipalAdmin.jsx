@@ -11,7 +11,6 @@ const PrincipalAdmin = () => {
   const [dia, setDia] = useState("");
   const [clases, setClases] = useState([]);
   const [clientes, setClientes] = useState([]);
-  const [body, setBody] = useState({});
 
   const today = new Date();
   const daysOfWeek = [
