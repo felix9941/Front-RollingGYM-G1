@@ -3,6 +3,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import styles from "../css/AdminPages.module.css";
 import clienteAxios from "../helpers/clienteAxios";
 import DynamicTable from "../components/Tablas";
+import ReactPaginate from "react-paginate";
 import Swal from "sweetalert2";
 
 const AdminClientes = () => {
@@ -363,6 +364,19 @@ const AdminClientes = () => {
     setClientesFiltrados(clientes);
   };
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
+  const offset = currentPage * itemsPerPage;
+  const currentClientes = clientesFiltrados.slice(
+    offset,
+    offset + itemsPerPage
+  );
+  const pageCount = Math.ceil(clientesFiltrados.length / itemsPerPage);
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
   const columns = [
     { key: "nombreCompleto", header: "Nombre" },
     { key: "email", header: "Email" },
@@ -406,7 +420,7 @@ const AdminClientes = () => {
           {clientesFiltrados ? (
             <DynamicTable
               columns={columns}
-              data={clientesFiltrados}
+              data={currentClientes}
               onToggle={estadoF}
               onDelete={deleteF}
               onEdit={handleShowModal2}
@@ -415,6 +429,20 @@ const AdminClientes = () => {
           ) : (
             <h1 className={styles.h1Admins}>Cargando</h1>
           )}
+          <ReactPaginate
+            previousLabel={"Anterior"}
+            nextLabel={"Siguiente"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination justify-content-center"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+          />
+
           <Modal show={showModal} onHide={handleHideModal}>
             <Modal.Header closeButton>
               <Modal.Title>Nuevo Cliente</Modal.Title>
