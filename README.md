@@ -62,7 +62,7 @@ Los mockups de interfaces fueron desarrollados usando la herramienta de software
 
 La aplicación está desplegada en Netlify. Puedes acceder haciendo clic en el siguiente enlace:
 
-🔗 [Power GYM](https://powergymg1rolling.netlify.app/)
+🔗 [Power GYM](https://power-gym-g1.vercel.app/)
 
 ## Integración con proyecto de Backend
 
