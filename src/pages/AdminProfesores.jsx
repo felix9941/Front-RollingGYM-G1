@@ -76,17 +76,12 @@ const AdminProfesores = () => {
         formData.append("foto", modalData.foto);
       }
 
-      console.log("FormData es: ", formData);
-
-      const method = modalData._id ? "PUT" : "POST";
+      const method = modalData._id ? "put" : "post";
       const url = modalData._id
-        ? `http://localhost:3002/api/profesores/${modalData._id}`
-        : "http://localhost:3002/api/profesores/register";
+        ? `/profesores/${modalData._id}`
+        : "/profesores/register";
 
-      const response = await fetch(url, {
-        method,
-        body: formData,
-      });
+      const response = await clienteAxios[method](url, formData);
 
       if (response.ok) {
         Swal.fire({
@@ -102,6 +97,8 @@ const AdminProfesores = () => {
           title: "Error al registrar profesor",
           text: "No se pudo registrar al profesor",
         });
+        getProfesores();
+        handleCloseModal();
       }
     } catch (error) {
       console.error("Error:", error);
