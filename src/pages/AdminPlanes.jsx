@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import DynamicTable from "../components/Tablas.jsx";
 import styles from "../css/AdminPages.module.css";
 import clienteAxios from "../helpers/clienteAxios";
-import Swal from "sweetalert2";
 
 const AdminPlanes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -45,12 +44,11 @@ const AdminPlanes = () => {
 
   const handleToggleEstado = async (plan) => {
     try {
-      const response = await fetch(
-        `http://localhost:3002/api/planes/cambioEstadoPlan/${plan._id}`,
-        { method: "PUT" }
+      const response = await clienteAxios.put(
+        `/planes/cambioEstadoPlan/${plan._id}`
       );
 
-      if (response.ok) {
+      if (response.status === 200) {
         obtenerPlanes();
       } else {
         console.error("Error al cambiar el estado del plan");
@@ -79,9 +77,7 @@ const AdminPlanes = () => {
 
     try {
       const method = modalData._id ? "put" : "post";
-      const url = modalData._id
-        ? `http://localhost:3002/api/planes/${modalData._id}`
-        : "http://localhost:3002/api/planes";
+      const url = modalData._id ? `/planes/${modalData._id}` : "/planes";
 
       const response = await clienteAxios[method](url, modalData);
 
