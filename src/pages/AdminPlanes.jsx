@@ -4,6 +4,8 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import DynamicTable from "../components/Tablas.jsx";
 import styles from "../css/AdminPages.module.css";
+import clienteAxios from "../helpers/clienteAxios";
+import Swal from "sweetalert2";
 
 const AdminPlanes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -77,20 +79,14 @@ const AdminPlanes = () => {
     if (Object.keys(validationErrors).length > 0) return;
 
     try {
-      const method = modalData._id ? "PUT" : "POST";
+      const method = modalData._id ? "put" : "post";
       const url = modalData._id
         ? `http://localhost:3002/api/planes/${modalData._id}`
         : "http://localhost:3002/api/planes";
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(modalData),
-      });
+      const response = await clienteAxios[method](url, modalData);
 
-      if (response.ok) {
+      if (response.status === 200 || response.status === 201) {
         fetchPlanes();
         handleCloseModal();
       } else {
