@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import DynamicTable from "../components/Tablas.jsx";
 import styles from "../css/AdminPages.module.css";
+import clienteAxios from "../helpers/clienteAxios";
 
 const AdminPlanes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -27,11 +28,10 @@ const AdminPlanes = () => {
     setShowModal(true);
   };
 
-  const fetchPlanes = async () => {
+  const obtenerPlanes = async () => {
     try {
-      const response = await fetch("http://localhost:3002/api/planes");
-      const data = await response.json();
-      setPlanes(data.planes);
+      const response = await clienteAxios.get("/planes");
+      setPlanes(response.data.planes);
     } catch (error) {
       console.error("Error al obtener planes:", error);
     }
@@ -39,18 +39,17 @@ const AdminPlanes = () => {
 
   useEffect(() => {
     document.title = "Administrar Planes";
-    fetchPlanes();
+    obtenerPlanes();
   }, []);
 
   const handleToggleEstado = async (plan) => {
     try {
-      const response = await fetch(
-        `http://localhost:3002/api/planes/cambioEstadoPlan/${plan._id}`,
-        { method: "PUT" }
+      const response = await clienteAxios.put(
+        `/planes/cambioEstadoPlan/${plan._id}`
       );
 
-      if (response.ok) {
-        fetchPlanes();
+      if (response.status === 200) {
+        obtenerPlanes();
       } else {
         console.error("Error al cambiar el estado del plan");
       }
@@ -77,21 +76,13 @@ const AdminPlanes = () => {
     if (Object.keys(validationErrors).length > 0) return;
 
     try {
-      const method = modalData._id ? "PUT" : "POST";
-      const url = modalData._id
-        ? `http://localhost:3002/api/planes/${modalData._id}`
-        : "http://localhost:3002/api/planes";
+      const method = modalData._id ? "put" : "post";
+      const url = modalData._id ? `/planes/${modalData._id}` : "/planes";
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(modalData),
-      });
+      const response = await clienteAxios[method](url, modalData);
 
-      if (response.ok) {
-        fetchPlanes();
+      if (response.status === 200 || response.status === 201) {
+        obtenerPlanes();
         handleCloseModal();
       } else {
         console.error("Error al guardar el plan");
