@@ -57,7 +57,7 @@ const AdminProfesores = () => {
       validationErrors.apellido = "El apellido es requerido";
     if (!modalData.email) validationErrors.email = "El email es requerido";
     if (!modalData.telefono)
-      validationErrors.telefono = "El telefono es requerido";
+      validationErrors.telefono = "El teléfono es requerido";
     if (!modalData.contrasenia)
       validationErrors.contrasenia = "La contraseña es requerida";
 
@@ -76,34 +76,36 @@ const AdminProfesores = () => {
         formData.append("foto", modalData.foto);
       }
 
-      console.log("FormData es: ", formData);
-
-      const method = modalData._id ? "PUT" : "POST";
+      const method = modalData._id ? "put" : "post";
       const url = modalData._id
-        ? `http://localhost:3002/api/profesores/${modalData._id}`
-        : "http://localhost:3002/api/profesores/register";
+        ? `/profesores/${modalData._id}`
+        : "/profesores/register";
 
-      const response = await fetch(url, {
-        method,
-        body: formData,
-      });
+      const response = await clienteAxios[method](url, formData);
 
-      if (response.ok) {
+      if (response.status === 200 || response.status === 201) {
         Swal.fire({
           icon: "success",
           title: "Registro Exitoso",
-          text: "El profesor se añadio al equipo de POWER GYM",
+          text: "El profesor se añadió al equipo de POWER GYM",
         });
         getProfesores();
         handleCloseModal();
       } else {
         Swal.fire({
-          icon: "success",
+          icon: "error",
           title: "Error al registrar profesor",
           text: "No se pudo registrar al profesor",
         });
+        getProfesores();
+        handleCloseModal();
       }
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ocurrió un error al registrar el profesor",
+      });
       console.error("Error:", error);
     }
   };
