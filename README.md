@@ -12,7 +12,7 @@ Esta aplicación realizada en forma grupal corresponde al Proyecto Final del cur
 
 ## Alcance del proyecto
 
-El objetivo del sistema Gimnasio es poder administrar la carga y gestión de usuarios y reserva de clases de un Gimnasio. Además se mostrará una sección informativa donde se exhibirá información de la
+El objetivo del sistema Gimnasio es poder administrar la carga y gestión de usuarios y reserva de clases de un Gimnasio. Además se mostrará una sección informativa donde se exhibirá información del
 Gimnasio, servicios y productos que ofrece.
 
 ## Enunciado - Requerimientos
