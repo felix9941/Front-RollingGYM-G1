@@ -31,9 +31,7 @@ const AdminPlanes = () => {
 
   const obtenerPlanes = async () => {
     try {
-      const response = await clienteAxios.get(
-        "http://localhost:3002/api/planes"
-      );
+      const response = await clienteAxios.get("/planes");
       setPlanes(response.data.planes);
     } catch (error) {
       console.error("Error al obtener planes:", error);
