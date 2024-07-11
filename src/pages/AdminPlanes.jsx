@@ -29,11 +29,12 @@ const AdminPlanes = () => {
     setShowModal(true);
   };
 
-  const fetchPlanes = async () => {
+  const obtenerPlanes = async () => {
     try {
-      const response = await fetch("http://localhost:3002/api/planes");
-      const data = await response.json();
-      setPlanes(data.planes);
+      const response = await clienteAxios.get(
+        "http://localhost:3002/api/planes"
+      );
+      setPlanes(response.data.planes);
     } catch (error) {
       console.error("Error al obtener planes:", error);
     }
@@ -41,7 +42,7 @@ const AdminPlanes = () => {
 
   useEffect(() => {
     document.title = "Administrar Planes";
-    fetchPlanes();
+    obtenerPlanes();
   }, []);
 
   const handleToggleEstado = async (plan) => {
@@ -52,7 +53,7 @@ const AdminPlanes = () => {
       );
 
       if (response.ok) {
-        fetchPlanes();
+        obtenerPlanes();
       } else {
         console.error("Error al cambiar el estado del plan");
       }
@@ -87,7 +88,7 @@ const AdminPlanes = () => {
       const response = await clienteAxios[method](url, modalData);
 
       if (response.status === 200 || response.status === 201) {
-        fetchPlanes();
+        obtenerPlanes();
         handleCloseModal();
       } else {
         console.error("Error al guardar el plan");
