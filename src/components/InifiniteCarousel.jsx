@@ -1,51 +1,49 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import "../css/InfiniteCarousel.css";
 
-const InfiniteCarousel = ({ children, autoPlaySpeed = 3000 }) => {
+const InfiniteCarousel = ({
+  children,
+  autoPlaySpeed = 3000,
+  visibleItems = 4,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const length = children.length;
+  const items = React.Children.toArray(children);
+  const length = items.length;
   const carouselRef = useRef(null);
-  const isTransitioning = useRef(false);
-
-  const clonedChildren = [...children, ...children];
+  const safeVisibleItems = Math.max(1, visibleItems);
+  const maxIndex = Math.max(0, length - safeVisibleItems);
 
   useEffect(() => {
+    if (length <= safeVisibleItems) {
+      setCurrentIndex(0);
+      return;
+    }
+
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+      setCurrentIndex((prevIndex) =>
+        prevIndex >= maxIndex ? 0 : prevIndex + 1
+      );
     }, autoPlaySpeed);
 
     return () => clearInterval(interval);
-  }, [autoPlaySpeed]);
-
-  useEffect(() => {
-    if (isTransitioning.current) return;
-
-    if (currentIndex >= length) {
-      setTimeout(() => {
-        isTransitioning.current = true;
-        setCurrentIndex(currentIndex - length);
-        setTimeout(() => {
-          isTransitioning.current = false;
-        }, 50);
-      }, 500);
-    }
-  }, [currentIndex, length]);
+  }, [autoPlaySpeed, length, maxIndex, safeVisibleItems]);
 
   return (
     <div className="infinite-carousel" ref={carouselRef}>
       <div
         className="infinite-carousel-inner"
         style={{
-          transform: `translateX(-${(currentIndex * 100) / length}%)`,
-          transition: isTransitioning.current ? "none" : "transform 0.5s ease",
-          width: `${clonedChildren.length * 15}%`,
+          transform: `translateX(-${currentIndex * (100 / safeVisibleItems)}%)`,
+          transition: "transform 0.5s ease",
+          width: `${(length * 100) / safeVisibleItems}%`,
         }}
       >
-        {clonedChildren.map((child, index) => (
+        {items.map((child, index) => (
           <div
             className="infinite-carousel-item"
             key={index}
-            style={{ width: `calc(100% / ${length})` }}
+            style={{ width: `${100 / length}%` }}
           >
             {child}
           </div>
@@ -53,6 +51,12 @@ const InfiniteCarousel = ({ children, autoPlaySpeed = 3000 }) => {
       </div>
     </div>
   );
+};
+
+InfiniteCarousel.propTypes = {
+  children: PropTypes.node.isRequired,
+  autoPlaySpeed: PropTypes.number,
+  visibleItems: PropTypes.number,
 };
 
 export default InfiniteCarousel;

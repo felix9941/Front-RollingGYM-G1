@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "../css/Tablas.module.css";
+import { resolveMediaUrl } from "../helpers/mediaUrl";
 
 const DynamicTable = ({
   columns,
@@ -15,18 +16,19 @@ const DynamicTable = ({
 
     switch (column.type) {
       case "image":
-        return (
-          <img src={value} alt={column.header} style={{ height: "50px" }} />
-        );
+        return <img src={resolveMediaUrl(value)} alt={column.header} style={{ height: "50px" }} />;
       case "boolean":
+        if (item._canToggle === false) return null;
         return (
           <input
             type="checkbox"
             checked={value}
             onChange={() => onToggle(item)}
+            disabled={item._canToggle === false}
           />
         );
       case "delete":
+        if (item._canDelete === false) return null;
         return (
           <button className={styles.buttonTable} onClick={() => onDelete(item)}>
             Eliminar
@@ -39,6 +41,7 @@ const DynamicTable = ({
           </button>
         );
       case "edit":
+        if (item._canEdit === false) return null;
         return (
           <button className={styles.buttonTable} onClick={() => onEdit(item)}>
             Editar

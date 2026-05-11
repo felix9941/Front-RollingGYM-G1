@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import Swal from "sweetalert2";
 import fondo from "../../public/fondo_r.png";
 import "../css/Registro.css";
-import clienteAxios, { config } from "../helpers/clienteAxios";
+import clienteAxios from "../helpers/clienteAxios";
 
 const RegisterPage = () => {
   useEffect(() => {
@@ -13,6 +14,8 @@ const RegisterPage = () => {
   }, []);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+  const [showRpass, setShowRpass] = useState(false);
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -104,11 +107,13 @@ const RegisterPage = () => {
           setIsLoading(true);
 
           try {
-            const createUser = await clienteAxios.post(
-              "/clientes/register",
-              { nombre, apellido, telefono: celular, email, contrasenia: pass },
-              config
-            );
+            const createUser = await clienteAxios.post("/clientes/register", {
+              nombre,
+              apellido,
+              telefono: celular,
+              email,
+              contrasenia: pass,
+            });
 
             if (createUser.status === 200) {
               setIsLoading(false);
@@ -123,7 +128,7 @@ const RegisterPage = () => {
             Swal.fire({
               icon: "error",
               title: "Registro Fallido",
-              text: `${error.response.data.message}`,
+              text: `${error.response?.data?.message || "No se pudo registrar"}`,
             });
             setIsLoading(false);
           }
@@ -153,7 +158,6 @@ const RegisterPage = () => {
           <div className="formulario-regis">
             <h3 className="pb-4 text-center text-white">Registro</h3>
             <div>
-              {" "}
               <Form>
                 <div className="row">
                   <Form.Group
@@ -248,20 +252,29 @@ const RegisterPage = () => {
                     className="col-md-6 col-sm-12"
                     controlId="formBasicPass"
                   >
-                    <Form.Control
-                      className={
-                        errors.pass === "passVacio" ||
-                        errors.pass === "passNoCumple"
-                          ? "is-invalid"
-                          : ""
-                      }
-                      type="password"
-                      placeholder="Contraseña"
-                      onChange={cambioDatosUsuario}
-                      name="pass"
-                      value={formData.pass}
-                      maxLength={50}
-                    />
+                    <InputGroup>
+                      <Form.Control
+                        className={
+                          errors.pass === "passVacio" ||
+                          errors.pass === "passNoCumple"
+                            ? "is-invalid"
+                            : ""
+                        }
+                        type={showPass ? "text" : "password"}
+                        placeholder="Contraseña"
+                        onChange={cambioDatosUsuario}
+                        name="pass"
+                        value={formData.pass}
+                        maxLength={50}
+                      />
+                      <Button
+                        variant="outline-secondary"
+                        type="button"
+                        onClick={() => setShowPass((prev) => !prev)}
+                      >
+                        {showPass ? "Ocultar" : "Ver"}
+                      </Button>
+                    </InputGroup>
                     <div className="error-message_registro">
                       {mostrarMensajeErrorPass && (
                         <p className="text-warning m-0">
@@ -274,20 +287,29 @@ const RegisterPage = () => {
                     className="col-md-6 col-sm-12"
                     controlId="formBasicRpass"
                   >
-                    <Form.Control
-                      className={
-                        errors.rpass === "passVacio" ||
-                        errors.rpass === "passNoCumple"
-                          ? "is-invalid"
-                          : ""
-                      }
-                      type="password"
-                      placeholder="Repetir Contraseña"
-                      onChange={cambioDatosUsuario}
-                      name="rpass"
-                      value={formData.rpass}
-                      maxLength={50}
-                    />
+                    <InputGroup>
+                      <Form.Control
+                        className={
+                          errors.rpass === "passVacio" ||
+                          errors.rpass === "passNoCumple"
+                            ? "is-invalid"
+                            : ""
+                        }
+                        type={showRpass ? "text" : "password"}
+                        placeholder="Repetir Contraseña"
+                        onChange={cambioDatosUsuario}
+                        name="rpass"
+                        value={formData.rpass}
+                        maxLength={50}
+                      />
+                      <Button
+                        variant="outline-secondary"
+                        type="button"
+                        onClick={() => setShowRpass((prev) => !prev)}
+                      >
+                        {showRpass ? "Ocultar" : "Ver"}
+                      </Button>
+                    </InputGroup>
                     <div className="error-message_registro">
                       {mostrarMensajeErrorRpass && (
                         <p className="text-warning m-0">
@@ -312,7 +334,7 @@ const RegisterPage = () => {
                     ¿Ya tiene una cuenta?
                   </NavLink>
                 </div>
-              </Form>{" "}
+              </Form>
             </div>
           </div>
         </div>

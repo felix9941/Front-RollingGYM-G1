@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import styles from "../css/AdminPages.module.css";
-import clienteAxios from "../helpers/clienteAxios.js";
+import clienteAxios, { config } from "../helpers/clienteAxios.js";
 import DynamicTable from "../components/Tablas.jsx";
 import Swal from "sweetalert2";
 
@@ -9,9 +9,11 @@ const AdminAdministradores = () => {
   useEffect(() => {
     document.title = "Administrar administradores";
     getAdmins();
+    getCurrentAdmin();
   }, []);
 
   const [admins, setAdmins] = useState([]);
+  const [currentAdminId, setCurrentAdminId] = useState("");
   const [disableButton, setDisableButton] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
@@ -32,7 +34,38 @@ const AdminAdministradores = () => {
 
   const getAdmins = async () => {
     const response = await clienteAxios.get("/administradores");
-    setAdmins(response.data.administradores);
+    const adminsData = response.data.administradores || [];
+    setAdmins(
+      adminsData.map((admin) => {
+        const canMutate = admin._id === currentAdminId;
+        return {
+          ...admin,
+          _canEdit: canMutate,
+          _canDelete: canMutate,
+          _canToggle: canMutate,
+        };
+      })
+    );
+  };
+
+  const getCurrentAdmin = async () => {
+    try {
+      const response = await clienteAxios.get("/administradores/datosUsuario", config);
+      const admin = response.data?.administrador || response.data?.admin || response.data;
+      setCurrentAdminId(admin?._id || "");
+    } catch (error) {
+      console.error("Error al obtener admin actual", error);
+    }
+  };
+
+  const canMutateAdmin = (adminId) => adminId && adminId === currentAdminId;
+
+  const showOnlyOwnInfoAlert = () => {
+    Swal.fire({
+      icon: "warning",
+      title: "Acción no permitida",
+      text: "Solo podés editar o eliminar tu propia cuenta de administrador.",
+    });
   };
 
   const handleShowModal = () => {
@@ -40,6 +73,10 @@ const AdminAdministradores = () => {
   };
 
   const handleShowModal2 = (admin) => {
+    if (!canMutateAdmin(admin._id)) {
+      showOnlyOwnInfoAlert();
+      return;
+    }
     setModalData2({
       nombre: admin.nombre,
       apellido: admin.apellido,
@@ -86,7 +123,7 @@ const AdminAdministradores = () => {
     try {
       const response = await clienteAxios.post(
         "/administradores/register",
-        modalData
+        modalData,
       );
     } catch (error) {
       console.error("Error al crear el administrador", error);
@@ -130,6 +167,10 @@ const AdminAdministradores = () => {
 
   const handleEditAdmin = async (ev) => {
     ev.preventDefault();
+    if (!canMutateAdmin(modalData2._id)) {
+      showOnlyOwnInfoAlert();
+      return;
+    }
     setDisableButton(true);
     if (
       modalData2.nombre === "" ||
@@ -148,7 +189,7 @@ const AdminAdministradores = () => {
     try {
       const response = await clienteAxios.put(
         `/administradores/editar/${modalData2._id}`,
-        modalData2
+        modalData2,
       );
     } catch (error) {
       console.error("error al editar el administrador", error);
@@ -176,6 +217,10 @@ const AdminAdministradores = () => {
   };
 
   const handleBorrar = (admin) => {
+    if (!canMutateAdmin(admin._id)) {
+      showOnlyOwnInfoAlert();
+      return;
+    }
     Swal.fire({
       title: "Estás seguro?",
       text: "No podrás revertir esto!",
@@ -188,7 +233,7 @@ const AdminAdministradores = () => {
       if (result.isConfirmed) {
         try {
           const response = await clienteAxios.delete(
-            `/administradores/${admin._id}`
+            `/administradores/${admin._id}`,
           );
         } catch (error) {
           console.error("error al eliminar el administrador", error);
@@ -201,17 +246,21 @@ const AdminAdministradores = () => {
         Swal.fire(
           "Eliminado!",
           "El administrador ha sido eliminado.",
-          "success"
+          "success",
         );
         getAdmins();
       }
     });
   };
   const handleEstado = async (admin) => {
+    if (!canMutateAdmin(admin._id)) {
+      showOnlyOwnInfoAlert();
+      return;
+    }
     try {
       const response = await clienteAxios.put(
         `/administradores/${admin._id}`,
-        {}
+        {},
       );
       getAdmins();
     } catch (error) {
@@ -233,6 +282,21 @@ const AdminAdministradores = () => {
     { key: "delete", header: "Borrar", type: "delete" },
     { key: "edit", header: "Editar", type: "edit" },
   ];
+
+  useEffect(() => {
+    if (!currentAdminId) return;
+    setAdmins((prev) =>
+      prev.map((admin) => {
+        const canMutate = admin._id === currentAdminId;
+        return {
+          ...admin,
+          _canEdit: canMutate,
+          _canDelete: canMutate,
+          _canToggle: canMutate,
+        };
+      })
+    );
+  }, [currentAdminId]);
 
   return (
     <>

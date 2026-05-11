@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -12,6 +12,7 @@ const ReservarClases = () => {
   const [show, setShow] = useState(false);
   const [clases, setClases] = useState([]);
   const [profesores, setProfesores] = useState([]);
+  const [categoriasPermitidas, setCategoriasPermitidas] = useState([]);
   const [selectedClase, setSelectedClase] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [filterDia, setFilterDia] = useState("");
@@ -25,19 +26,156 @@ const ReservarClases = () => {
 
   useEffect(() => {
     document.title = "Reservar Clase";
-    getClases();
     getProfesores();
+    getCategoriasPermitidas();
   }, []);
 
   const [searchParams] = useSearchParams();
-  const nombreCat = searchParams.get("nombre");
+  const nombreFromQuery = searchParams.get("nombre") || searchParams.get("categoria") || "";
+  const categoriaId = searchParams.get("categoriaId") || "";
+  const nombreCat =
+    nombreFromQuery && nombreFromQuery !== "undefined"
+      ? decodeURIComponent(nombreFromQuery)
+      : "";
+
+  useEffect(() => {
+    if (categoriasPermitidas.length === 0) return;
+    getClases();
+    setCurrentPage(0);
+  }, [nombreCat, categoriaId, categoriasPermitidas]);
+
+  const normalizeCategorias = (payload) => {
+    const arrays = [
+      payload?.categoria,
+      payload?.categorias,
+      payload?.categoriasPlan,
+      payload?.data,
+    ];
+    return arrays.find((arr) => Array.isArray(arr)) || [];
+  };
+
+  const extractCategoriaData = (cat) => {
+    const nestedCategoria =
+      typeof cat?.categoria === "object"
+        ? cat.categoria
+        : typeof cat?.idCategoria === "object"
+          ? cat.idCategoria
+          : null;
+
+    const nombre =
+      nestedCategoria?.nombre ||
+      cat?.nombre ||
+      cat?.nombreCategoria ||
+      (typeof cat?.categoria === "string" ? cat.categoria : "") ||
+      "";
+
+    const id =
+      nestedCategoria?._id ||
+      cat?._id ||
+      (typeof cat?.idCategoria === "string" ? cat.idCategoria : "");
+
+    return { id, nombre: (nombre || "").toLowerCase().trim() };
+  };
+
+  const getCategoriasPermitidas = async () => {
+    const role = sessionStorage.getItem("role");
+    try {
+      const endpoint =
+        role === "cliente"
+          ? "/categorias/categoriasPlan"
+          : "/categorias/categoriasHabilitadas";
+      const response = await clienteAxios.get(
+        endpoint,
+        role === "cliente" ? config : undefined
+      );
+      const categorias = normalizeCategorias(response.data).map(extractCategoriaData);
+      setCategoriasPermitidas(categorias.filter((cat) => cat.id || cat.nombre));
+    } catch (error) {
+      console.error("Error al obtener categorías permitidas:", error);
+      setCategoriasPermitidas([]);
+    }
+  };
+
+  const getClaseCategoriaId = (clase) => {
+    if (typeof clase?.idCategoria === "object") return clase.idCategoria?._id || "";
+    if (typeof clase?.idCategoria === "string") return clase.idCategoria;
+    return "";
+  };
+
+  const getClaseCategoriaNombre = (clase) =>
+    (clase?.categoria || "").toLowerCase().trim();
+
+  const isClasePermitidaParaUsuario = (clase) => {
+    if (categoriasPermitidas.length === 0) return true;
+    const claseCategoriaId = getClaseCategoriaId(clase);
+    const claseCategoriaNombre = getClaseCategoriaNombre(clase);
+    return categoriasPermitidas.some(
+      (cat) =>
+        (cat.id && claseCategoriaId && cat.id === claseCategoriaId) ||
+        (cat.nombre && claseCategoriaNombre && cat.nombre === claseCategoriaNombre)
+    );
+  };
 
   const getClases = async () => {
     try {
-      const response = await clienteAxios.get(`/clases/${nombreCat}`);
-      setClases(response.data.clases);
+      if (!nombreCat) {
+        const todas = await clienteAxios.get("/clases/");
+        const clasesBase = (todas.data.clases || []).filter(
+          (clase) => !clase.deleted && isClasePermitidaParaUsuario(clase)
+        );
+        if (categoriaId) {
+          setClases(
+            clasesBase.filter((clase) => getClaseCategoriaId(clase) === categoriaId)
+          );
+          return;
+        }
+        setClases(clasesBase);
+        return;
+      }
+
+      const response = await clienteAxios.get(
+        `/clases/${encodeURIComponent(nombreCat)}`
+      );
+      const clasesResponse = response.data.clases || [];
+
+      if (clasesResponse.length > 0) {
+        setClases(
+          clasesResponse.filter(
+            (clase) => !clase.deleted && isClasePermitidaParaUsuario(clase)
+          )
+        );
+        return;
+      }
+
+      const todas = await clienteAxios.get("/clases/");
+      const clasesFiltradas = (todas.data.clases || []).filter(
+        (clase) =>
+          !clase.deleted &&
+          isClasePermitidaParaUsuario(clase) &&
+          ((clase.categoria || "").toLowerCase().trim() ===
+            nombreCat.toLowerCase().trim() ||
+            (categoriaId && getClaseCategoriaId(clase) === categoriaId))
+      );
+      setClases(clasesFiltradas);
     } catch (error) {
       console.error("Error al obtener las clases:", error);
+      try {
+        const todas = await clienteAxios.get("/clases/");
+        const clasesFiltradas = (todas.data.clases || []).filter(
+          (clase) =>
+            !clase.deleted &&
+            isClasePermitidaParaUsuario(clase) &&
+            ((clase.categoria || "").toLowerCase().trim() ===
+              nombreCat.toLowerCase().trim() ||
+              (categoriaId && getClaseCategoriaId(clase) === categoriaId))
+        );
+        setClases(clasesFiltradas);
+      } catch (fallbackError) {
+        console.error(
+          "Error al obtener las clases en fallback:",
+          fallbackError
+        );
+      }
     }
   };
 
@@ -76,12 +214,8 @@ const ReservarClases = () => {
 
   const handleReservar = async (clase) => {
     try {
-      const response = await clienteAxios.post(
-        `/reservas/${clase._id}`,
-        {},
-        config
-      );
-      const respuesta = await clienteAxios.put(`/clases/reserva/${clase._id}`);
+      await clienteAxios.post(`/reservas/${clase._id}`, {}, config);
+      await clienteAxios.put(`/clases/reserva/${clase._id}`);
     } catch (error) {
       console.error(error);
       if (error.response.status === 405) {
@@ -114,7 +248,9 @@ const ReservarClases = () => {
     <div className="contenedor-md">
       <div className="contenedor-rc">
         <div className="contenedor-hijo-rc">
-          <h1 className="titulo-izquierda">{`Reservar clase de ${nombreCat}`}</h1>
+          <h1 className="titulo-izquierda">
+            {nombreCat ? `Reservar clase de ${nombreCat}` : "Reservar clase"}
+          </h1>
           <div className="titulo-izquierda d-flex">
             <div className="my-2 me-2">
               <select className="form-select" onChange={handleFilterChange}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Carousel, Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "react-multi-carousel/lib/styles.css";
@@ -14,6 +14,7 @@ import PowerGymLogo from "../../public/powerGymLogo.png";
 import InfiniteCarousel from "../components/InifiniteCarousel";
 import "../css/HomePage.css";
 import clienteAxios, { config } from "../helpers/clienteAxios";
+import { resolveMediaUrl } from "../helpers/mediaUrl";
 
 const HomePage = () => {
   const [productos, setProductos] = useState([]);
@@ -24,6 +25,50 @@ const HomePage = () => {
   const [id, setId] = useState("");
   const [vencimiento, setVencimiento] = useState("");
   const [mensajeVencimiento, setMensajeVencimiento] = useState("");
+  const normalizeCategorias = (payload) => {
+    const directArrays = [
+      payload?.categoria,
+      payload?.categorias,
+      payload?.categoriasPlan,
+      payload?.data,
+    ];
+    const firstArray = directArrays.find((arr) => Array.isArray(arr)) || [];
+    return firstArray;
+  };
+  const extractCategoria = (cat) => {
+    const nestedCategoria =
+      typeof cat?.categoria === "object"
+        ? cat.categoria
+        : typeof cat?.idCategoria === "object"
+          ? cat.idCategoria
+          : null;
+
+    const nombre =
+      nestedCategoria?.nombre ||
+      cat?.nombre ||
+      cat?.nombreCategoria ||
+      (typeof cat?.categoria === "string" ? cat.categoria : "") ||
+      "Clase";
+
+    const foto =
+      nestedCategoria?.foto ||
+      nestedCategoria?.imagen ||
+      cat?.foto ||
+      cat?.imagen ||
+      cat?.image ||
+      "";
+
+    const id =
+      nestedCategoria?._id ||
+      cat?._id ||
+      (typeof cat?.idCategoria === "string" ? cat.idCategoria : "");
+
+    return {
+      nombre: nombre.trim(),
+      foto: resolveMediaUrl(foto) || PowerGymLogo,
+      id,
+    };
+  };
 
   useEffect(() => {
     document.title = "Pagina Principal";
@@ -63,10 +108,7 @@ const HomePage = () => {
     setMensajeVencimiento(mensajeVencimiento);
     if (mensajeVencimiento === "vencido") {
       try {
-        const response = await clienteAxios.put(
-          `/clientes/vencimiento/${id}`,
-          {}
-        );
+        await clienteAxios.put(`/clientes/vencimiento/${id}`, {});
       } catch (error) {
         console.log(error);
       }
@@ -93,16 +135,29 @@ const HomePage = () => {
           "/categorias/categoriasPlan",
           config
         );
-        setCategorias(response.data.categoria);
+        const categoriasPlan = normalizeCategorias(response.data);
+        if (categoriasPlan.length > 0) {
+          setCategorias(categoriasPlan);
+          return;
+        }
+
+        const fallback = await clienteAxios.get("/categorias/categoriasHabilitadas");
+        setCategorias(normalizeCategorias(fallback.data));
       } catch (error) {
         console.error("error al obtener las categorias", error);
+        try {
+          const fallback = await clienteAxios.get("/categorias/categoriasHabilitadas");
+          setCategorias(normalizeCategorias(fallback.data));
+        } catch (fallbackError) {
+          console.error("error al obtener las categorias (fallback)", fallbackError);
+        }
       }
     } else if (role === "administrador" || role === "profesor") {
       try {
         const response = await clienteAxios.get(
           "/categorias/categoriasHabilitadas"
         );
-        setCategorias(response.data.categoria);
+        setCategorias(normalizeCategorias(response.data));
       } catch (error) {
         console.error("error al obtener las categorias", error);
       }
@@ -123,27 +178,13 @@ const HomePage = () => {
     const items = productos.slice(i, i + 3).map((producto, index) => (
       <Col key={index} md={4} className="producto">
         <div className="producto-img-container">
-          <img src={producto.foto} alt={producto.nombre} />
+          <img src={resolveMediaUrl(producto.foto)} alt={producto.nombre} />
           <div className="producto-img-overlay">
             <h3 className="productos-contentH3">{producto.nombre}</h3>
           </div>
         </div>
       </Col>
     ));
-
-    while (items.length < 3) {
-      const producto = productos[items.length % productos.length];
-      items.push(
-        <Col key={`${i}-${items.length}`} md={4} className="producto">
-          <div className="producto-img-container">
-            <img src={producto.foto} alt={producto.nombre} />
-            <div className="producto-img-overlay">
-              <h3 className="productos-contentH3">{producto.nombre}</h3>
-            </div>
-          </div>
-        </Col>
-      );
-    }
 
     productSlidesLarge.push(
       <Carousel.Item key={i}>
@@ -155,7 +196,7 @@ const HomePage = () => {
     <Carousel.Item key={index}>
       <div className="producto">
         <div className="producto-img-container">
-          <img src={producto.foto} alt={producto.nombre} />
+          <img src={resolveMediaUrl(producto.foto)} alt={producto.nombre} />
           <div className="producto-img-overlay">
             <h3 className="productos-contentH3">{producto.nombre}</h3>
           </div>
@@ -169,7 +210,7 @@ const HomePage = () => {
     setProfesores(response.data.profesores);
   };
 
-  const [comments, setComments] = useState([
+  const [comments] = useState([
     { autor: "Jeffrey Brown", texto: "El mejor Gym que conoci, buen ambiente" },
     {
       autor: "María Chen",
@@ -249,27 +290,36 @@ const HomePage = () => {
           <Container>
             <Row>
               {mensajeVencimiento != "vencido"
-                ? categorias.map((cat, index) => (
-                    <Col xs={12} sm={6} lg={4} key={index}>
-                      <Card className="clase">
-                        <Link to={`/reservarClases?nombre=${cat.nombre}`}>
-                          <div className="card-img-container">
-                            <Card.Img
-                              className="categoria-image"
-                              variant="top"
-                              src={cat.foto}
-                              alt={cat.nombre}
-                            />
-                            <div className="card-img-overlay">
-                              <Card.Title className="reservacion-contentH3">
-                                {cat.nombre}
-                              </Card.Title>
+                ? categorias.map((cat, index) => {
+                    const categoria = extractCategoria(cat);
+
+                    const categoriaQuery = new URLSearchParams({
+                      nombre: categoria.nombre,
+                    });
+                    if (categoria.id) categoriaQuery.set("categoriaId", categoria.id);
+
+                    return (
+                      <Col xs={12} sm={6} lg={4} key={categoria.id || index}>
+                        <Card className="clase">
+                          <Link to={`/reservarClases?${categoriaQuery.toString()}`}>
+                            <div className="card-img-container">
+                              <Card.Img
+                                className="categoria-image"
+                                variant="top"
+                                src={categoria.foto}
+                                alt={categoria.nombre}
+                              />
+                              <div className="card-img-overlay">
+                                <Card.Title className="reservacion-contentH3">
+                                  {categoria.nombre}
+                                </Card.Title>
+                              </div>
                             </div>
-                          </div>
-                        </Link>
-                      </Card>
-                    </Col>
-                  ))
+                          </Link>
+                        </Card>
+                      </Col>
+                    );
+                  })
                 : null}
             </Row>
           </Container>
@@ -352,7 +402,7 @@ const HomePage = () => {
                               <div className="profesor">
                                 <div className="profesor-img-container">
                                   <img
-                                    src={prof.foto}
+                                    src={resolveMediaUrl(prof.foto)}
                                     alt={prof.nombre}
                                     className="profesor-img"
                                   />
@@ -368,34 +418,6 @@ const HomePage = () => {
                               </div>
                             </Col>
                           ))}
-                          {/* Repetir profesores si no hay suficientes para completar el slide */}
-                          {profesores.slice(index, index + 3).length < 3 &&
-                            profesores
-                              .slice(
-                                0,
-                                3 - profesores.slice(index, index + 3).length
-                              )
-                              .map((prof, i) => (
-                                <Col key={i + 3} md={4}>
-                                  <div className="profesor">
-                                    <div className="profesor-img-container">
-                                      <img
-                                        src={prof.foto}
-                                        alt={prof.nombre}
-                                        className="profesor-img"
-                                      />
-                                    </div>
-                                    <div className="profesor-info">
-                                      <h3 className="profes-contentH3">
-                                        {prof.nombre}
-                                      </h3>
-                                      <p className="profes-contentP">
-                                        {prof.apellido}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </Col>
-                              ))}
                         </Row>
                       </Carousel.Item>
                     )
@@ -410,7 +432,7 @@ const HomePage = () => {
                     <div className="profesor">
                       <div className="profesor-img-container">
                         <img
-                          src={profesor.foto}
+                          src={resolveMediaUrl(profesor.foto)}
                           alt={profesor.nombre}
                           className="profesor-img"
                         />

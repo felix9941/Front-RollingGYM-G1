@@ -1,15 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import Swal from "sweetalert2";
 import "../css/IniciarSesion.css";
-import clienteAxios, { config } from "../helpers/clienteAxios";
+import clienteAxios from "../helpers/clienteAxios";
 import * as yup from "yup";
 import { Formik } from "formik";
 
 const IniciarSesion = () => {
   const navigate = useNavigate();
+  const [showPass, setShowPass] = useState(false);
 
   useEffect(() => {
     document.title = "Iniciar Sesión";
@@ -25,7 +27,7 @@ const IniciarSesion = () => {
       .required("Completa el campo vacío")
       .matches(
         /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{8,}$/,
-        "Debe contener 8 caracteres, mayúscula, minúscula, número y símbolo"
+        "Debe contener 8 caracteres, mayscula, minscula, nmero y smbolo",
       ),
   });
 
@@ -38,14 +40,16 @@ const IniciarSesion = () => {
         try {
           const iniciarSesion = await clienteAxios.post(
             `/${collection}/login`,
-            { email: values.email, contrasenia: values.pass },
-            config
+            {
+              email: values.email,
+              contrasenia: values.pass,
+            },
           );
 
           if (iniciarSesion.status === 200) {
             sessionStorage.setItem(
               "token",
-              JSON.stringify(iniciarSesion.data.token)
+              JSON.stringify(iniciarSesion.data.token),
             );
             sessionStorage.setItem("role", iniciarSesion.data.role);
             localStorage.setItem("userRole", iniciarSesion.data.role);
@@ -166,15 +170,26 @@ const IniciarSesion = () => {
                 </Form.Group>
 
                 <Form.Group className="" controlId="formBasicPass">
-                  <Form.Control
-                    className={errors.pass && touched.pass ? "is-invalid" : ""}
-                    type="password"
-                    placeholder="Contraseña"
-                    onChange={handleChange}
-                    name="pass"
-                    value={values.pass}
-                    maxLength={50}
-                  />
+                  <InputGroup>
+                    <Form.Control
+                      className={
+                        errors.pass && touched.pass ? "is-invalid" : ""
+                      }
+                      type={showPass ? "text" : "password"}
+                      placeholder="Contraseña"
+                      onChange={handleChange}
+                      name="pass"
+                      value={values.pass}
+                      maxLength={50}
+                    />
+                    <Button
+                      variant="outline-secondary"
+                      type="button"
+                      onClick={() => setShowPass((prev) => !prev)}
+                    >
+                      {showPass ? "Ocultar" : "Ver"}
+                    </Button>
+                  </InputGroup>
                   <div className="error-message_i">
                     {errors.pass && touched.pass && (
                       <p className="text-danger m-0">{errors.pass}</p>
