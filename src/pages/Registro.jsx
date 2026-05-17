@@ -116,7 +116,6 @@ const RegisterPage = () => {
             });
 
             if (createUser.status === 200) {
-              setIsLoading(false);
               Swal.fire({
                 icon: "success",
                 title: "Envío Exitoso",
@@ -124,14 +123,41 @@ const RegisterPage = () => {
               });
             }
           } catch (error) {
-            console.log(error);
+            // Mostrar el mensaje real del backend
+            console.log("Error backend:", error.response?.data || error);
+            let errorMsg = "No se pudo registrar";
+            if (
+              error.response?.data?.errors &&
+              Array.isArray(error.response.data.errors)
+            ) {
+              errorMsg = error.response.data.errors[0].msg;
+            } else if (error.response?.data?.message) {
+              errorMsg = error.response.data.message;
+            }
             Swal.fire({
               icon: "error",
               title: "Registro Fallido",
-              text: `${error.response?.data?.message || "No se pudo registrar"}`,
+              text: errorMsg,
             });
-            setIsLoading(false);
           }
+          // Limpiar formulario SIEMPRE tras intento de registro
+          setFormData({
+            nombre: "",
+            apellido: "",
+            email: "",
+            celular: "",
+            pass: "",
+            rpass: "",
+          });
+          setErrors({
+            nombre: "",
+            apellido: "",
+            email: "",
+            celular: "",
+            pass: "",
+            rpass: "",
+          });
+          setIsLoading(false);
         }
       }
     }

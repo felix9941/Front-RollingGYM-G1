@@ -27,7 +27,7 @@ const IniciarSesion = () => {
       .required("Completa el campo vacío")
       .matches(
         /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_-])[A-Za-z\d!@#$%^&*()_]{8,}$/,
-        "Debe contener 8 caracteres, mayscula, minscula, nmero y smbolo",
+        "Debe contener 8 caracteres, mayscula, minuscula, número y simbolo",
       ),
   });
 
