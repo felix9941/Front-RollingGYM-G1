@@ -6,7 +6,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Swal from "sweetalert2";
 import fondo from "../../public/fondo_r.png";
 import "../css/Registro.css";
-import clienteAxios from "../helpers/clienteAxios";
+import { registerUser } from "../helpers/registerUser";
 
 const RegisterPage = () => {
   useEffect(() => {
@@ -105,42 +105,27 @@ const RegisterPage = () => {
           emailExpReg.test(email)
         ) {
           setIsLoading(true);
+          const result = await registerUser({
+            nombre,
+            apellido,
+            telefono: celular,
+            email,
+            contrasenia: pass,
+          });
 
-          try {
-            const createUser = await clienteAxios.post("/clientes/register", {
-              nombre,
-              apellido,
-              telefono: celular,
-              email,
-              contrasenia: pass,
+          if (result.success) {
+            Swal.fire({
+              icon: "success",
+              title: "Envío Exitoso",
+              text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
             });
-
-            if (createUser.status === 200) {
-              Swal.fire({
-                icon: "success",
-                title: "Envío Exitoso",
-                text: "Su solicitud de registro se aprobara dentro de las proximas 48hs",
-              });
-            }
-          } catch (error) {
-            // Mostrar el mensaje real del backend
-            console.log("Error backend:", error.response?.data || error);
-            let errorMsg = "No se pudo registrar";
-            if (
-              error.response?.data?.errors &&
-              Array.isArray(error.response.data.errors)
-            ) {
-              errorMsg = error.response.data.errors[0].msg;
-            } else if (error.response?.data?.message) {
-              errorMsg = error.response.data.message;
-            }
+          } else {
             Swal.fire({
               icon: "error",
               title: "Registro Fallido",
-              text: errorMsg,
+              text: result.error,
             });
           }
-          // Limpiar formulario SIEMPRE tras intento de registro
           setFormData({
             nombre: "",
             apellido: "",

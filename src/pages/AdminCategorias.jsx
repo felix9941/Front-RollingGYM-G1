@@ -15,8 +15,6 @@ const Admincategorias = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
-  const [file, setFile] = useState(null);
-  const [file2, setFile2] = useState(null);
   const [planes, setPlanes] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [categorias2, setCategorias2] = useState([]);
@@ -62,7 +60,11 @@ const Admincategorias = () => {
     setModalData2({
       _id: category._id,
       nombre: category.nombre,
-      idPlanes: category.idPlanes,
+      idPlanes: Array.isArray(category.idPlanes)
+        ? category.idPlanes.map((plan) =>
+            typeof plan === "object" && plan._id ? plan._id : plan,
+          )
+        : [],
     });
     setShowModal2(true);
   };
@@ -73,16 +75,6 @@ const Admincategorias = () => {
 
   const handleHideModal2 = () => {
     setShowModal2(false);
-  };
-
-  const handleFileChange = (ev) => {
-    setFile(ev.target.files[0]);
-    setFormData({ ...formData, foto: ev.target.files[0] });
-  };
-
-  const handleFileChange2 = (ev) => {
-    setFile2(ev.target.files[0]);
-    setFormData2({ ...formData2, foto: ev.target.files[0] });
   };
 
   const handleSaveCategory = async (ev) => {
@@ -104,7 +96,7 @@ const Admincategorias = () => {
       return;
     }
     try {
-      const response = await clienteAxios.post("/categorias/", formData, {
+      await clienteAxios.post("/categorias/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -118,20 +110,23 @@ const Admincategorias = () => {
 
   const handleEditCategory = async (ev) => {
     ev.preventDefault();
+    console.log("Datos a editar:", modalData2);
     const formData = new FormData();
     formData.append("nombre", modalData2.nombre);
-    formData.append("foto", modalData2.foto);
+    // Siempre agrega el campo foto (aunque sea vacío)
+    if (modalData2.foto && modalData2.foto instanceof File) {
+      formData.append("foto", modalData2.foto);
+    } else {
+      formData.append("foto", "");
+    }
+    // Enviar los planes como múltiples campos (igual que en el alta)
     modalData2.idPlanes.forEach((plan) => formData.append("idPlanes", plan));
     try {
-      const response = await clienteAxios.put(
-        `/categorias/${modalData2._id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await clienteAxios.put(`/categorias/${modalData2._id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     } catch (error) {
       console.error("error al editar la categoria", error);
     }
@@ -151,9 +146,7 @@ const Admincategorias = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await clienteAxios.delete(
-            `/categorias/${category._id}`
-          );
+          await clienteAxios.delete(`/categorias/${category._id}`);
         } catch (error) {
           console.error("error al eliminar la categoria", error);
         }
@@ -165,9 +158,9 @@ const Admincategorias = () => {
 
   const handleToggleestado = async (category) => {
     try {
-      const response = await clienteAxios.put(
+      await clienteAxios.put(
         `/categorias/cambioEstadoCategoria/${category._id}`,
-        {}
+        {},
       );
       getCategorias();
     } catch (error) {
@@ -181,20 +174,20 @@ const Admincategorias = () => {
 
   const planesCategorias = () => {
     const updatedCategorias = categorias.map((categoria) => {
-      const updatedIdPlanes = categoria.idPlanes.map((idPlan) => {
+      // Solo para mostrar, crea un campo auxiliar
+      const nombresPlanes = categoria.idPlanes.map((idPlan) => {
         const plan = planes.find((plan) => plan._id === idPlan);
         return plan ? plan.nombre : idPlan;
       });
 
-      return { ...categoria, idPlanes: updatedIdPlanes };
+      return { ...categoria, nombresPlanes }; // idPlanes queda igual (solo IDs)
     });
 
     setCategorias2(updatedCategorias);
   };
-
   const columns = [
     { key: "nombre", header: "Nombre" },
-    { key: "idPlanes", header: "Planes al que pertenece", type: "text" },
+    { key: "nombresPlanes", header: "Planes al que pertenece", type: "text" },
     { key: "foto", header: "Foto", type: "image" },
     { key: "deleted", header: "Deshabilitar", type: "boolean" },
     { key: "edit", header: "Editar", type: "edit" },
@@ -254,7 +247,7 @@ const Admincategorias = () => {
                         setModalData({
                           ...modalData,
                           idPlanes: modalData.idPlanes.filter(
-                            (p) => p !== plan._id
+                            (p) => p !== plan._id,
                           ),
                         });
                       }
@@ -320,7 +313,7 @@ const Admincategorias = () => {
                         setModalData2({
                           ...modalData2,
                           idPlanes: modalData2.idPlanes.filter(
-                            (p) => p !== plan._id
+                            (p) => p !== plan._id,
                           ),
                         });
                       }

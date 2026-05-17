@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import styles from "../css/Tablas.module.css";
 import { resolveMediaUrl } from "../helpers/mediaUrl";
@@ -16,7 +15,13 @@ const DynamicTable = ({
 
     switch (column.type) {
       case "image":
-        return <img src={resolveMediaUrl(value)} alt={column.header} style={{ height: "50px" }} />;
+        return (
+          <img
+            src={resolveMediaUrl(value)}
+            alt={column.header}
+            style={{ height: "50px" }}
+          />
+        );
       case "boolean":
         if (item._canToggle === false) return null;
         return (
@@ -87,7 +92,7 @@ DynamicTable.propTypes = {
       key: PropTypes.string.isRequired,
       header: PropTypes.string.isRequired,
       type: PropTypes.string,
-    })
+    }),
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onToggle: PropTypes.func,
