@@ -56,24 +56,30 @@ const AdminClases = () => {
     try {
       const response = await clienteAxios.get("/clases/");
       const clasesConProfesores = await Promise.all(
-        response.data.clases.map(async (clase) => {
+        (response.data.clases || []).map(async (clase) => {
+          const base = {
+            ...clase,
+            cupo: Number(clase.cupo ?? 0),
+            reservas: Number(clase.reservas ?? 0),
+          };
+
           try {
             const profesorResponse = await clienteAxios.get(
-              `/profesores/${clase.idProfesor}`
+              `/profesores/${clase.idProfesor}`,
             );
             const profesor = profesorResponse.data.profesor;
             return {
-              ...clase,
+              ...base,
               nombreProfe: `${profesor.nombre} ${profesor.apellido}`,
             };
           } catch (error) {
             console.error(
               `Error al obtener el profesor con id ${clase.idProfesor}`,
-              error
+              error,
             );
-            return { ...clase, nombreProfe: "Desconocido" };
+            return { ...base, nombreProfe: "Desconocido" };
           }
-        })
+        }),
       );
       setClases(clasesConProfesores);
     } catch (error) {
@@ -116,7 +122,7 @@ const AdminClases = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await clienteAxios.delete(`/clases/${clase._id}`);
+          await clienteAxios.delete(`/clases/${clase._id}`);
           Swal.fire("Eliminado!", "La clase ha sido eliminada.", "success");
         } catch (error) {
           console.error("Error al eliminar la clase:", error);
@@ -135,7 +141,7 @@ const AdminClases = () => {
 
   const estadoF = async (clase) => {
     try {
-      const response = await clienteAxios.put(`/clases/${clase._id}`, {});
+      await clienteAxios.put(`/clases/${clase._id}`, {});
       getClases();
     } catch (error) {
       console.error("error al cambiar el estado de la categoria", error);
@@ -187,7 +193,7 @@ const AdminClases = () => {
       return;
     }
     try {
-      const response = await clienteAxios.post("/clases/", modalData);
+      await clienteAxios.post("/clases/", modalData);
       getClases();
     } catch (error) {
       console.error("Error al crear la clase", error);

@@ -31,7 +31,8 @@ const ReservarClases = () => {
   }, []);
 
   const [searchParams] = useSearchParams();
-  const nombreFromQuery = searchParams.get("nombre") || searchParams.get("categoria") || "";
+  const nombreFromQuery =
+    searchParams.get("nombre") || searchParams.get("categoria") || "";
   const categoriaId = searchParams.get("categoriaId") || "";
   const nombreCat =
     nombreFromQuery && nombreFromQuery !== "undefined"
@@ -86,9 +87,15 @@ const ReservarClases = () => {
           : "/categorias/categoriasHabilitadas";
       const response = await clienteAxios.get(
         endpoint,
-        role === "cliente" ? config : undefined
+        role === "cliente" ? config : undefined,
       );
-      const categorias = normalizeCategorias(response.data).map(extractCategoriaData);
+      console.log("Respuesta categorías permitidas:", response.data);
+
+      const categorias = normalizeCategorias(response.data).map(
+        extractCategoriaData,
+      );
+      console.log("Categorias normalizadas:", categorias);
+
       setCategoriasPermitidas(categorias.filter((cat) => cat.id || cat.nombre));
     } catch (error) {
       console.error("Error al obtener categorías permitidas:", error);
@@ -97,7 +104,8 @@ const ReservarClases = () => {
   };
 
   const getClaseCategoriaId = (clase) => {
-    if (typeof clase?.idCategoria === "object") return clase.idCategoria?._id || "";
+    if (typeof clase?.idCategoria === "object")
+      return clase.idCategoria?._id || "";
     if (typeof clase?.idCategoria === "string") return clase.idCategoria;
     return "";
   };
@@ -112,7 +120,9 @@ const ReservarClases = () => {
     return categoriasPermitidas.some(
       (cat) =>
         (cat.id && claseCategoriaId && cat.id === claseCategoriaId) ||
-        (cat.nombre && claseCategoriaNombre && cat.nombre === claseCategoriaNombre)
+        (cat.nombre &&
+          claseCategoriaNombre &&
+          cat.nombre === claseCategoriaNombre),
     );
   };
 
@@ -121,28 +131,30 @@ const ReservarClases = () => {
       if (!nombreCat) {
         const todas = await clienteAxios.get("/clases/");
         const clasesBase = (todas.data.clases || []).filter(
-          (clase) => !clase.deleted && isClasePermitidaParaUsuario(clase)
+          (clase) => !clase.deleted && isClasePermitidaParaUsuario(clase),
         );
         if (categoriaId) {
           setClases(
-            clasesBase.filter((clase) => getClaseCategoriaId(clase) === categoriaId)
+            clasesBase.filter(
+              (clase) => getClaseCategoriaId(clase) === categoriaId,
+            ),
           );
           return;
         }
         setClases(clasesBase);
         return;
       }
-
+      console.log("clases", clases);
       const response = await clienteAxios.get(
-        `/clases/${encodeURIComponent(nombreCat)}`
+        `/clases/${encodeURIComponent(nombreCat)}`,
       );
       const clasesResponse = response.data.clases || [];
 
       if (clasesResponse.length > 0) {
         setClases(
           clasesResponse.filter(
-            (clase) => !clase.deleted && isClasePermitidaParaUsuario(clase)
-          )
+            (clase) => !clase.deleted && isClasePermitidaParaUsuario(clase),
+          ),
         );
         return;
       }
@@ -154,7 +166,13 @@ const ReservarClases = () => {
           isClasePermitidaParaUsuario(clase) &&
           ((clase.categoria || "").toLowerCase().trim() ===
             nombreCat.toLowerCase().trim() ||
-            (categoriaId && getClaseCategoriaId(clase) === categoriaId))
+            (categoriaId && getClaseCategoriaId(clase) === categoriaId)),
+      );
+      console.log(
+        "Comparando clase:",
+        clases,
+        "con permitidas:",
+        categoriasPermitidas,
       );
       setClases(clasesFiltradas);
     } catch (error) {
@@ -167,13 +185,13 @@ const ReservarClases = () => {
             isClasePermitidaParaUsuario(clase) &&
             ((clase.categoria || "").toLowerCase().trim() ===
               nombreCat.toLowerCase().trim() ||
-              (categoriaId && getClaseCategoriaId(clase) === categoriaId))
+              (categoriaId && getClaseCategoriaId(clase) === categoriaId)),
         );
         setClases(clasesFiltradas);
       } catch (fallbackError) {
         console.error(
           "Error al obtener las clases en fallback:",
-          fallbackError
+          fallbackError,
         );
       }
     }
@@ -215,7 +233,6 @@ const ReservarClases = () => {
   const handleReservar = async (clase) => {
     try {
       await clienteAxios.post(`/reservas/${clase._id}`, {}, config);
-      await clienteAxios.put(`/clases/reserva/${clase._id}`);
     } catch (error) {
       console.error(error);
       if (error.response.status === 405) {
@@ -303,7 +320,7 @@ const ReservarClases = () => {
                           {`¿Estás seguro de querer reservar esta clase de ${
                             selectedClase?.categoria
                           } con el profesor ${getProfesorNombre(
-                            selectedClase?.idProfesor
+                            selectedClase?.idProfesor,
                           )}?`}
                         </Modal.Body>
                         <Modal.Footer>

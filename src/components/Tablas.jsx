@@ -53,10 +53,8 @@ const DynamicTable = ({
           </button>
         );
       default:
-        if (Array.isArray(value)) {
-          return value.join(", ");
-        }
-        return value;
+        if (Array.isArray(value)) return value.join(", ");
+        return value ?? 0;
     }
   };
 

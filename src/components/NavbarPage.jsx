@@ -47,26 +47,36 @@ const NavbarPage = () => {
       .get(
         `https://api.openweathermap.org/data/2.5/weather?lat=-26.82414&lon=-65.2226&appid=${
           import.meta.env.VITE_WEATHER_API_KEY
-        }&units=metric`
+        }&units=metric`,
       )
       .then((response) => {
         setWeather(response.data);
       })
       .catch((error) =>
-        console.error("Error al obtener datos meteorológicos:", error)
+        console.error("Error al obtener datos meteorológicos:", error),
       );
   }, []);
 
   useEffect(() => {
-    const role =
-      sessionStorage.getItem("role") || localStorage.getItem("userRole");
+    const role = (
+      sessionStorage.getItem("role") ||
+      localStorage.getItem("userRole") ||
+      ""
+    )
+      .toLowerCase()
+      .trim();
     setUserRole(role);
   }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const role =
-        sessionStorage.getItem("role") || localStorage.getItem("userRole");
+      const role = (
+        sessionStorage.getItem("role") ||
+        localStorage.getItem("userRole") ||
+        ""
+      )
+        .toLowerCase()
+        .trim();
       setUserRole(role);
     }, 1000);
 
@@ -102,7 +112,19 @@ const NavbarPage = () => {
       onToggle={() => setExpanded(!expanded)}
     >
       <Container fluid>
-        <Navbar.Brand as={Link} to="/" onClick={handleNavLinkClick}>
+        <Navbar.Brand
+          as={Link}
+          to={
+            userRole === "administrador"
+              ? "/principalAdmin"
+              : userRole === "profesor"
+                ? "/misClases"
+                : userRole === "cliente"
+                  ? "/principal"
+                  : "/"
+          }
+          onClick={handleNavLinkClick}
+        >
           <img src={LogoPowerGYM} alt="LogoPowerGYM" width="100" height="40" />
         </Navbar.Brand>
         <Navbar.Toggle
@@ -127,8 +149,10 @@ const NavbarPage = () => {
                     userRole === "administrador"
                       ? "/principalAdmin"
                       : userRole === "profesor"
-                      ? "/misClases"
-                      : "/principal"
+                        ? "/misClases"
+                        : userRole === "cliente"
+                          ? "/principal"
+                          : "/"
                   }
                   className={`${styles.navLink} ${
                     isScrolling ? styles.navbarScrollingNavLink : ""
